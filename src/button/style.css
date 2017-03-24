@@ -1,0 +1,42 @@
+button.asc{
+    background: #fff;
+    border: 1px solid #0882FB;
+    border-radius: 2px;
+    color: #0882FB;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    padding: 1pt 4pt;
+}
+button.asc:active{
+    background-color: rgba(8, 130, 251, 0.71);
+    color: #fff;
+}
+button.asc.asc-icon-button{
+    border-radius: 13pt;
+    width: 26pt;
+    height: 26pt;
+}
+button.asc.asc-info-button:after{
+    content: "i";
+}
+button.asc.asc-warning-button{
+    color: #FF3226;
+    border-color: #FF3226;
+}
+button.asc.asc-warning-button:active{
+    background-color: rgba(255, 50, 38, 0.71);;
+    color: #fff;
+}
+button.asc.asc-warning-button:after{
+    content: "i";
+}
+button.asc.asc-plus-button{
+}
+button.asc.asc-plus-button:after{
+    content: "+";
+    padding-bottom: 3pt;
+}
+button.asc.asc-minus-button:after{
+    content: "-";
+}
