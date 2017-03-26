@@ -1,0 +1,29 @@
+﻿@import "../common/colors";
+
+div.asc.asc-radio-button {
+  border-bottom: 1px solid #c2c2c2;
+  position: relative;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  input {
+    display: none;
+
+    &:checked+label{
+      &:after{
+        color: $blue;
+        content: "✓";
+        right: 0;
+        position: absolute;
+        padding-right: 10pt;
+      }
+    }
+  }
+
+  label{
+    display: block;
+    cursor: pointer;
+  }
+}

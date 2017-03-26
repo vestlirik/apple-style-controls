@@ -1,0 +1,50 @@
+@import "../common/colors";
+
+button.asc {
+  background: #fff;
+  border: 1px solid $blue;
+  border-radius: 2px;
+  color: $blue;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.5s;
+  padding: 1pt 4pt;
+
+  &:active {
+    background-color: rgba($blue, 0.71);
+    color: #fff;
+  }
+
+  &.asc-icon-button {
+    border-radius: 13pt;
+    width: 26pt;
+    height: 26pt;
+  }
+
+  &.asc-info-button:after {
+    content: "i";
+  }
+
+  &.asc-warning-button {
+    color: $red;
+    border-color: $red;
+
+    &:active {
+      background-color: rgba($red, 0.71);
+      color: #fff;
+    }
+
+    &:after {
+      content: "i";
+    }
+  }
+
+  &.asc-plus-button:after {
+    content: "+";
+    padding-bottom: 3pt;
+  }
+
+  &.asc-minus-button:after {
+    content: "-";
+  }
+}

@@ -4,19 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo</title>
-    <link rel="stylesheet" href="../src/general.css">
-    <link rel="stylesheet" href="../src/button/style.css">
-    <link rel="stylesheet" href="../src/switch/style.css">
+    <link rel="stylesheet" href="../src/styles.css">
 </head>
 <body>
+<p>Buttons</p>
 <button class="asc">Sample</button>
 <button class="asc asc-icon-button asc-info-button"></button>
 <button class="asc asc-icon-button asc-warning-button"></button>
 <button class="asc asc-icon-button asc-plus-button"></button>
 <button class="asc asc-icon-button asc-minus-button"></button>
+<p>Toggle</p>
 <div class="asc asc-switch">
-    <input id="sample-checkbox" type="checkbox">
+    <input id="sample-checkbox" type="checkbox" checked>
     <label for="sample-checkbox"></label>
+</div>
+<p>Radio buttons</p>
+<div style="width: 300px">
+    <div class="asc asc-radio-button">
+        <input id="milk-button" type="radio" name="group1" value="Milk">
+        <label for="milk-button">Milk</label>
+    </div>
+    <div class="asc asc-radio-button">
+        <input id="butter-button" type="radio" name="group1" checked value="Butter">
+        <label for="butter-button">Butter</label>
+    </div>
+    <div class="asc asc-radio-button">
+        <input id="cheese-button" type="radio" name="group1" value="Cheese">
+        <label for="cheese-button">Cheese</label>
+    </div>
 </div>
 </body>
 </html>
