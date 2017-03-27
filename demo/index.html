@@ -33,5 +33,67 @@
         <label for="cheese-button">Cheese</label>
     </div>
 </div>
+<p>Edit menu</p>
+<div id="asc-edit-menu" class="asc asc-edit-menu">
+    <li>Cut</li>
+    <li>Copy</li>
+    <li>Replace...</li>
+    <li>Look Up</li>
+    <li>Replace...</li>
+    <li>Look Up</li>
+    <li>Replace...</li>
+    <li>Look Up</li>
+    <li>Share...</li>
+</div>
+<button id="show-edit-menu" class="asc" style="margin-left: 85%;">Show menu</button>
+
+<script>
+    function hideEditMenu() {
+        document.getElementById('asc-edit-menu').style.display = 'none';
+        document.getElementsByTagName('html')[0].removeEventListener('click', hideEditMenu);
+    }
+    function editMenuClick(e) {
+        var editMenu = document.getElementById('asc-edit-menu');
+        editMenu.style.display = 'flex';
+        var topOffset = e.target.getBoundingClientRect().top - editMenu.clientHeight - 10;
+        editMenu.style.top = topOffset + "px";
+        var leftOffset = e.clientX - editMenu.clientWidth / 2;
+        var css;
+        if (leftOffset < 10) {
+            leftOffset = 10;
+            css = 'left: ' + (e.clientX - 15) + 'px;right: initial;';
+        } else {
+            if (leftOffset + editMenu.clientWidth >= screen.availWidth) {
+                var rightOffset = screen.availWidth - e.target.getBoundingClientRect().right + e.offsetX;
+                css = 'right: ' + (rightOffset) + 'px;left: initial;';
+            } else {
+                css = 'left: calc(50% - 10px);right:initial;';
+            }
+        }
+        addStyleToHead('div.asc-edit-menu:after{' + css + '}');
+        editMenu.style.left = leftOffset + "px";
+        if (leftOffset + editMenu.clientWidth > screen.availWidth) {
+            editMenu.style.left = screen.availWidth - editMenu.clientWidth - 20 + "px";
+        }
+        document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
+        e.stopPropagation();
+    }
+    hideEditMenu();
+    document.getElementById('show-edit-menu').addEventListener('click', editMenuClick);
+
+    function addStyleToHead(css) {
+        var head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+
+        style.type = 'text/css';
+        if (style.styleSheet){
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+
+        head.appendChild(style);
+    }
+</script>
 </body>
 </html>
