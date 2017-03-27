@@ -45,48 +45,76 @@
     <li>Look Up</li>
     <li>Share...</li>
 </div>
-<button id="show-edit-menu" class="asc" style="margin-left: 85%;">Show menu</button>
+<button id="show-edit-menu" class="asc">Show menu</button>
+<p>Select some text for showing menu</p>
+<p class="selectable-item">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
+    ipsum </p>
 
 <script>
-    function hideEditMenu() {
+    function hideEditMenu(e) {
         document.getElementById('asc-edit-menu').style.display = 'none';
+        removePageClickEvent();
+    }
+
+    function removePageClickEvent() {
         document.getElementsByTagName('html')[0].removeEventListener('click', hideEditMenu);
     }
+
     function editMenuClick(e) {
         var editMenu = document.getElementById('asc-edit-menu');
         editMenu.style.display = 'flex';
         var topOffset = e.target.getBoundingClientRect().top - editMenu.clientHeight - 10;
         editMenu.style.top = topOffset + "px";
         var leftOffset = e.clientX - editMenu.clientWidth / 2;
-        var css;
         if (leftOffset < 10) {
             leftOffset = 10;
-            css = 'left: ' + (e.clientX - 15) + 'px;right: initial;';
+        }
+        if (leftOffset + editMenu.clientWidth > screen.availWidth) {
+            leftOffset = screen.availWidth - editMenu.clientWidth - 20;
+        }
+        editMenu.style.left = leftOffset + "px";
+
+        var offetForTriangle = (e.clientX || 0) - editMenu.offsetLeft - 5;// 5 is haft of width of triangle
+        if (offetForTriangle < 5) {
+            offetForTriangle = 5;
         } else {
-            if (leftOffset + editMenu.clientWidth >= screen.availWidth) {
-                var rightOffset = screen.availWidth - e.target.getBoundingClientRect().right + e.offsetX;
-                css = 'right: ' + (rightOffset) + 'px;left: initial;';
-            } else {
-                css = 'left: calc(50% - 10px);right:initial;';
+            if (offetForTriangle + 10 + 14 >= editMenu.clientWidth) {
+                offetForTriangle = editMenu.clientWidth - 10 - 14;
             }
         }
+        var css = 'left: ' + (offetForTriangle) + 'px;';
         addStyleToHead('div.asc-edit-menu:after{' + css + '}');
-        editMenu.style.left = leftOffset + "px";
-        if (leftOffset + editMenu.clientWidth > screen.availWidth) {
-            editMenu.style.left = screen.availWidth - editMenu.clientWidth - 20 + "px";
-        }
-        document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
-        e.stopPropagation();
+
+        e.target.addEventListener('blur', function () {
+            setTimeout(function () {
+                document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
+            }, 0);
+        });
     }
     hideEditMenu();
     document.getElementById('show-edit-menu').addEventListener('click', editMenuClick);
+    function gText(e) {
+        var t = (document.all) ? document.selection.createRange().text : document.getSelection();
+        if (t.toString().length > 0) {
+            editMenuClick(e);
+        } else {
+            hideEditMenu(e);
+        }
+    }
+
+    var selectables = document.getElementsByClassName('selectable-item');
+    for (var item in selectables) {
+        selectables[item].onmouseup = gText;
+    }
 
     function addStyleToHead(css) {
         var head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style');
 
         style.type = 'text/css';
-        if (style.styleSheet){
+        if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));

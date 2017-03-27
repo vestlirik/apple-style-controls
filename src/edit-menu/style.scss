@@ -1,7 +1,7 @@
 @import "../common/colors";
 
 div.asc-edit-menu{
-  border-radius: 5pt;
+  border-radius: 5px;
   background-color: rgb(40, 40, 41);
   position: fixed;
   color: #fff;
@@ -21,7 +21,7 @@ div.asc-edit-menu{
 
   li {
     list-style-type: none;
-    padding: 5pt;
+    padding: 5px;
     border-right: 2px solid rgb(89, 89, 92);
 
     &:last-child{

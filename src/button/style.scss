@@ -8,7 +8,7 @@ button.asc {
   outline: none;
   cursor: pointer;
   transition: background-color 0.5s;
-  padding: 1pt 4pt;
+  padding: 1px 4px;
 
   &:active {
     background-color: rgba($blue, 0.71);
@@ -16,9 +16,9 @@ button.asc {
   }
 
   &.asc-icon-button {
-    border-radius: 13pt;
-    width: 26pt;
-    height: 26pt;
+    border-radius: 13px;
+    width: 26px;
+    height: 26px;
   }
 
   &.asc-info-button:after {
@@ -41,7 +41,7 @@ button.asc {
 
   &.asc-plus-button:after {
     content: "+";
-    padding-bottom: 3pt;
+    padding-bottom: 3px;
   }
 
   &.asc-minus-button:after {

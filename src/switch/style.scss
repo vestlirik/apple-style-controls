@@ -8,9 +8,9 @@ div.asc.asc-switch input:checked+label{
     border-color: $green;
 }
 div.asc.asc-switch input+label:after{
-    width: 24pt;
-    height: 24pt;
-    border-radius: 24pt;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
     content: "";
     background-color: #fff;
     border: 1px solid #E4E4E4;
@@ -18,17 +18,17 @@ div.asc.asc-switch input+label:after{
     text-align: center;
     position: absolute;
     transition: margin-left 0.5s;
-    box-shadow: 0 1pt 3pt 0 rgba(0,0,0,0.46);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.46);
 }
 div.asc.asc-switch input:checked+label:after{
-    margin-left: 24pt;
+    margin-left: 24px;
 }
 div.asc.asc-switch label{
-    margin: 5pt;
-    border-radius: 20pt;
-    width: 50pt;
+    margin: 5px;
+    border-radius: 20px;
+    width: 50px;
     display: inline-block;
-    height: 25.5pt;
+    height: 25.5px;
     border: 1px solid #E4E4E4;
     position: relative;
     cursor: pointer;
