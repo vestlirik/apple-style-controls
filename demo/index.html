@@ -54,8 +54,11 @@
 
 <script>
     function hideEditMenu(e) {
-        document.getElementById('asc-edit-menu').style.display = 'none';
-        removePageClickEvent();
+        var editMenu = document.getElementById('asc-edit-menu');
+        if(!e || !editMenu.contains(e.target)) {
+            document.getElementById('asc-edit-menu').style.display = 'none';
+            removePageClickEvent();
+        }
     }
 
     function removePageClickEvent() {
@@ -63,6 +66,7 @@
     }
 
     function editMenuClick(e) {
+        removePageClickEvent();
         var editMenu = document.getElementById('asc-edit-menu');
         editMenu.style.display = 'flex';
         var topOffset = e.target.getBoundingClientRect().top - editMenu.clientHeight - 10;
@@ -87,11 +91,9 @@
         var css = 'left: ' + (offetForTriangle) + 'px;';
         addStyleToHead('div.asc-edit-menu:after{' + css + '}');
 
-        e.target.addEventListener('blur', function () {
-            setTimeout(function () {
-                document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
-            }, 0);
-        });
+        setTimeout(function () {
+            document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
+        }, 0);
     }
     hideEditMenu();
     document.getElementById('show-edit-menu').addEventListener('click', editMenuClick);
