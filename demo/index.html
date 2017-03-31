@@ -55,21 +55,19 @@
 <script>
     function hideEditMenu(e) {
         var editMenu = document.getElementById('asc-edit-menu');
-        if(!e || !editMenu.contains(e.target)) {
-            document.getElementById('asc-edit-menu').style.display = 'none';
-            removePageClickEvent();
-        }
+        editMenu.style.display = 'none';
+        removePageClickEvent();
     }
 
     function removePageClickEvent() {
         document.getElementsByTagName('html')[0].removeEventListener('click', hideEditMenu);
     }
 
-    function editMenuClick(e) {
+    function editMenuClick(e, node) {
         removePageClickEvent();
         var editMenu = document.getElementById('asc-edit-menu');
         editMenu.style.display = 'flex';
-        var topOffset = e.target.getBoundingClientRect().top - editMenu.clientHeight - 10;
+        var topOffset = (node || e.target).getBoundingClientRect().top - editMenu.clientHeight - 10;
         editMenu.style.top = topOffset + "px";
         var leftOffset = e.clientX - editMenu.clientWidth / 2;
         if (leftOffset < 10) {
@@ -95,21 +93,26 @@
             document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
         }, 0);
     }
+
     hideEditMenu();
     document.getElementById('show-edit-menu').addEventListener('click', editMenuClick);
     function gText(e) {
         var t = (document.all) ? document.selection.createRange().text : document.getSelection();
         if (t.toString().length > 0) {
-            editMenuClick(e);
+            var node = t.baseNode.parentElement;
+            editMenuClick(e, node);
         } else {
             hideEditMenu(e);
         }
     }
 
-    var selectables = document.getElementsByClassName('selectable-item');
-    for (var item in selectables) {
-        selectables[item].onmouseup = gText;
-    }
+    document.onmouseup = function (e) {
+        if(!e.target.classList.contains('asc')) {
+            setTimeout(function () {
+                gText(e);
+            }, 0);
+        }
+    };
 
     function addStyleToHead(css) {
         var head = document.head || document.getElementsByTagName('head')[0],
