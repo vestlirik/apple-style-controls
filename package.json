@@ -1,0 +1,40 @@
+{
+  "name": "apple-style-controls",
+  "version": "0.0.1",
+  "description": "Apple style controls for web",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "^1.0.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^0.11.0",
+    "grunt-contrib-uglify": "^2.2.1",
+    "grunt-processhtml": "^0.*",
+    "grunt-sass": "^2.0.0",
+    "time-grunt": "^1.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vestlirik/apple-style-controls.git"
+  },
+  "keywords": [
+    "web",
+    "apple",
+    "controls"
+  ],
+  "author": "Viktor Kyryltsev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vestlirik/apple-style-controls/issues"
+  },
+  "homepage": "https://github.com/vestlirik/apple-style-controls#readme"
+}

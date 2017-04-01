@@ -2,3 +2,6 @@
 /src/**/*.css
 
 /src/**/*.map
+
+/node_modules
+/dest
