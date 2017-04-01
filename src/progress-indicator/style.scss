@@ -1,0 +1,38 @@
+div.asc.asc-activity-indicator {
+  width: 28px;
+  height: 28px;
+
+  position: relative;
+  div {
+    width: 12%;
+    height: 26%;
+    background: #8E8E8F;
+    position: absolute;
+    left: 44.5%;
+    top: 37%;
+    opacity: 0;
+    animation: fade 1s linear infinite;
+    border-radius: 50px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  }
+  @for $i from 0 through 11 {
+    div.bar#{$i+1} {
+      transform: rotate($i*30deg) translate(0, -142%);
+      @if $i==0 {
+        animation-delay: 0s;
+      }
+      @if $i>0 {
+        animation-delay: -#{1 - $i/12}s;
+      }
+    }
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
