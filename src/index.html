@@ -56,23 +56,15 @@
 
 <h3>Indicators</h3>
 <h4>Activity Indicator</h4>
-<div class="asc asc-activity-indicator">
-    <div class="bar1"></div>
-    <div class="bar2"></div>
-    <div class="bar3"></div>
-    <div class="bar4"></div>
-    <div class="bar5"></div>
-    <div class="bar6"></div>
-    <div class="bar7"></div>
-    <div class="bar8"></div>
-    <div class="bar9"></div>
-    <div class="bar10"></div>
-    <div class="bar11"></div>
-    <div class="bar12"></div>
-</div>
+<div class="asc asc-activity-indicator"></div>
+<h4>Progress bar</h4>
+<button class="asc" onclick="document.getElementById('pbar').setAttribute('asc-width', 95)">Change to 95%</button>
+<button class="asc" onclick="document.getElementById('pbar').setAttribute('asc-width', 20)">Change to 20%</button>
+<div id="pbar" class="asc asc-progress-bar" asc-width="20"></div>
 
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>
+<script src="progress-indicator/code.js"></script>
 <!-- /build -->
 </body>
 </html>

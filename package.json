@@ -1,6 +1,6 @@
 {
   "name": "apple-style-controls",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Apple style controls for web",
   "main": "index.js",
   "dependencies": {
@@ -29,7 +29,12 @@
   "keywords": [
     "web",
     "apple",
-    "controls"
+    "controls",
+    "css",
+    "sass",
+    "responsive",
+    "front-end", 
+    "framework"
   ],
   "author": "Viktor Kyryltsev",
   "license": "MIT",

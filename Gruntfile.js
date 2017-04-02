@@ -49,7 +49,7 @@ module.exports = function (grunt) {
         uglify: {
             build: {
                 files: {
-                    'dest/code.js': ['src/edit-menu/code.js']
+                    'dest/code.js': ['src/edit-menu/code.js', 'src/progress-indicator/code.js']
                 }
             }
         }
