@@ -1,0 +1,36 @@
+@import "../common/colors";
+
+div.asc.asc-segmented-controls{
+  font-size: 14px;
+  div.asc-segmented-control{
+    display: none;
+    &.active{
+      display: block;
+    }
+  }
+  div.asc-segmented-bar{
+    display: flex;
+    justify-content: center;
+
+    li{
+      border: 1px solid $pink;
+      border-left: none;
+      list-style: none;
+      color: $pink;
+      cursor: pointer;
+      padding: 5px;
+
+      &:first-child{
+        border-left: 1px solid $pink;
+        border-radius: 5px 0 0 5px;
+      }
+      &:last-child{
+        border-radius: 0 5px 5px 0;
+      }
+      &.active{
+        color: #fff;
+        background-color: $pink;
+      }
+    }
+  }
+}

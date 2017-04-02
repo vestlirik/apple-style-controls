@@ -24,7 +24,8 @@ module.exports = function (grunt) {
         sass: {
             dist: {
                 files: {
-                    'dest/styles.css': 'src/styles.scss'
+                    'dest/styles.css': 'src/styles.scss',
+                    'src/styles.css': 'src/styles.scss'
                 }
             }
         },
@@ -49,7 +50,11 @@ module.exports = function (grunt) {
         uglify: {
             build: {
                 files: {
-                    'dest/code.js': ['src/edit-menu/code.js', 'src/progress-indicator/code.js']
+                    'dest/code.js': [
+                        'src/edit-menu/code.js',
+                        'src/progress-indicator/code.js',
+                        'src/segmented-controls/code.js'
+                    ]
                 }
             }
         }
