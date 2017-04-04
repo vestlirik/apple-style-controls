@@ -1,0 +1,38 @@
+input:not([type="range"]).asc{
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #cacaca;
+  font-weight: 600;
+  &::placeholder{
+    color: #cacaca;
+  }
+
+
+  &:focus {
+    outline: none;
+
+    +label{
+      display: inline-block;
+      position: relative;
+
+      &:after{
+        width: 16px;
+        height: 16px;
+        border-radius: 16px;
+        content: "x";
+        background-color: #c2c2c2;
+        display: block;
+        text-align: center;
+        transition: margin-left 0.5s;
+        cursor: pointer;
+        line-height: 14px;
+        color: #fff;
+        font-family: "Arial";
+        font-size: 12px;
+        position: absolute;
+        right: 4px;
+        top: -13px;
+      }
+    }
+  }
+}

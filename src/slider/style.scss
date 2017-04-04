@@ -1,6 +1,6 @@
 @import "../common/colors";
 
-input[type="range"] {
+input[type="range"].asc {
   background: linear-gradient(180deg, $tealBlue, $blue);
   cursor: default;
   height: 2px;
@@ -8,10 +8,6 @@ input[type="range"] {
   -webkit-appearance: none;
   -webkit-transition: .15s;
   width: 400px;
-
-  &:focus {
-    outline: none;
-  }
 
   &::-webkit-slider-thumb {
     width: 24px;
