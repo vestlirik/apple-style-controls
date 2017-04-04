@@ -1,6 +1,6 @@
 {
   "name": "apple-style-controls",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Apple style controls for web",
   "main": "index.js",
   "dependencies": {
@@ -15,6 +15,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^0.11.0",
     "grunt-contrib-uglify": "^2.2.1",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-processhtml": "^0.*",
     "grunt-sass": "^2.0.0",
     "time-grunt": "^1.4.0"
@@ -33,7 +34,7 @@
     "css",
     "sass",
     "responsive",
-    "front-end", 
+    "front-end",
     "framework"
   ],
   "author": "Viktor Kyryltsev",
