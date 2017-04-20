@@ -47,4 +47,10 @@ button.asc {
   &.asc-minus-button:after {
     content: "-";
   }
+
+  &.asc-search-cancel{
+    border: none;
+    background: transparent;
+    color: $blue;
+  }
 }

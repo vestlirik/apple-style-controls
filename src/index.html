@@ -83,12 +83,25 @@
 <label class="asc asc-eraser"></label>
 
 <h3>Search bar</h3>
-<div class="asc-search-bar">
-    <div class="search">
-        <div class="search__circle"></div>
-        <div class="search__rectangle"></div>
+<div style="padding: 10px; background-color: #c9c9ce;">
+    <div class="asc asc-search-bar">
+        <div class="search">
+            <div class="search__circle"></div>
+            <div class="search__rectangle"></div>
+        </div>
+        <p>Search</p>
     </div>
-    <p>Search</p>
+</div>
+<div style="padding: 10px; background-color: #c9c9ce;display: flex;">
+    <div class="asc asc-search-bar asc-clicked">
+        <div class="search">
+            <div class="search__circle"></div>
+            <div class="search__rectangle"></div>
+        </div>
+        <input class="asc asc-search-input" type="text" placeholder="Search">
+        <label class="asc asc-eraser"></label>
+    </div>
+    <button class="asc asc-search-cancel">Cancel</button>
 </div>
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>

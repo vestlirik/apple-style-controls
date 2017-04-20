@@ -1,26 +1,40 @@
-input{
+input {
   &:focus {
     outline: none;
   }
 }
 
-input:not([type="range"]).asc{
+input:not([type="range"]).asc {
   padding: 10px;
   border: none;
   border-bottom: 1px solid #cacaca;
   font-weight: 600;
-  &::placeholder{
+
+  &.asc-search-input {
+    padding: initial;
+    border-bottom: none;
+    width: 100%;
+
+    &:focus {
+      + label.asc.asc-eraser {
+        &:after {
+          top: -8px;
+        }
+      }
+    }
+  }
+
+  &::placeholder {
     color: #cacaca;
   }
 
-
   &:focus {
 
-    +label.asc.asc-eraser{
+    + label.asc.asc-eraser {
       display: inline-block;
       position: relative;
 
-      &:after{
+      &:after {
         width: 16px;
         height: 16px;
         border-radius: 16px;

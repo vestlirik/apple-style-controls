@@ -1,17 +1,17 @@
-$borderColor: #333;
+$borderColor: #B3B3B3;
 
 .search {
   position: relative;
-  width: 20px;
-  height: 20px;
-  margin: 5px 0;
+  width: 18px;
+  height: 18px;
+  margin: 5px 5px 5px 0;
   text-align: center;
 
   &__circle {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border: 2px solid $borderColor;
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   &__rectangle {
@@ -28,6 +28,20 @@ $borderColor: #333;
 
 .asc-search-bar{
   display: flex;
-  margin: 0 auto;
+  flex: 1;
+  margin-right: 5px;
   align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0 10px;
+
+  p{
+    margin: 0;
+    color: $borderColor;
+  }
+
+  &.asc-clicked{
+    justify-content: flex-start;
+  }
 }
