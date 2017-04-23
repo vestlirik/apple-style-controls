@@ -11,11 +11,26 @@ input:not([type="range"]).asc {
   font-weight: 600;
 
   &.asc-search-input {
-    padding: initial;
+    padding: 5px;
     border-bottom: none;
-    width: 100%;
+    width: 150px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    transition: all 0.4s;
+
+    &~.asc-search-cancel{
+      width: 0;
+      transition: all .4s ease-out;
+      overflow: hidden;
+      padding: 0;
+    }
 
     &:focus {
+      flex: 1;
+      &~.asc-search-cancel{
+        width: 63px;
+        padding: inherit;
+      }
       + label.asc.asc-eraser {
         &:after {
           top: -8px;
