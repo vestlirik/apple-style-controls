@@ -55,7 +55,8 @@ module.exports = function (grunt) {
                         'src/progress-indicator/code.js',
                         'src/segmented-controls/code.js',
                         'src/input/code.js',
-                        'src/search-bar/code.js'
+                        'src/search-bar/code.js',
+                        'src/tab-bar/code.js'
                     ]
                 }
             }

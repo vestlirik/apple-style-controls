@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- build:css styles.css -->
     <link rel="stylesheet" href="styles.css">
     <!-- /build -->
@@ -49,9 +50,11 @@
 </div>
 <button class="asc asc-edit-menu-button">Show menu</button>
 <p>Select some text for showing menu</p>
-<p class="asc-selectable-text">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
+<p class="asc-selectable-text">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
     ipsum Lorem ipsum Lorem
-    ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem
     ipsum </p>
 
 <h3>Indicators</h3>
@@ -94,12 +97,52 @@
         <button class="asc asc-search-cancel">Cancel</button>
     </div>
 </div>
+
+<h3>Tab Bar</h3>
+<div class="asc asc-tab-bar-container" style="height: 400px;width: 500px;border: 1px solid #4cd964;">
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-globe"></span>
+            <span>World Clock</span>
+        </asc-label>
+        <p>World Clock</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-clock-o"></span>
+            <span>Alarm</span>
+        </asc-label>
+        <p>Alarm</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-bed"></span>
+            <span>Bedtime</span>
+        </asc-label>
+        <p>Bedtime</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-clock-o"></span>
+            <span>Stopwatch</span>
+        </asc-label>
+        <p>Stopwatch</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-clock-o"></span>
+            <span>Timer</span>
+        </asc-label>
+        <p>Timer</p>
+    </div>
+</div>
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>
 <script src="progress-indicator/code.js"></script>
 <script src="segmented-controls/code.js"></script>
 <script src="input/code.js"></script>
 <script src="search-bar/code.js"></script>
+<script src="tab-bar/code.js"></script>
 <!-- /build -->
 </body>
 </html>

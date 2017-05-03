@@ -1,0 +1,41 @@
+@import "../common/colors";
+
+div.asc.asc-tab-bar-container{
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  div.asc-tab{
+    display: none;
+    flex: 1;
+    padding: 5px;
+    &.active{
+      display: block;
+    }
+  }
+
+  div.asc-tab-bar{
+    display: flex;
+    background: #000;
+    justify-content: space-around;
+
+    asc-label{
+      font-size: 10px;
+      border-left: none;
+      list-style: none;
+      color: #c2c2c2;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &>span.fa {
+        font-size: 25px;
+      }
+
+      &.active{
+        color: $yellow;
+      }
+    }
+  }
+}
