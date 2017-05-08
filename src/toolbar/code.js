@@ -6,10 +6,12 @@ for (var i = 0; i < toolbars.length; i++) {
             button.addEventListener('click', function () {
                 var backdrop = document.createElement('asc-backdrop');
                 setTimeout(function () {
-                    document.body.addEventListener('click', function () {
+                    var closeBackClick = function () {
                         toolbar.style.bottom = "-100px";
                         backdrop.remove();
-                    });
+                        document.body.removeEventListener('click', closeBackClick);
+                    };
+                    document.body.addEventListener('click', closeBackClick);
                 }, 0);
                 document.body.appendChild(backdrop);
                 setTimeout(function () {
