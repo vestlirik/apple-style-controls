@@ -56,7 +56,8 @@ module.exports = function (grunt) {
                         'src/segmented-controls/code.js',
                         'src/input/code.js',
                         'src/search-bar/code.js',
-                        'src/tab-bar/code.js'
+                        'src/tab-bar/code.js',
+                        'src/toolbar/code.js'
                     ]
                 }
             }
