@@ -146,6 +146,15 @@
     <button class="asc fa fa-undo"></button>
     <button class="asc fa fa-pencil-square-o"></button>
 </asc-toolbar>
+
+<h3>Action sheet</h3>
+<button class="asc" data-id="sample-action-sheet">Show action sheet</button>
+<asc-action-sheet id="sample-action-sheet">
+    <action>Flag</action>
+    <action onclick="alert('marked as unread');">Mark as Unread</action>
+    <action>Move to Junk</action>
+    <action>Notify me...</action>
+</asc-action-sheet>
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>
 <script src="progress-indicator/code.js"></script>
@@ -154,6 +163,7 @@
 <script src="search-bar/code.js"></script>
 <script src="tab-bar/code.js"></script>
 <script src="toolbar/code.js"></script>
+<script src="action-sheet/code.js"></script>
 <!-- /build -->
 </body>
 </html>

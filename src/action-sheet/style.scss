@@ -1,0 +1,48 @@
+@import "../common/colors";
+
+asc-action-sheet {
+  z-index: 1;
+  color: $blue;
+  transition: all .3s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: fixed;
+  width: calc(100% - 15px);
+
+  action-block {
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 8px;
+    left: 15px;
+    right: 15px;
+    margin-top: 10px;
+
+    &.cancel-block {
+      font-weight: bold;
+    }
+
+    action {
+      font-size: 17px;
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid #c2c2c2;
+      cursor: pointer;
+
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+
+      &:active {
+        background-color: rgba($blue, 0.71);
+        color: #fff;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}

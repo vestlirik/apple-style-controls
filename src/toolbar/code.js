@@ -3,11 +3,14 @@ for (var i = 0; i < toolbars.length; i++) {
     var button = document.querySelector('button[data-id=' + toolbars[i].id + ']');
     if (button) {
         (function (toolbar) {
+            var hiddenHeight = -(toolbar.offsetHeight) + "px";
+            toolbar.style.bottom = hiddenHeight;
+
             button.addEventListener('click', function () {
                 var backdrop = document.createElement('asc-backdrop');
                 setTimeout(function () {
                     var closeBackClick = function () {
-                        toolbar.style.bottom = "-100px";
+                        toolbar.style.bottom = hiddenHeight;
                         backdrop.remove();
                         document.body.removeEventListener('click', closeBackClick);
                     };
