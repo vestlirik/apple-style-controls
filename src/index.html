@@ -155,6 +155,31 @@
     <action>Move to Junk</action>
     <action>Notify me...</action>
 </asc-action-sheet>
+
+<h3>Alert</h3>
+<input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">
+<label class="asc asc-eraser"></label>
+<input class="asc" type="text" id="alert-text" placeholder="Text" value="Alerts disrupt the user experience and should only be used in important situations like confirming purchases and destructive actions (such as deletions), or notifying people about problems. The infrequency of alerts helps ensure that people take them seriously. Ensure that each alert offers critical information and useful choices." style="width: 300px;">
+<label class="asc asc-eraser"></label>
+<input class="asc" type="text" id="alert-submit" placeholder="Submit text" value="Submit" style="width: 300px;">
+<label class="asc asc-eraser"></label>
+<input class="asc" type="text" id="alert-cancel" placeholder="Cancel text" value="Cancel" style="width: 300px;">
+<label class="asc asc-eraser"></label>
+<button class="asc" onclick='openAlert()'>Show alert</button>
+<p>Selected answer: <span id="alert-response"></span></p>
+<script>
+    function openAlert(){
+        var header = document.getElementById('alert-header').value;
+        var text = document.getElementById('alert-text').value;
+        var submit = document.getElementById('alert-submit').value;
+        var cancel = document.getElementById('alert-cancel').value;
+        showAlert(header, text, submit, cancel).then(function () {
+            document.getElementById('alert-response').innerText = 'yes';
+        }, function () {
+            document.getElementById('alert-response').innerText = 'no';
+        });
+    }
+</script>
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>
 <script src="progress-indicator/code.js"></script>
@@ -164,6 +189,7 @@
 <script src="tab-bar/code.js"></script>
 <script src="toolbar/code.js"></script>
 <script src="action-sheet/code.js"></script>
+<script src="alert/code.js"></script>
 <!-- /build -->
 </body>
 </html>
