@@ -58,7 +58,8 @@ module.exports = function (grunt) {
                         'src/search-bar/code.js',
                         'src/tab-bar/code.js',
                         'src/toolbar/code.js',
-                        'src/action-sheet/code.js'
+                        'src/action-sheet/code.js',
+                        'src/alert/code.js'
                     ]
                 }
             }
