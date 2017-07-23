@@ -20,4 +20,22 @@ function eraseContent(e) {
     }, 0);
 }
 
+function applyIcons() {
+    var inputs = document.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        var icon = inputs[i].attributes["icon"];
+        if (icon) {
+            var iconDiv = document.createElement('span');
+            iconDiv.classList.add('fa');
+            iconDiv.classList.add(icon.value);
+            iconDiv.style.position = "absolute";
+            iconDiv.style.marginTop = "10px";
+            iconDiv.style.color = "#B3B3B3";
+            inputs[i].style.paddingLeft = "20px";
+            inputs[i].parentNode.insertBefore(iconDiv, inputs[i]);
+        }
+    }
+}
+
 assignErasers();
+applyIcons();
