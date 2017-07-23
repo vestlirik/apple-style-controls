@@ -165,7 +165,9 @@
 <h3>Alert</h3>
 <input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">
 <label class="asc asc-eraser"></label>
-<input class="asc" type="text" id="alert-text" placeholder="Text" value="Alerts disrupt the user experience and should only be used in important situations like confirming purchases and destructive actions (such as deletions), or notifying people about problems. The infrequency of alerts helps ensure that people take them seriously. Ensure that each alert offers critical information and useful choices." style="width: 300px;">
+<input class="asc" type="text" id="alert-text" placeholder="Text"
+       value="Alerts disrupt the user experience and should only be used in important situations like confirming purchases and destructive actions (such as deletions), or notifying people about problems. The infrequency of alerts helps ensure that people take them seriously. Ensure that each alert offers critical information and useful choices."
+       style="width: 300px;">
 <label class="asc asc-eraser"></label>
 <input class="asc" type="text" id="alert-submit" placeholder="Submit text" value="Submit" style="width: 300px;">
 <label class="asc asc-eraser"></label>
@@ -174,7 +176,7 @@
 <button class="asc" onclick='openAlert()'>Show alert</button>
 <p>Selected answer: <span id="alert-response"></span></p>
 <script>
-    function openAlert(){
+    function openAlert() {
         var header = document.getElementById('alert-header').value;
         var text = document.getElementById('alert-text').value;
         var submit = document.getElementById('alert-submit').value;
@@ -186,6 +188,34 @@
         });
     }
 </script>
+
+<h3>Dialog</h3>
+<button class="asc" onclick="openDialog()">Show dialog</button>
+<script>
+    function clearDialogInput() {
+        document.getElementById('sample-dialog-input').value = '';
+    }
+    function openDialog() {
+        showDialog('sample-dialog').then(function (val) {
+            document.getElementById('alert-response').innerText = val;
+            clearDialogInput();
+        }, clearDialogInput);
+    }
+</script>
+<asc-dialog id="sample-dialog" callback="dialogResponse">
+    <asc-content>
+        <asc-dialog-header>Dialog header</asc-dialog-header>
+        <p>Dialog text</p>
+        <div>
+            <input id="sample-dialog-input" class="asc" placeholder="Dialog text">
+            <label class="asc asc-eraser"></label>
+        </div>
+    </asc-content>
+    <asc-actions>
+        <asc-action-button class="asc" reject>Cancel</asc-action-button>
+        <asc-action-button class="asc" resolve returnValueId="sample-dialog-input">OK</asc-action-button>
+    </asc-actions>
+</asc-dialog>
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>
 <script src="progress-indicator/code.js"></script>
@@ -196,6 +226,7 @@
 <script src="toolbar/code.js"></script>
 <script src="action-sheet/code.js"></script>
 <script src="alert/code.js"></script>
+<script src="dialog/code.js"></script>
 <!-- /build -->
 </body>
 </html>

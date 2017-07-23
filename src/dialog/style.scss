@@ -1,0 +1,57 @@
+@import "../common/colors";
+
+asc-dialog {
+  z-index: 1;
+  transition: all .3s ease-out;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  background-color: #F5F5F5;
+  border-radius: 8px;
+  max-width: 56%;
+  width: 350px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  &[shown]{
+    display: flex;
+  }
+  asc-content {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 15px 15px;
+    asc-dialog-header {
+      font-weight: bold;
+      padding: 5px;
+      align-self: center;
+    }
+  }
+  asc-actions {
+    display: flex;
+    color: $blue;
+    border-top: 1px solid #c2c2c2;
+    align-self: stretch;
+
+    asc-action-button {
+      flex: 1;
+      border: none;
+      background: transparent;
+      border-right: 1px solid #c2c2c2;
+      cursor: pointer;
+
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+
+      &:active {
+        background-color: rgba($blue, 0.71);
+        color: #fff;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+}
