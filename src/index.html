@@ -213,9 +213,22 @@
     </asc-content>
     <asc-actions>
         <asc-action-button class="asc" reject>Cancel</asc-action-button>
-        <asc-action-button class="asc" resolve returnValueId="sample-dialog-input">OK</asc-action-button>
+        <asc-action-button class="asc" resolve return-value-id="sample-dialog-input">OK</asc-action-button>
     </asc-actions>
 </asc-dialog>
+
+<br>
+<button class="asc" onclick='openColorPicker()'>Show color picker</button>
+<div style="display: flex; align-items: center">
+    Selected color: <span id="selected-color-index" style="height: 50px; width: 50px;"></span>
+</div>
+<script>
+    function openColorPicker() {
+        showColorPicker().then(function (color) {
+            document.getElementById('selected-color-index').style.background = color;
+        }, console.log);
+    }
+</script>
 <!-- build:js code.js -->
 <script src="edit-menu/code.js"></script>
 <script src="progress-indicator/code.js"></script>
@@ -227,6 +240,7 @@
 <script src="action-sheet/code.js"></script>
 <script src="alert/code.js"></script>
 <script src="dialog/code.js"></script>
+<script src="color-picker/code.js"></script>
 <!-- /build -->
 </body>
 </html>

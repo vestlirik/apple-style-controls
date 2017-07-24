@@ -3,9 +3,10 @@
  * @param dialogId - id of showing dialog
  * @param resolveAction - additional action for resolving
  * @param rejectAction - additional action for rejecting
+ * @param onOpened {Function} - event after opening dialog
  * @returns {Promise}
  */
-function showDialog(dialogId, resolveAction, rejectAction) {
+function showDialog(dialogId, resolveAction, rejectAction, onOpened) {
     var dialog = document.getElementById(dialogId);
     var shownAttr = document.createAttribute('shown');
     dialog.attributes.setNamedItem(shownAttr);
@@ -45,8 +46,8 @@ function showDialog(dialogId, resolveAction, rejectAction) {
                             if (actionButtons[j].hasAttribute("resolve")) {
                                 actionButtons[j].addEventListener('click', function () {
                                     var resolveText;
-                                    if (actionButtons[j].hasAttribute("returnValueId")) {
-                                        var attr = actionButtons[j].getAttribute("returnValueId");
+                                    if (actionButtons[j].hasAttribute("return-value-id")) {
+                                        var attr = actionButtons[j].getAttribute("return-value-id");
                                         var element = document.getElementById(attr);
                                         if (element) {
                                             var value = element.value;
@@ -72,5 +73,8 @@ function showDialog(dialogId, resolveAction, rejectAction) {
         }, 0);
         var backdrop = document.createElement('asc-backdrop');
         document.body.appendChild(backdrop);
+        if (onOpened) {
+            setTimeout(onOpened, 50);
+        }
     });
 }
