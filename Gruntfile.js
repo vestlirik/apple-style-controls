@@ -59,7 +59,9 @@ module.exports = function (grunt) {
                         'src/tab-bar/code.js',
                         'src/toolbar/code.js',
                         'src/action-sheet/code.js',
-                        'src/alert/code.js'
+                        'src/alert/code.js',
+                        'src/dialog/code.js',
+                        'src/color-picker/code.js'
                     ]
                 }
             }
