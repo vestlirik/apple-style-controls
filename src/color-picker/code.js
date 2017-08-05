@@ -32,6 +32,7 @@ function ColorPicker(element, line, colorSelector) {
     this.finish = function () {
         console.timeEnd('creating color picker');
         document.getElementById('color-loader').remove();
+        this.lineCanvas.parentElement.children[0].style.display = "";
         document.getElementById('color-hr').style.display = 'block';
         this.canvas.dispatchEvent(new Event('click'));
     };
@@ -93,9 +94,10 @@ function ColorPicker(element, line, colorSelector) {
             grd.addColorStop(1, 'rgb(0, 0, 0)');
             ctx2.fillStyle = grd;
             ctx2.fillRect(0, 0, self.lineCanvas.offsetWidth, self.lineCanvas.offsetHeight);
+            self.element.nextElementSibling.children[0].style.marginLeft = 0;
         }, false);
 
-        self.lineCanvas.addEventListener('click', function (e) {
+        function fillColorInput(e) {
             var x = e.offsetX || e.clientX - this.offsetLeft;
             var y = e.offsetY || e.clientY - this.offsetTop;
 
@@ -103,7 +105,17 @@ function ColorPicker(element, line, colorSelector) {
             // var selectedColor = new Color(imgData[0], imgData[1], imgData[2]);
             self.fillSelector(imgData[0], imgData[1], imgData[2]);
 
-        }, false);
+        }
+
+        self.lineCanvas.addEventListener('click', fillColorInput, false);
+
+        self.lineCanvas.addEventListener('mousemove', function (ev) {
+            console.log('mousemove lineCanvas');
+            if (self.lineCanvas.parentElement.hasAttribute('fill-on-move')) {
+                fillColorInput(ev);
+                console.log('fillColorInput');
+            }
+        });
     };
 
     this.fillSelector = function (r, g, b) {
@@ -148,7 +160,67 @@ function showColorPicker(yesText, noText) {
     colorLine.style.width = "300px";
     colorLine.style.height = "50px";
     colorLine.style.cursor = "crosshair";
+    colorLine.style.position = "relative";
     dialogContent.appendChild(colorLine);
+
+    colorLine.addEventListener('click', movingColorSelector);
+
+    var colorSelectorLine = document.createElement('div');
+    colorSelectorLine.classList.add('color-selector-line');
+    colorSelectorLine.style.display = "none";
+    colorSelectorLine.style.position = "absolute";
+    colorSelectorLine.style.width = "5px";
+    colorSelectorLine.style.height = "50px";
+    colorSelectorLine.style.cursor = "pointer";
+    colorSelectorLine.style.background = "transparent";
+    colorSelectorLine.style.border = "none";
+    colorSelectorLine.style.borderLeft = "1px solid #fff";
+    colorLine.appendChild(colorSelectorLine);
+
+    var sheet = document.createElement('style');
+    sheet.innerHTML += ".color-selector-line::before {" +
+        "content: '';\n" +
+        "position: absolute;\n" +
+        "width: 0;\n" +
+        "height: 0;\n" +
+        "top: -7px;\n" +
+        "left: -5px;\n" +
+        "border-style: solid;\n" +
+        "border-width: 7px 5px 0 5px;\n" +
+        "border-color: #9e9e9e transparent transparent transparent;" +
+        "}";
+    sheet.innerHTML += ".color-selector-line::after {" +
+        "content: '';\n" +
+        "position: absolute;\n" +
+        "width: 0;\n" +
+        "height: 0;\n" +
+        "bottom: -7px;\n" +
+        "left: -5px;\n" +
+        "border-style: solid;\n" +
+        "border-width: 0 5px 7px 5px;\n" +
+        "border-color: transparent transparent #9e9e9e transparent;" +
+        "}";
+    document.body.appendChild(sheet);
+
+    var colorLinePosition;
+    function movingColorSelector(ev) {
+        var margin = ev.x - colorLinePosition.left;
+        if (margin >= 0 && margin <= 300) {
+            colorSelectorLine.style.marginLeft = margin + "px";
+        }
+    }
+
+    colorSelectorLine.addEventListener('mousedown', function (ev) {
+        document.body.addEventListener('mouseup', function (ev) {
+            console.log("mouseup");
+            colorLine.removeAttribute('fill-on-move');
+            document.body.removeEventListener('mousemove', movingColorSelector);
+        });
+        console.log("mousedown");
+        colorLinePosition = document.getElementsByClassName('color-line')[0].getBoundingClientRect();
+        colorLine.setAttribute('fill-on-move', '');
+        document.body.addEventListener('mousemove', movingColorSelector, false);
+    });
 
     var hr = document.createElement('hr');
     hr.id = 'color-hr';
