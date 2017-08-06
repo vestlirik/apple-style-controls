@@ -1,4 +1,4 @@
-function ColorPicker(element, line, colorSelector) {
+function ColorPicker(element, line, colorSelector, rgbInput, hexInput) {
     this.element = element;
 
     this.init = function () {
@@ -120,7 +120,9 @@ function ColorPicker(element, line, colorSelector) {
 
     this.fillSelector = function (r, g, b) {
         var colorCanvasContext = this.selectorCanvas.getContext('2d');
-        var selectedColor = "rgb(" + r + ", " + g + ", " + b + ")";
+        rgbInput.value = r + ", " + g + ", " + b;
+        hexInput.value = '#' + rgbToHex(r) + rgbToHex(g) + rgbToHex(b);
+        var selectedColor = "rgb(" + rgbInput.value + ")";
         colorCanvasContext.fillStyle = selectedColor;
         colorCanvasContext.fillRect(0, 0, this.selectorCanvas.offsetWidth, this.selectorCanvas.offsetHeight);
         document.getElementById('selected-color-div').value = selectedColor;
@@ -129,6 +131,11 @@ function ColorPicker(element, line, colorSelector) {
     this.init();
 
     this.finish();
+}
+
+function rgbToHex(n) {
+    var hex = n.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
 }
 
 function showColorPicker(yesText, noText) {
@@ -177,34 +184,15 @@ function showColorPicker(yesText, noText) {
     colorSelectorLine.style.borderLeft = "1px solid #fff";
     colorLine.appendChild(colorSelectorLine);
 
-    var sheet = document.createElement('style');
-    sheet.innerHTML += ".color-selector-line::before {" +
-        "content: '';\n" +
-        "position: absolute;\n" +
-        "width: 0;\n" +
-        "height: 0;\n" +
-        "top: -7px;\n" +
-        "left: -5px;\n" +
-        "border-style: solid;\n" +
-        "border-width: 7px 5px 0 5px;\n" +
-        "border-color: #9e9e9e transparent transparent transparent;" +
-        "}";
-    sheet.innerHTML += ".color-selector-line::after {" +
-        "content: '';\n" +
-        "position: absolute;\n" +
-        "width: 0;\n" +
-        "height: 0;\n" +
-        "bottom: -7px;\n" +
-        "left: -5px;\n" +
-        "border-style: solid;\n" +
-        "border-width: 0 5px 7px 5px;\n" +
-        "border-color: transparent transparent #9e9e9e transparent;" +
-        "}";
-    document.body.appendChild(sheet);
+    function colorLinePosition() {
+        if (!colorLinePosition.cached) {
+            colorLinePosition.cached = document.getElementsByClassName('color-line')[0].getBoundingClientRect();
+        }
+        return colorLinePosition.cached;
+    }
 
-    var colorLinePosition;
     function movingColorSelector(ev) {
-        var margin = ev.x - colorLinePosition.left;
+        var margin = ev.x - colorLinePosition().left;
         if (margin >= 0 && margin <= 300) {
             colorSelectorLine.style.marginLeft = margin + "px";
         }
@@ -217,7 +205,6 @@ function showColorPicker(yesText, noText) {
             document.body.removeEventListener('mousemove', movingColorSelector);
         });
         console.log("mousedown");
-        colorLinePosition = document.getElementsByClassName('color-line')[0].getBoundingClientRect();
         colorLine.setAttribute('fill-on-move', '');
         document.body.addEventListener('mousemove', movingColorSelector, false);
     });
@@ -231,11 +218,45 @@ function showColorPicker(yesText, noText) {
     hr.style.display = "none";
     dialogContent.appendChild(hr);
 
+    var selectedColorDetailsBlock = document.createElement('div');
+    selectedColorDetailsBlock.classList.add('selected-color-details');
+    selectedColorDetailsBlock.style.display = "flex";
+
     var colorSelector = document.createElement('div');
     colorSelector.classList.add('color-selector');
     colorSelector.style.width = "50px";
     colorSelector.style.height = "50px";
-    dialogContent.appendChild(colorSelector);
+    selectedColorDetailsBlock.appendChild(colorSelector);
+
+    var detailInputsBlock = document.createElement('div');
+    detailInputsBlock.classList.add('detail-inputs-block');
+    detailInputsBlock.style.display = "flex";
+    detailInputsBlock.style.flex = "1";
+    detailInputsBlock.style.flexDirection = "column";
+
+    selectedColorDetailsBlock.appendChild(detailInputsBlock);
+
+    var rgbBlock = document.createElement('div');
+    rgbBlock.classList.add('rgb-input-block');
+    rgbBlock.style.display = "flex";
+    detailInputsBlock.appendChild(rgbBlock);
+
+    var rgbInput = document.createElement('input');
+    rgbInput.setAttribute('readonly', '');
+    rgbInput.value = "0, 0, 0";
+    rgbBlock.appendChild(rgbInput);
+
+    var hexBlock = document.createElement('div');
+    hexBlock.classList.add('rgb-input-block');
+    hexBlock.style.display = "flex";
+    detailInputsBlock.appendChild(hexBlock);
+
+    var hexInput = document.createElement('input');
+    hexInput.setAttribute('readonly', '');
+    hexInput.value = "#000000";
+    hexBlock.appendChild(hexInput);
+
+    dialogContent.appendChild(selectedColorDetailsBlock);
 
     var selectedColorInput = document.createElement('input');
     selectedColorInput.setAttribute('hidden', '');
@@ -260,6 +281,35 @@ function showColorPicker(yesText, noText) {
         colorPicker.remove();
     };
     return showDialog(colorPicker.id, additionalAction, additionalAction, function () {
-        new ColorPicker(colorCircle, colorLine, colorSelector);
+        new ColorPicker(colorCircle, colorLine, colorSelector, rgbInput, hexInput);
     });
 }
+
+function appendStyle() {
+    var sheet = document.createElement('style');
+    sheet.innerHTML += ".color-selector-line::before {" +
+        "content: '';\n" +
+        "position: absolute;\n" +
+        "width: 0;\n" +
+        "height: 0;\n" +
+        "top: -7px;\n" +
+        "left: -5px;\n" +
+        "border-style: solid;\n" +
+        "border-width: 7px 5px 0 5px;\n" +
+        "border-color: #9e9e9e transparent transparent transparent;" +
+        "}";
+    sheet.innerHTML += ".color-selector-line::after {" +
+        "content: '';\n" +
+        "position: absolute;\n" +
+        "width: 0;\n" +
+        "height: 0;\n" +
+        "bottom: -7px;\n" +
+        "left: -5px;\n" +
+        "border-style: solid;\n" +
+        "border-width: 0 5px 7px 5px;\n" +
+        "border-color: transparent transparent #9e9e9e transparent;" +
+        "}";
+    document.body.appendChild(sheet);
+}
+
+appendStyle();
