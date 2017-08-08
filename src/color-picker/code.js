@@ -34,7 +34,12 @@ function ColorPicker(element, line, colorSelector, rgbInput, hexInput) {
         document.getElementById('color-loader').remove();
         this.lineCanvas.parentElement.children[0].style.display = "";
         document.getElementById('color-hr').style.display = 'block';
-        this.canvas.dispatchEvent(new Event('click'));
+        document.getElementsByClassName('color-selector-line')[0].style.display = 'block';
+        var inputs = document.getElementsByClassName('rgb-input-block');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].style.display = 'flex';
+        }
+        this.fillColorLine(255, 255, 255);
     };
 
     this.renderColorMap = function () {
@@ -75,6 +80,32 @@ function ColorPicker(element, line, colorSelector, rgbInput, hexInput) {
         // render the rainbow box here ----------
     };
 
+    this.fillColorLine = function (r, g, b) {
+        var ctx = this.lineCanvas.getContext('2d');
+        var grd = ctx.createLinearGradient(0, 0, this.lineCanvas.offsetWidth, 0);
+        grd.addColorStop(0, "rgb(" + r + " ," + g + " ," + b + ")");
+        grd.addColorStop(1, 'rgb(0, 0, 0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, this.lineCanvas.offsetWidth, this.lineCanvas.offsetHeight);
+        this.element.nextElementSibling.children[0].style.marginLeft = 0;
+        this.fillSelector(r, g, b);
+    };
+
+    var self = this;
+
+    function fillColorInput(e) {
+        var left = this.getBoundingClientRect().left;
+        var top = this.getBoundingClientRect().top;
+        if (e.clientX < left || e.clientY < top || e.clientY > left + 300 || e.clientY > top + 50) {
+            return;
+        }
+        var x = e.clientX - left;
+        var y = e.clientY - top;
+
+        var imgData = self.lineCanvas.getContext('2d').getImageData(x, y, 1, 1).data;
+        self.fillSelector(imgData[0], imgData[1], imgData[2]);
+    }
+
     this.setupBindings = function () {
         var canvas = this.canvas;
         var ctx = canvas.getContext('2d');
@@ -85,37 +116,15 @@ function ColorPicker(element, line, colorSelector, rgbInput, hexInput) {
             var y = e.offsetY || e.clientY - this.offsetTop;
 
             var imgData = ctx.getImageData(x, y, 1, 1).data;
-            // var selectedColor = new Color(imgData[0], imgData[1], imgData[2]);
-            self.fillSelector(imgData[0], imgData[1], imgData[2]);
-
-            var ctx2 = self.lineCanvas.getContext('2d');
-            var grd = ctx2.createLinearGradient(0, 0, self.lineCanvas.offsetWidth, 0);
-            grd.addColorStop(0, "rgb(" + imgData[0] + " ," + imgData[1] + " ," + imgData[2] + ")");
-            grd.addColorStop(1, 'rgb(0, 0, 0)');
-            ctx2.fillStyle = grd;
-            ctx2.fillRect(0, 0, self.lineCanvas.offsetWidth, self.lineCanvas.offsetHeight);
-            self.element.nextElementSibling.children[0].style.marginLeft = 0;
-        }, false);
-
-        function fillColorInput(e) {
-            var x = e.offsetX || e.clientX - this.offsetLeft;
-            var y = e.offsetY || e.clientY - this.offsetTop;
-
-            var imgData = self.lineCanvas.getContext('2d').getImageData(x, y, 1, 1).data;
-            // var selectedColor = new Color(imgData[0], imgData[1], imgData[2]);
-            self.fillSelector(imgData[0], imgData[1], imgData[2]);
-
-        }
-
-        self.lineCanvas.addEventListener('click', fillColorInput, false);
-
-        self.lineCanvas.addEventListener('mousemove', function (ev) {
-            console.log('mousemove lineCanvas');
-            if (self.lineCanvas.parentElement.hasAttribute('fill-on-move')) {
-                fillColorInput(ev);
-                console.log('fillColorInput');
+            if (imgData[0] === 0 && imgData[1] === 0 && imgData[2] === 0) {
+                return;
             }
+            // var selectedColor = new Color(imgData[0], imgData[1], imgData[2]);
+            self.fillColorLine(imgData[0], imgData[1], imgData[2]);
+
         });
+
+        self.lineCanvas.addEventListener('click', fillColorInput);
     };
 
     this.fillSelector = function (r, g, b) {
@@ -158,30 +167,16 @@ function showColorPicker(yesText, noText) {
 
     var colorCircle = document.createElement('div');
     colorCircle.classList.add('color-circle');
-    colorCircle.style.width = "300px";
-    colorCircle.style.cursor = "crosshair";
     dialogContent.appendChild(colorCircle);
 
     var colorLine = document.createElement('div');
     colorLine.classList.add('color-line');
-    colorLine.style.width = "300px";
-    colorLine.style.height = "50px";
-    colorLine.style.cursor = "crosshair";
-    colorLine.style.position = "relative";
     dialogContent.appendChild(colorLine);
 
     colorLine.addEventListener('click', movingColorSelector);
 
     var colorSelectorLine = document.createElement('div');
     colorSelectorLine.classList.add('color-selector-line');
-    colorSelectorLine.style.display = "none";
-    colorSelectorLine.style.position = "absolute";
-    colorSelectorLine.style.width = "5px";
-    colorSelectorLine.style.height = "50px";
-    colorSelectorLine.style.cursor = "pointer";
-    colorSelectorLine.style.background = "transparent";
-    colorSelectorLine.style.border = "none";
-    colorSelectorLine.style.borderLeft = "1px solid #fff";
     colorLine.appendChild(colorSelectorLine);
 
     function colorLinePosition() {
@@ -196,6 +191,11 @@ function showColorPicker(yesText, noText) {
         if (margin >= 0 && margin <= 300) {
             colorSelectorLine.style.marginLeft = margin + "px";
         }
+
+        var clickEv = new Event('click');
+        clickEv.clientX = ev.clientX;
+        clickEv.clientY = ev.clientY;
+        colorLine.children[1].dispatchEvent(clickEv);
     }
 
     colorSelectorLine.addEventListener('mousedown', function (ev) {
@@ -206,55 +206,82 @@ function showColorPicker(yesText, noText) {
         });
         console.log("mousedown");
         colorLine.setAttribute('fill-on-move', '');
-        document.body.addEventListener('mousemove', movingColorSelector, false);
+        document.body.addEventListener('mousemove', movingColorSelector);
     });
 
     var hr = document.createElement('hr');
     hr.id = 'color-hr';
-    hr.style.height = "2px";
-    hr.style.width = "100%";
-    hr.style.border = "1px solid #949494";
-    hr.style.borderBottom = "none";
-    hr.style.display = "none";
     dialogContent.appendChild(hr);
 
     var selectedColorDetailsBlock = document.createElement('div');
     selectedColorDetailsBlock.classList.add('selected-color-details');
-    selectedColorDetailsBlock.style.display = "flex";
 
     var colorSelector = document.createElement('div');
     colorSelector.classList.add('color-selector');
-    colorSelector.style.width = "50px";
-    colorSelector.style.height = "50px";
     selectedColorDetailsBlock.appendChild(colorSelector);
 
     var detailInputsBlock = document.createElement('div');
     detailInputsBlock.classList.add('detail-inputs-block');
-    detailInputsBlock.style.display = "flex";
-    detailInputsBlock.style.flex = "1";
-    detailInputsBlock.style.flexDirection = "column";
 
     selectedColorDetailsBlock.appendChild(detailInputsBlock);
 
     var rgbBlock = document.createElement('div');
     rgbBlock.classList.add('rgb-input-block');
-    rgbBlock.style.display = "flex";
     detailInputsBlock.appendChild(rgbBlock);
+
+    var rgbLabel = document.createElement('div');
+    rgbLabel.classList.add('rgb-input-label');
+    rgbLabel.innerHTML = "RGB: ";
+    rgbBlock.appendChild(rgbLabel);
 
     var rgbInput = document.createElement('input');
     rgbInput.setAttribute('readonly', '');
+    rgbInput.classList.add('asc');
     rgbInput.value = "0, 0, 0";
     rgbBlock.appendChild(rgbInput);
 
+    var rgbInputCopyBtn = document.createElement('button');
+    rgbInputCopyBtn.classList.add('asc');
+    rgbInputCopyBtn.classList.add('asc-icon-button');
+    var span = document.createElement('span');
+    span.classList.add('fa');
+    span.classList.add('fa-copy');
+    rgbInputCopyBtn.appendChild(span);
+    rgbInputCopyBtn.addEventListener('click', function () {
+        rgbInput.select();
+        document.execCommand("copy");
+        rgbInput.selectionStart = rgbInput.selectionEnd;
+    });
+    rgbBlock.appendChild(rgbInputCopyBtn);
+
     var hexBlock = document.createElement('div');
     hexBlock.classList.add('rgb-input-block');
-    hexBlock.style.display = "flex";
     detailInputsBlock.appendChild(hexBlock);
+
+    var hexLabel = document.createElement('div');
+    hexLabel.classList.add('rgb-input-label');
+    hexLabel.innerHTML = "Hex: ";
+    hexBlock.appendChild(hexLabel);
 
     var hexInput = document.createElement('input');
     hexInput.setAttribute('readonly', '');
+    hexInput.classList.add('asc');
     hexInput.value = "#000000";
     hexBlock.appendChild(hexInput);
+
+    var hexInputCopyBtn = document.createElement('button');
+    hexInputCopyBtn.classList.add('asc');
+    hexInputCopyBtn.classList.add('asc-icon-button');
+    var hexSpan = document.createElement('span');
+    hexSpan.classList.add('fa');
+    hexSpan.classList.add('fa-copy');
+    hexInputCopyBtn.appendChild(hexSpan);
+    hexInputCopyBtn.addEventListener('click', function () {
+        hexInput.select();
+        document.execCommand("copy");
+        hexInput.selectionStart = hexInput.selectionEnd;
+    });
+    hexBlock.appendChild(hexInputCopyBtn);
 
     dialogContent.appendChild(selectedColorDetailsBlock);
 
@@ -308,6 +335,59 @@ function appendStyle() {
         "border-style: solid;\n" +
         "border-width: 0 5px 7px 5px;\n" +
         "border-color: transparent transparent #9e9e9e transparent;" +
+        "}";
+    sheet.innerHTML += ".color-circle {" +
+        "width: 300px;\n" +
+        "cursor: crosshair;\n" +
+        "}";
+    sheet.innerHTML += ".color-line {" +
+        "width: 300px;\n" +
+        "height: 50px;\n" +
+        "cursor: crosshair;\n" +
+        "position: relative;\n" +
+        "}";
+    sheet.innerHTML += ".color-line[fill-on-move] {" +
+        "cursor: pointer;\n" +
+        "}";
+    sheet.innerHTML += ".color-selector-line {" +
+        "display: none;\n" +
+        "position: absolute;\n" +
+        "width: 5px;\n" +
+        "height: 50px;\n" +
+        "cursor: pointer;\n" +
+        "background: transparent;\n" +
+        "border-left: 1px solid #fff;\n" +
+        "}";
+    sheet.innerHTML += "#color-hr {" +
+        "height: 2px;\n" +
+        "width: 100%;\n" +
+        "border: none;\n" +
+        "border-top: 1px solid #949494;\n" +
+        "display: none;\n" +
+        "}";
+    sheet.innerHTML += ".selected-color-details {" +
+        "display: flex;\n" +
+        "align-items: center;\n" +
+        "}";
+    sheet.innerHTML += ".color-selector {" +
+        "height: 50px;\n" +
+        "width: 50px;\n" +
+        "}";
+    sheet.innerHTML += ".detail-inputs-block {" +
+        "display: flex;\n" +
+        "flex: 1;\n" +
+        "flex-direction: column;\n" +
+        "}";
+    sheet.innerHTML += ".rgb-input-block {" +
+        "display: none;\n" +
+        "align-items: center;\n" +
+        "}";
+    sheet.innerHTML += ".rgb-input-label {" +
+        "padding: 5px;\n" +
+        "flex: 1;\n" +
+        "}";
+    sheet.innerHTML += ".color-circle canvas, .color-line canvas, .color-selector canvas {" +
+        "user-select: none;\n" +
         "}";
     document.body.appendChild(sheet);
 }

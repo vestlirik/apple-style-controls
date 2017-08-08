@@ -19,6 +19,7 @@ function showDialog(dialogId, resolveAction, rejectAction, onOpened) {
         var closeDialogClick = function () {
             dialog.removeAttribute('shown');
             backdrop.remove();
+            document.body.classList.remove('no-scroll');
             document.body.removeEventListener('click', bodyClick);
         };
         var bodyClick = function () {
@@ -73,6 +74,7 @@ function showDialog(dialogId, resolveAction, rejectAction, onOpened) {
         }, 0);
         var backdrop = document.createElement('asc-backdrop');
         document.body.appendChild(backdrop);
+        document.body.classList.add('no-scroll');
         if (onOpened) {
             setTimeout(onOpened, 50);
         }

@@ -10,7 +10,7 @@ function addBars(activityIndicator) {
     for(var i=0;i<12;i++){
         var bar = document.createElement('div');
         bar.classList.add('bar'+i);
-        barsNode.append(bar);
+        barsNode.appendChild(bar);
     }
     activityIndicator.appendChild(barsNode);
 }
