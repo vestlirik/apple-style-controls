@@ -163,6 +163,10 @@ function showColorPicker(yesText, noText) {
     spinner.classList.add('absolute-center');
     var dialogContent = document.createElement('asc-content');
     dialogContent.appendChild(dialogHeader);
+    var dialogActions = document.createElement('asc-actions');
+    colorPicker.appendChild(dialogContent);
+    colorPicker.appendChild(dialogActions);
+    document.body.appendChild(colorPicker);
     dialogContent.appendChild(spinner);
 
     var colorCircle = document.createElement('div');
@@ -297,13 +301,9 @@ function showColorPicker(yesText, noText) {
     var alertCancel = document.createElement('asc-action-button');
     alertCancel.innerText = noText;
     alertCancel.setAttribute('reject', '');
-    var dialogActions = document.createElement('asc-actions');
     dialogActions.appendChild(alertCancel);
     dialogActions.appendChild(alertSubmit);
-    colorPicker.appendChild(dialogContent);
-    colorPicker.appendChild(dialogActions);
-    document.body.appendChild(colorPicker);
-    applyActivityIndicators();
+
     var additionalAction = function () {
         colorPicker.remove();
     };
@@ -389,7 +389,7 @@ function appendStyle() {
     sheet.innerHTML += ".color-circle canvas, .color-line canvas, .color-selector canvas {" +
         "user-select: none;\n" +
         "}";
-    document.body.appendChild(sheet);
+    document.head.appendChild(sheet);
 }
 
 appendStyle();

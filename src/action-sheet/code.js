@@ -1,6 +1,5 @@
-var actionSheets = document.getElementsByTagName('asc-action-sheet');
-for (var i = 0; i < actionSheets.length; i++) {
-    var button = document.querySelector('button[data-id=' + actionSheets[i].id + ']');
+function applyActionSheet(actionSheet) {
+    var button = document.querySelector('button[data-id=' + actionSheet.id + ']');
     if (button) {
         (function (actionSheet) {
             var actionBlock = document.createElement('action-block');
@@ -34,6 +33,6 @@ for (var i = 0; i < actionSheets.length; i++) {
                     actionSheet.style.bottom = "15px";
                 }, 0);
             });
-        })(actionSheets[i]);
+        })(actionSheet);
     }
 }

@@ -1,6 +1,5 @@
-var toolbars = document.getElementsByTagName('asc-toolbar');
-for (var i = 0; i < toolbars.length; i++) {
-    var button = document.querySelector('button[data-id=' + toolbars[i].id + ']');
+function applyToolbar(toolbar) {
+    var button = document.querySelector('button[data-id=' + toolbar.id + ']');
     if (button) {
         (function (toolbar) {
             var hiddenHeight = -(toolbar.offsetHeight) + "px";
@@ -21,6 +20,6 @@ for (var i = 0; i < toolbars.length; i++) {
                     toolbar.style.bottom = "0";
                 }, 0);
             });
-        })(toolbars[i]);
+        })(toolbar);
     }
 }

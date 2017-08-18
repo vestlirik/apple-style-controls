@@ -1,21 +1,20 @@
-var segmentsBar;
-
-function getSegmentedControls() {
-    if(!getSegmentedControls.cached) {
-        var segmentedControls = document.getElementsByClassName('asc-segmented-control');
-        getSegmentedControls.cached = segmentedControls;
-    }
-    return getSegmentedControls.cached;
-}
-
-function initializeSegmentsBar() {
+function initializeSegmentsBar(segmentedControlBlock) {
     var segments = [];
+    var segmentsBar;
     var activeIndex;
 
-    var segmentedControls = getSegmentedControls();
-    for(var i=0;i<segmentedControls.length;i++){
+    var segmentedControls = [];
+    for (var j = 0; j < segmentedControlBlock.children.length; j++) {
+        if (segmentedControlBlock.children[j].classList.contains('asc-segmented-control')) {
+            segmentedControls.push(segmentedControlBlock.children[j]);
+        }
+    }
+    if (segmentedControls.length === 0) {
+        return;
+    }
+    for (var i = 0; i < segmentedControls.length; i++) {
         segments.push(segmentedControls[i].getAttribute('data-label'));
-        if(segmentedControls[i].classList.contains('active')){
+        if (segmentedControls[i].classList.contains('active')) {
             activeIndex = i;
         }
     }
@@ -31,32 +30,26 @@ function initializeSegmentsBar() {
         segmentsBar.appendChild(li);
     });
 
-    if(activeIndex===undefined){
+    if (activeIndex === undefined) {
         activeIndex = 0;
     }
     applySegmentedBar();
     segmentClick(activeIndex);
-}
 
-function cleanActiveSegments() {
-    var segmentedControls = getSegmentedControls();
-    for(var i=0;i<segmentedControls.length;i++){
-        segmentedControls[i].classList.remove('active');
-        segmentsBar.childNodes[i].classList.remove('active');
+    function cleanActiveSegments() {
+        for (var i = 0; i < segmentedControls.length; i++) {
+            segmentedControls[i].classList.remove('active');
+            segmentsBar.childNodes[i].classList.remove('active');
+        }
+    }
+
+    function segmentClick(index) {
+        cleanActiveSegments();
+        segmentsBar.childNodes[index].classList.add('active');
+        segmentedControls[index].classList.add('active');
+    }
+
+    function applySegmentedBar() {
+        segmentedControlBlock.insertBefore(segmentsBar, segmentedControls[0]);
     }
 }
-
-function segmentClick(index) {
-    var segmentedControls = getSegmentedControls();
-    cleanActiveSegments();
-    segmentsBar.childNodes[index].classList.add('active');
-    segmentedControls[index].classList.add('active');
-}
-
-function applySegmentedBar() {
-    var segmentedControls = getSegmentedControls();
-    var segmentedControlsContainer = document.getElementsByClassName('asc-segmented-controls');
-    segmentedControlsContainer[0].insertBefore(segmentsBar, segmentedControls[0]);
-}
-
-initializeSegmentsBar();

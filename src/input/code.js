@@ -2,11 +2,8 @@
  * Find buttons for calling edit menu
  * And add click event to them
  */
-function assignErasers() {
-    var erasers = document.getElementsByClassName('asc-eraser');
-    for (var i = 0; i < erasers.length; i++) {
-        erasers[i].addEventListener('mousedown', eraseContent);
-    }
+function assignEraser(eraser) {
+    eraser.addEventListener('mousedown', eraseContent);
 }
 
 /**
@@ -20,22 +17,20 @@ function eraseContent(e) {
     }, 0);
 }
 
-function applyIcons() {
-    var inputs = document.getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; i++) {
-        var icon = inputs[i].attributes["icon"];
-        if (icon) {
-            var iconDiv = document.createElement('span');
-            iconDiv.classList.add('fa');
-            iconDiv.classList.add(icon.value);
-            iconDiv.style.position = "absolute";
-            iconDiv.style.marginTop = "10px";
-            iconDiv.style.color = "#B3B3B3";
-            inputs[i].style.paddingLeft = "20px";
-            inputs[i].parentNode.insertBefore(iconDiv, inputs[i]);
-        }
+function applyInput(input) {
+    var label = document.createElement('label');
+    label.classList.add('asc');
+    label.classList.add('asc-eraser');
+    input.parentNode.insertBefore(label, input.nextSibling);
+    var icon = input.attributes["icon"];
+    if (icon) {
+        var iconDiv = document.createElement('span');
+        iconDiv.classList.add('fa');
+        iconDiv.classList.add(icon.value);
+        iconDiv.style.position = "absolute";
+        iconDiv.style.marginTop = "10px";
+        iconDiv.style.color = "#B3B3B3";
+        input.style.paddingLeft = "20px";
+        input.parentNode.insertBefore(iconDiv, input);
     }
 }
-
-assignErasers();
-applyIcons();

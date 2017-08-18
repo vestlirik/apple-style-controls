@@ -1,18 +1,15 @@
 var tabBar;
 
-function getTabContents() {
-    if(!getTabContents.cached) {
-        var tabs = document.getElementsByClassName('asc-tab');
-        getTabContents.cached = tabs;
-    }
-    return getTabContents.cached;
-}
-
-function initializeTabBar() {
+function initializeTabBar(tabBarContainer) {
     var tabs = [];
     var activeIndex;
 
-    var tabContents = getTabContents();
+    var tabContents = [];
+    for (var j = 0; j < tabBarContainer.children.length; j++) {
+        if (tabBarContainer.children[j].classList.contains('asc-tab')) {
+            tabContents.push(tabBarContainer.children[j]);
+        }
+    }
     for(var i=0;i<tabContents.length;i++){
         var label = tabContents[i].children[0];
         if(label.tagName === "ASC-LABEL") {
@@ -39,26 +36,23 @@ function initializeTabBar() {
     }
     applyTabBar();
     tabClick(activeIndex);
-}
 
-function cleanActiveTab() {
-    var tabs = getTabContents();
-    for(var i=0;i<tabs.length;i++){
-        tabs[i].classList.remove('active');
-        tabBar.childNodes[i].classList.remove('active');
+    function cleanActiveTab() {
+        var tabs = tabContents;
+        for(var i=0;i<tabs.length;i++){
+            tabs[i].classList.remove('active');
+            tabBar.childNodes[i].classList.remove('active');
+        }
+    }
+
+    function tabClick(index) {
+        var tabs = tabContents;
+        cleanActiveTab();
+        tabBar.childNodes[index].classList.add('active');
+        tabs[index].classList.add('active');
+    }
+
+    function applyTabBar() {
+        tabBarContainer.appendChild(tabBar);
     }
 }
-
-function tabClick(index) {
-    var tabs = getTabContents();
-    cleanActiveTab();
-    tabBar.childNodes[index].classList.add('active');
-    tabs[index].classList.add('active');
-}
-
-function applyTabBar() {
-    var tabBarContainer = document.getElementsByClassName('asc-tab-bar-container');
-    tabBarContainer[0].appendChild(tabBar);
-}
-
-initializeTabBar();

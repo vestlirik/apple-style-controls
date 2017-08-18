@@ -8,8 +8,25 @@
     <!-- build:css styles.css -->
     <link rel="stylesheet" href="styles.css">
     <!-- /build -->
+
+    <!-- build:js code.js -->
+    <script src="edit-menu/code.js"></script>
+    <script src="progress-indicator/code.js"></script>
+    <script src="segmented-controls/code.js"></script>
+    <script src="input/code.js"></script>
+    <script src="search-bar/code.js"></script>
+    <script src="tab-bar/code.js"></script>
+    <script src="toolbar/code.js"></script>
+    <script src="action-sheet/code.js"></script>
+    <script src="alert/code.js"></script>
+    <script src="dialog/code.js"></script>
+    <script src="color-picker/code.js"></script>
+    <!-- /build -->
 </head>
 <body>
+<!-- build:js dom-observer.js -->
+<script src="dom-observer/code.js"></script>
+<!-- /build -->
 <h3>Buttons</h3>
 <button class="asc">Sample</button>
 <button class="asc asc-icon-button asc-info-button"></button>
@@ -40,10 +57,6 @@
 <div id="asc-edit-menu" class="asc asc-edit-menu">
     <li>Cut</li>
     <li>Copy</li>
-    <li>Replace...</li>
-    <li>Look Up</li>
-    <li>Replace...</li>
-    <li>Look Up</li>
     <li>Replace...</li>
     <li>Look Up</li>
     <li>Share...</li>
@@ -83,13 +96,10 @@
 
 <h3>Input</h3>
 <input class="asc" type="text" placeholder="Test text" style="width: 300px;">
-<label class="asc asc-eraser"></label>
 <h4>Search Input</h4>
 <input class="asc" type="text" placeholder="Search text" style="width: 300px;" icon="fa-search">
-<label class="asc asc-eraser"></label>
 <h4>Name Input</h4>
 <input class="asc" type="text" placeholder="User text" style="width: 300px;" icon="fa-user">
-<label class="asc asc-eraser"></label>
 
 <h3>Search bar</h3>
 <div style="padding: 10px; background-color: #c9c9ce;display: flex;">
@@ -164,15 +174,11 @@
 
 <h3>Alert</h3>
 <input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">
-<label class="asc asc-eraser"></label>
 <input class="asc" type="text" id="alert-text" placeholder="Text"
        value="Alerts disrupt the user experience and should only be used in important situations like confirming purchases and destructive actions (such as deletions), or notifying people about problems. The infrequency of alerts helps ensure that people take them seriously. Ensure that each alert offers critical information and useful choices."
        style="width: 300px;">
-<label class="asc asc-eraser"></label>
 <input class="asc" type="text" id="alert-submit" placeholder="Submit text" value="Submit" style="width: 300px;">
-<label class="asc asc-eraser"></label>
 <input class="asc" type="text" id="alert-cancel" placeholder="Cancel text" value="Cancel" style="width: 300px;">
-<label class="asc asc-eraser"></label>
 <button class="asc" onclick='openAlert()'>Show alert</button>
 <p>Selected answer: <span id="alert-response"></span></p>
 <script>
@@ -195,6 +201,7 @@
     function clearDialogInput() {
         document.getElementById('sample-dialog-input').value = '';
     }
+
     function openDialog() {
         showDialog('sample-dialog').then(function (val) {
             document.getElementById('alert-response').innerText = val;
@@ -229,18 +236,5 @@
         }, console.log);
     }
 </script>
-<!-- build:js code.js -->
-<script src="edit-menu/code.js"></script>
-<script src="progress-indicator/code.js"></script>
-<script src="segmented-controls/code.js"></script>
-<script src="input/code.js"></script>
-<script src="search-bar/code.js"></script>
-<script src="tab-bar/code.js"></script>
-<script src="toolbar/code.js"></script>
-<script src="action-sheet/code.js"></script>
-<script src="alert/code.js"></script>
-<script src="dialog/code.js"></script>
-<script src="color-picker/code.js"></script>
-<!-- /build -->
 </body>
 </html>

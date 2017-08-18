@@ -1,10 +1,11 @@
+var menu;
+
 /**
  * Hide opened edit menu
  * @param e - DOM event
  */
-function hideEditMenu(e) {
-    var editMenu = document.getElementById('asc-edit-menu');
-    editMenu.style.display = 'none';
+function hideEditMenu() {
+    menu.style.display = 'none';
     removePageClickEvent();
 }
 
@@ -24,30 +25,29 @@ function removePageClickEvent() {
  */
 function editMenuClick(e, node) {
     removePageClickEvent();
-    var editMenu = document.getElementById('asc-edit-menu');
-    editMenu.style.display = 'flex';
+    menu.style.display = 'flex';
 
     //top offset for edit menu
-    var topOffset = (node || e.target).getBoundingClientRect().top - editMenu.clientHeight - 10;
-    editMenu.style.top = topOffset + "px";
+    var topOffset = (node || e.target).getBoundingClientRect().top - menu.clientHeight - 10;
+    menu.style.top = topOffset + "px";
 
     //left offset for edit menu
-    var leftOffset = e.clientX - editMenu.clientWidth / 2;
+    var leftOffset = e.clientX - menu.clientWidth / 2;
     //10px - minimum left offset
     if (leftOffset < 10) {
         leftOffset = 10;
     }
-    if (leftOffset + editMenu.clientWidth > screen.availWidth) {
-        leftOffset = screen.availWidth - editMenu.clientWidth - 20;
+    if (leftOffset + menu.clientWidth > screen.availWidth) {
+        leftOffset = screen.availWidth - menu.clientWidth - 20;
     }
-    editMenu.style.left = leftOffset + "px";
+    menu.style.left = leftOffset + "px";
 
-    var offetForTriangle = (e.clientX || 0) - editMenu.offsetLeft - 5;// 5 is haft of width of triangle
+    var offetForTriangle = (e.clientX || 0) - menu.offsetLeft - 5;// 5 is haft of width of triangle
     if (offetForTriangle < 5) {
         offetForTriangle = 5;
     } else {
-        if (offetForTriangle + 10 + 14 >= editMenu.clientWidth) {
-            offetForTriangle = editMenu.clientWidth - 10 - 14;
+        if (offetForTriangle + 10 + 14 >= menu.clientWidth) {
+            offetForTriangle = menu.clientWidth - 10 - 14;
         }
     }
     var css = 'left: ' + (offetForTriangle) + 'px;';
@@ -100,23 +100,12 @@ function addStyleToHead(css) {
  * Find buttons for calling edit menu
  * And add click event to them
  */
-function assignMenuToButtons() {
-    var buttons = document.getElementsByClassName('asc-edit-menu-button');
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', editMenuClick);
-    }
+function assignMenuToButton(button) {
+    button.addEventListener('click', editMenuClick);
 }
 
-
-/**
- * Find selectable elements for calling edit menu
- * Add apply selecting to the document
- */
-function applyTextSelecting() {
-    var selectableItems = document.getElementsByClassName('asc-selectable-text');
-    if (selectableItems.length > 0) {
-        applyDetectingSelectedText();
-    }
+function assignEditMenu(m) {
+    menu = m;
 }
 
 /**
@@ -131,7 +120,3 @@ function applyDetectingSelectedText() {
         }
     };
 }
-
-hideEditMenu();
-assignMenuToButtons();
-applyTextSelecting();

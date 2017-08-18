@@ -1,6 +1,10 @@
 @import "../common/colors";
 
-div.asc-edit-menu{
+#asc-edit-menu {
+  display: none;
+}
+
+div.asc-edit-menu {
   border-radius: 5px;
   background-color: rgb(40, 40, 41);
   position: fixed;
@@ -24,7 +28,7 @@ div.asc-edit-menu{
     padding: 5px;
     border-right: 2px solid rgb(89, 89, 92);
 
-    &:last-child{
+    &:last-child {
       border-right: none;
     }
   }

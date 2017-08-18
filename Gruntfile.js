@@ -62,6 +62,9 @@ module.exports = function (grunt) {
                         'src/alert/code.js',
                         'src/dialog/code.js',
                         'src/color-picker/code.js'
+                    ],
+                    'dest/dom-observer.js': [
+                        'src/dom-observer/code.js'
                     ]
                 }
             }
