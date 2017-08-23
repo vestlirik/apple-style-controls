@@ -1,24 +1,19 @@
 (function () {
     function showAlert(header, text, yesText, noText) {
-        var alert = document.createElement('asc-dialog');
-        alert.id = "sample-alert";
-        var dialogHeader = document.createElement('asc-dialog-header');
+        var alert = eDOM.el('asc-dialog#sample-alert');
+        var dialogHeader = eDOM.el('asc-dialog-header');
         dialogHeader.innerText = header;
-        var dialogText = document.createElement('asc-dialog-text');
+        var dialogText = eDOM.el('asc-dialog-text');
         dialogText.innerText = text;
-        var dialogContent = document.createElement('asc-content');
+        var dialogContent = eDOM.el('asc-content');
         dialogContent.appendChild(dialogHeader);
         dialogContent.appendChild(dialogText);
 
-        var alertSubmit = document.createElement('asc-action-button');
+        var alertSubmit = eDOM.el('asc-action-button[resolve]');
         alertSubmit.innerText = yesText;
-        var resolveAttr = document.createAttribute('resolve');
-        alertSubmit.attributes.setNamedItem(resolveAttr);
-        var alertCancel = document.createElement('asc-action-button');
+        var alertCancel = eDOM.el('asc-action-button[reject]');
         alertCancel.innerText = noText;
-        var rejectAttr = document.createAttribute('reject');
-        alertCancel.attributes.setNamedItem(rejectAttr);
-        var dialogActions = document.createElement('asc-actions');
+        var dialogActions = eDOM.el('asc-actions');
         dialogActions.appendChild(alertCancel);
         dialogActions.appendChild(alertSubmit);
         alert.appendChild(dialogContent);

@@ -4,7 +4,7 @@
   "description": "Apple style controls for web",
   "main": "index.js",
   "dependencies": {
-    "edom": "0.0.2",
+    "edom": "0.0.3",
     "grunt": "^1.0.1"
   },
   "devDependencies": {
