@@ -10,6 +10,7 @@
     <!-- /build -->
 
     <!-- build:js code.js -->
+    <script src="../node_modules/edom/edom.js"></script>
     <script src="edit-menu/code.js"></script>
     <script src="progress-indicator/code.js"></script>
     <script src="segmented-controls/code.js"></script>
@@ -103,15 +104,7 @@
 
 <h3>Search bar</h3>
 <div style="padding: 10px; background-color: #c9c9ce;display: flex;">
-    <div class="asc asc-search-bar">
-        <div class="search">
-            <div class="search__circle"></div>
-            <div class="search__rectangle"></div>
-        </div>
-        <input class="asc asc-search-input" type="text" placeholder="Search">
-        <label class="asc asc-eraser"></label>
-        <button class="asc asc-search-cancel">Cancel</button>
-    </div>
+    <div class="asc asc-search-bar"></div>
 </div>
 
 <h3>Tab Bar</h3>
