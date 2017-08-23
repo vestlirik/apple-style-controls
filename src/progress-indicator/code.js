@@ -1,13 +1,23 @@
-function applyActivityIndicator(activityIndicator) {
-    addBars(activityIndicator);
-}
+(function () {
 
-function addBars(activityIndicator) {
-    var barsNode = document.createDocumentFragment();
-    for(var i=0;i<12;i++){
-        var bar = document.createElement('div');
-        bar.classList.add('bar'+i);
-        barsNode.appendChild(bar);
+    function applyActivityIndicator(activityIndicator) {
+        addBars(activityIndicator);
     }
-    activityIndicator.appendChild(barsNode);
-}
+
+    function addBars(activityIndicator) {
+        var barsNode = document.createDocumentFragment();
+        for (var i = 0; i < 12; i++) {
+            var bar = document.createElement('div');
+            bar.classList.add('bar' + i);
+            barsNode.appendChild(bar);
+        }
+        activityIndicator.appendChild(barsNode);
+    }
+
+    document.addEventListener('addedNode', function (e) {
+        if (e.detail.classList.contains('asc-activity-indicator')) {
+            applyActivityIndicator(e.detail);
+        }
+    });
+
+})();

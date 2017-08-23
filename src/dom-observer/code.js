@@ -1,48 +1,40 @@
-function runDomListener() {
-    var observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            mutation.addedNodes.forEach(function (addedNode) {
-                if (addedNode.tagName && addedNode.tagName !== "SCRIPT") {
-                    if (addedNode.classList.contains('asc-eraser')) {
-                        assignEraser(addedNode);
+(function () {
+    function runDomListener() {
+        function createEvent(addedNode) {
+            return new CustomEvent('addedNode', {'detail': addedNode});
+        }
+
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (addedNode) {
+                    if (addedNode.classList && addedNode.classList.contains('asc')) {
+                        document.dispatchEvent(createEvent(addedNode));
                     }
-                    if (addedNode.tagName === "INPUT" && addedNode.classList.contains('asc')) {
-                        applyInput(addedNode);
-                    }
-                    if (addedNode.classList.contains('asc-edit-menu-button')) {
-                        assignMenuToButton(addedNode);
-                    }
-                    if (addedNode.classList.contains('asc-selectable-text')) {
-                        applyDetectingSelectedText();
-                    }
-                    if (addedNode.id === "asc-edit-menu") {
-                        assignEditMenu(addedNode);
-                    }
-                    if (addedNode.classList.contains('asc-activity-indicator')) {
-                        applyActivityIndicator(addedNode);
-                    }
-                    if (addedNode.classList.contains('asc-segmented-controls')) {
-                        initializeSegmentsBar(addedNode);
-                    }
-                    if (addedNode.classList.contains('asc-tab-bar-container')) {
-                        initializeTabBar(addedNode);
-                    }
-                    if (addedNode.tagName === "ASC-ACTION-SHEET") {
-                        applyActionSheet(addedNode);
-                    }
-                    if (addedNode.classList.contains('asc-search-input')) {
-                        applySearchInput(addedNode);
-                    }
-                    if (addedNode.tagName === 'ASC-TOOLBAR') {
-                        applyToolbar(addedNode);
-                    }
-                }
+                });
             });
         });
-    });
-    observer.observe(document.body, {
-        subtree: true,
-        childList: true
-    });
-}
-runDomListener();
+        observer.observe(document.body, {
+            subtree: true,
+            childList: true
+        });
+    }
+
+    //IE polyfill
+    (function () {
+        if (typeof window.CustomEvent === "function") return false; //If not IE
+
+        function CustomEvent(event, params) {
+            params = params || {bubbles: false, cancelable: false, detail: undefined};
+            var evt = document.createEvent('CustomEvent');
+            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+            return evt;
+        }
+
+        CustomEvent.prototype = window.Event.prototype;
+
+        window.CustomEvent = CustomEvent;
+    })();
+    //IE polyfill
+
+    runDomListener();
+})();
