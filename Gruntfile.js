@@ -51,6 +51,8 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     'dest/code.js': [
+                        'node_modules/edom/edom.js',
+                        'src/dom-observer/code.js',
                         'src/edit-menu/code.js',
                         'src/progress-indicator/code.js',
                         'src/segmented-controls/code.js',
@@ -62,9 +64,6 @@ module.exports = function (grunt) {
                         'src/alert/code.js',
                         'src/dialog/code.js',
                         'src/color-picker/code.js'
-                    ],
-                    'dest/dom-observer.js': [
-                        'src/dom-observer/code.js'
                     ]
                 }
             }
