@@ -13,18 +13,9 @@
                 });
             });
         });
-        document.addEventListener("DOMContentLoaded", function () {
-            observer.observe(document.body, {
-                subtree: true,
-                childList: true
-            });
-            //checking existed documents in DOM
-            for(var i in document.body.children){
-                var el = document.body.children[i];
-                if (el.classList && el.classList.contains('asc')) {
-                    document.dispatchEvent(createEvent(el));
-                }
-            }
+        observer.observe(document.body, {
+            subtree: true,
+            childList: true
         });
     }
 
@@ -44,6 +35,7 @@
         window.CustomEvent = CustomEvent;
     })();
     //IE polyfill
-
-    runDomListener();
+    window.runDomListener = function () {
+        runDomListener();
+    };
 })();
