@@ -1,0 +1,25 @@
+@import "../common/colors";
+
+asc-popover {
+  z-index: 1;
+  transition: all .3s ease-out;
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  position: absolute;
+  background: $background;
+
+  border-radius: 13px 13px 13px 13px;
+  padding: 10px;
+  &:before{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid $background;
+  }
+}

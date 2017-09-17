@@ -21,10 +21,10 @@
             }
         }
 
-        segmentsBar = document.createElement('div');
+        segmentsBar = eDOM.el('div');
         segmentsBar.classList.add('asc-segmented-bar');
         segments.forEach(function (segment, index) {
-            var li = document.createElement('li');
+            var li = eDOM.el('li');
             li.innerText = segment;
             li.addEventListener('click', function (e) {
                 segmentClick(index);

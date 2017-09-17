@@ -24,7 +24,7 @@
             }
         }
 
-        tabBar = document.createElement('div');
+        tabBar = eDOM.el('div');
         tabBar.classList.add('asc-tab-bar');
         tabs.forEach(function (segment, index) {
             segment.addEventListener('click', function (e) {

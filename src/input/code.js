@@ -20,13 +20,13 @@
     }
 
     function applyInput(input) {
-        var label = document.createElement('label');
+        var label = eDOM.el('label');
         label.classList.add('asc');
         label.classList.add('asc-eraser');
         input.parentNode.insertBefore(label, input.nextSibling);
         var icon = input.attributes["icon"];
         if (icon) {
-            var iconDiv = document.createElement('span');
+            var iconDiv = eDOM.el('span');
             iconDiv.classList.add('fa');
             iconDiv.classList.add(icon.value);
             iconDiv.style.position = "absolute";

@@ -7,18 +7,18 @@
             console.time('creating color picker');
             var diameter = this.element.offsetWidth;
 
-            var canvas = document.createElement('canvas');
+            var canvas = eDOM.el('canvas');
             canvas.height = diameter;
             canvas.width = diameter;
             this.canvas = canvas;
 
-            var lineCanvas = document.createElement('canvas');
+            var lineCanvas = eDOM.el('canvas');
             lineCanvas.height = line.offsetHeight;
             lineCanvas.width = line.offsetWidth;
             this.lineCanvas = lineCanvas;
             line.appendChild(this.lineCanvas);
 
-            var selectorCanvas = document.createElement('canvas');
+            var selectorCanvas = eDOM.el('canvas');
             selectorCanvas.height = colorSelector.offsetHeight;
             selectorCanvas.width = colorSelector.offsetWidth;
             this.selectorCanvas = selectorCanvas;
@@ -152,36 +152,36 @@
     function showColorPicker(yesText, noText) {
         yesText = yesText || "OK";
         noText = noText || "Cancel";
-        var colorPicker = document.createElement('asc-dialog');
+        var colorPicker = eDOM.el('asc-dialog');
         colorPicker.id = "sample-color-picker";
 
-        var dialogHeader = document.createElement('asc-dialog-header');
+        var dialogHeader = eDOM.el('asc-dialog-header');
         dialogHeader.innerText = "Color picker";
 
-        var spinner = document.createElement('div');
+        var spinner = eDOM.el('div');
         spinner.id = 'color-loader';
         spinner.classList.add('asc');
         spinner.classList.add('asc-activity-indicator');
         spinner.classList.add('absolute-center');
-        var dialogContent = document.createElement('asc-content');
+        var dialogContent = eDOM.el('asc-content');
         dialogContent.appendChild(dialogHeader);
-        var dialogActions = document.createElement('asc-actions');
+        var dialogActions = eDOM.el('asc-actions');
         colorPicker.appendChild(dialogContent);
         colorPicker.appendChild(dialogActions);
         document.body.appendChild(colorPicker);
         dialogContent.appendChild(spinner);
 
-        var colorCircle = document.createElement('div');
+        var colorCircle = eDOM.el('div');
         colorCircle.classList.add('color-circle');
         dialogContent.appendChild(colorCircle);
 
-        var colorLine = document.createElement('div');
+        var colorLine = eDOM.el('div');
         colorLine.classList.add('color-line');
         dialogContent.appendChild(colorLine);
 
         colorLine.addEventListener('click', movingColorSelector);
 
-        var colorSelectorLine = document.createElement('div');
+        var colorSelectorLine = eDOM.el('div');
         colorSelectorLine.classList.add('color-selector-line');
         colorLine.appendChild(colorSelectorLine);
 
@@ -215,41 +215,41 @@
             document.body.addEventListener('mousemove', movingColorSelector);
         });
 
-        var hr = document.createElement('hr');
+        var hr = eDOM.el('hr');
         hr.id = 'color-hr';
         dialogContent.appendChild(hr);
 
-        var selectedColorDetailsBlock = document.createElement('div');
+        var selectedColorDetailsBlock = eDOM.el('div');
         selectedColorDetailsBlock.classList.add('selected-color-details');
 
-        var colorSelector = document.createElement('div');
+        var colorSelector = eDOM.el('div');
         colorSelector.classList.add('color-selector');
         selectedColorDetailsBlock.appendChild(colorSelector);
 
-        var detailInputsBlock = document.createElement('div');
+        var detailInputsBlock = eDOM.el('div');
         detailInputsBlock.classList.add('detail-inputs-block');
 
         selectedColorDetailsBlock.appendChild(detailInputsBlock);
 
-        var rgbBlock = document.createElement('div');
+        var rgbBlock = eDOM.el('div');
         rgbBlock.classList.add('rgb-input-block');
         detailInputsBlock.appendChild(rgbBlock);
 
-        var rgbLabel = document.createElement('div');
+        var rgbLabel = eDOM.el('div');
         rgbLabel.classList.add('rgb-input-label');
         rgbLabel.innerHTML = "RGB: ";
         rgbBlock.appendChild(rgbLabel);
 
-        var rgbInput = document.createElement('input');
+        var rgbInput = eDOM.el('input');
         rgbInput.setAttribute('readonly', '');
         rgbInput.classList.add('asc');
         rgbInput.value = "0, 0, 0";
         rgbBlock.appendChild(rgbInput);
 
-        var rgbInputCopyBtn = document.createElement('button');
+        var rgbInputCopyBtn = eDOM.el('button');
         rgbInputCopyBtn.classList.add('asc');
         rgbInputCopyBtn.classList.add('asc-icon-button');
-        var span = document.createElement('span');
+        var span = eDOM.el('span');
         span.classList.add('fa');
         span.classList.add('fa-copy');
         rgbInputCopyBtn.appendChild(span);
@@ -260,25 +260,25 @@
         });
         rgbBlock.appendChild(rgbInputCopyBtn);
 
-        var hexBlock = document.createElement('div');
+        var hexBlock = eDOM.el('div');
         hexBlock.classList.add('rgb-input-block');
         detailInputsBlock.appendChild(hexBlock);
 
-        var hexLabel = document.createElement('div');
+        var hexLabel = eDOM.el('div');
         hexLabel.classList.add('rgb-input-label');
         hexLabel.innerHTML = "Hex: ";
         hexBlock.appendChild(hexLabel);
 
-        var hexInput = document.createElement('input');
+        var hexInput = eDOM.el('input');
         hexInput.setAttribute('readonly', '');
         hexInput.classList.add('asc');
         hexInput.value = "#000000";
         hexBlock.appendChild(hexInput);
 
-        var hexInputCopyBtn = document.createElement('button');
+        var hexInputCopyBtn = eDOM.el('button');
         hexInputCopyBtn.classList.add('asc');
         hexInputCopyBtn.classList.add('asc-icon-button');
-        var hexSpan = document.createElement('span');
+        var hexSpan = eDOM.el('span');
         hexSpan.classList.add('fa');
         hexSpan.classList.add('fa-copy');
         hexInputCopyBtn.appendChild(hexSpan);
@@ -291,16 +291,16 @@
 
         dialogContent.appendChild(selectedColorDetailsBlock);
 
-        var selectedColorInput = document.createElement('input');
+        var selectedColorInput = eDOM.el('input');
         selectedColorInput.setAttribute('hidden', '');
         selectedColorInput.id = 'selected-color-div';
         dialogContent.appendChild(selectedColorInput);
 
-        var alertSubmit = document.createElement('asc-action-button');
+        var alertSubmit = eDOM.el('asc-action-button');
         alertSubmit.innerText = yesText;
         alertSubmit.setAttribute('resolve', '');
         alertSubmit.setAttribute('return-value-id', selectedColorInput.id);
-        var alertCancel = document.createElement('asc-action-button');
+        var alertCancel = eDOM.el('asc-action-button');
         alertCancel.innerText = noText;
         alertCancel.setAttribute('reject', '');
         dialogActions.appendChild(alertCancel);
@@ -315,7 +315,7 @@
     }
 
     function appendStyle() {
-        var sheet = document.createElement('style');
+        var sheet = eDOM.el('style');
         sheet.innerHTML += ".color-selector-line::before {" +
             "content: '';\n" +
             "position: absolute;\n" +

@@ -74,7 +74,7 @@
             setTimeout(function () {
                 document.body.addEventListener('click', bodyClick);
             }, 0);
-            var backdrop = document.createElement('asc-backdrop');
+            var backdrop = eDOM.el('asc-backdrop');
             document.body.appendChild(backdrop);
             document.body.classList.add('no-scroll');
             if (onOpened) {

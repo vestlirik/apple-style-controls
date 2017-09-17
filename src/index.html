@@ -22,6 +22,7 @@
     <script src="alert/code.js"></script>
     <script src="dialog/code.js"></script>
     <script src="color-picker/code.js"></script>
+    <script src="popover/code.js"></script>
     <!-- /build -->
 </head>
 <body>
@@ -146,7 +147,7 @@
     </div>
 </div>
 
-<h3>Toolbar</h3>
+<h3>Toolbar, Action Sheet, Popover</h3>
 <button class="asc" data-id="sample-toolbar">Show toolbar</button>
 <asc-toolbar id="sample-toolbar" class="asc">
     <button class="asc fa fa-flag-o"></button>
@@ -156,7 +157,6 @@
     <button class="asc fa fa-pencil-square-o"></button>
 </asc-toolbar>
 
-<h3>Action sheet</h3>
 <button class="asc" data-id="sample-action-sheet">Show action sheet</button>
 <asc-action-sheet id="sample-action-sheet" class="asc">
     <action>Flag</action>
@@ -164,6 +164,16 @@
     <action>Move to Junk</action>
     <action>Notify me...</action>
 </asc-action-sheet>
+
+<button class="asc" data-id="sample-popover">Show popover</button>
+<asc-popover id="sample-popover" class="asc">
+    <h3>Input</h3>
+    <input class="asc" type="text" placeholder="Test text" style="width: 300px;">
+    <h4>Search Input</h4>
+    <input class="asc" type="text" placeholder="Search text" style="width: 300px;" icon="fa-search">
+    <h4>Name Input</h4>
+    <input class="asc" type="text" placeholder="User text" style="width: 300px;" icon="fa-user">
+</asc-popover>
 
 <h3>Alert</h3>
 <input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">

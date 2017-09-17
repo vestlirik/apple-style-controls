@@ -8,7 +8,7 @@
                 toolbar.style.bottom = hiddenHeight;
 
                 button.addEventListener('click', function () {
-                    var backdrop = document.createElement('asc-backdrop');
+                    var backdrop = eDOM.el('asc-backdrop');
                     setTimeout(function () {
                         var closeBackClick = function () {
                             toolbar.style.bottom = hiddenHeight;

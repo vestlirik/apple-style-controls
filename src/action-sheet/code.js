@@ -4,15 +4,15 @@
         var button = document.querySelector('button[data-id=' + actionSheet.id + ']');
         if (button) {
             (function (actionSheet) {
-                var actionBlock = document.createElement('action-block');
+                var actionBlock = eDOM.el('action-block');
                 while (actionSheet.children[0]) {
                     actionBlock.appendChild(actionSheet.children[0]);
                 }
                 actionSheet.appendChild(actionBlock);
 
-                var cancelBlock = document.createElement('action-block');
+                var cancelBlock = eDOM.el('action-block');
                 cancelBlock.classList.add('cancel-block');
-                var cancelAction = document.createElement('action');
+                var cancelAction = eDOM.el('action');
                 cancelAction.innerText = "Cancel";
                 cancelBlock.appendChild(cancelAction);
                 actionSheet.appendChild(cancelBlock);
@@ -21,7 +21,7 @@
                 actionSheet.style.bottom = hiddenHeight;
 
                 button.addEventListener('click', function () {
-                    var backdrop = document.createElement('asc-backdrop');
+                    var backdrop = eDOM.el('asc-backdrop');
                     setTimeout(function () {
                         var closeBackClick = function () {
                             actionSheet.style.bottom = hiddenHeight;
