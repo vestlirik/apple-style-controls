@@ -63,7 +63,8 @@ module.exports = function (grunt) {
                         'src/action-sheet/code.js',
                         'src/alert/code.js',
                         'src/dialog/code.js',
-                        'src/color-picker/code.js'
+                        'src/color-picker/code.js',
+                        'src/popover/code.js'
                     ]
                 }
             }
