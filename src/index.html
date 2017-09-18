@@ -24,6 +24,7 @@
     <script src="dialog/code.js"></script>
     <script src="color-picker/code.js"></script>
     <script src="popover/code.js"></script>
+    <script src="combobox/code.js"></script>
     <!-- /build -->
 </head>
 <body>
@@ -147,7 +148,7 @@
     </div>
 </div>
 
-<h3>Toolbar, Action Sheet, Popover</h3>
+<h3>Toolbar, Action Sheet, Popover, Combobox</h3>
 <button class="asc" data-id="sample-toolbar">Show toolbar</button>
 <asc-toolbar id="sample-toolbar" class="asc">
     <button class="asc fa fa-flag-o"></button>
@@ -174,6 +175,36 @@
     <h4>Name Input</h4>
     <input class="asc" type="text" placeholder="User text" style="width: 300px;" icon="fa-user">
 </asc-popover>
+
+<asc-combobox class="asc" data-placeholder="Select item..." data-selected-value="9">
+    <item text="Item 1" value="1"></item>
+    <item text="Item 2" value="2"></item>
+    <item text="Item 3" value="3"></item>
+    <item text="Item 4" value="4"></item>
+    <item text="Item 5" value="5"></item>
+    <item text="Item 6" value="6"></item>
+    <item text="Item 7" value="7"></item>
+    <item text="Item 8" value="8"></item>
+    <item text="Item 9" value="9"></item>
+    <item text="Item 1" value="1"></item>
+    <item text="Item 2" value="2"></item>
+    <item text="Item 3" value="3"></item>
+    <item text="Item 4" value="4"></item>
+    <item text="Item 5" value="5"></item>
+    <item text="Item 6" value="6"></item>
+    <item text="Item 7" value="7"></item>
+    <item text="Item 8" value="8"></item>
+    <item text="Item 9" value="9"></item>
+    <item text="Item 1" value="1"></item>
+    <item text="Item 2" value="2"></item>
+    <item text="Item 3" value="3"></item>
+    <item text="Item 4" value="4"></item>
+    <item text="Item 5" value="5"></item>
+    <item text="Item 6" value="6"></item>
+    <item text="Item 7" value="7"></item>
+    <item text="Item 8" value="8"></item>
+    <item text="Item 9" value="9"></item>
+</asc-combobox>
 
 <h3>Alert</h3>
 <input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">
