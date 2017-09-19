@@ -1,0 +1,30 @@
+@import "../common/colors";
+
+asc-list {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+asc-subheader {
+  color: #695e5c;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px;
+}
+
+asc-list-item {
+  padding: 5px 5px 5px 15px;
+  .fa {
+    color: #695e5c;
+    width: 25px;
+  }
+  &:hover {
+    background-color: rgba(105, 94, 92, 0.35);
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: rgba(105, 94, 92, 0.63);
+  }
+}
