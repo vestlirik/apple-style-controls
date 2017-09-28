@@ -25,6 +25,8 @@
     <script src="color-picker/code.js"></script>
     <script src="popover/code.js"></script>
     <script src="combobox/code.js"></script>
+    <script src="switch/code.js"></script>
+    <script src="radio-button/code.js"></script>
     <!-- /build -->
 </head>
 <body>
@@ -37,24 +39,14 @@
 <button class="asc asc-icon-button asc-plus-button"></button>
 <button class="asc asc-icon-button asc-minus-button"></button>
 <h3>Toggle</h3>
-<div class="asc asc-switch">
-    <input id="sample-checkbox" type="checkbox" checked>
-    <label for="sample-checkbox"></label>
-</div>
+<asc-switch class="asc" checked="false"></asc-switch>
 <h3>Radio buttons</h3>
 <div style="width: 300px">
-    <div class="asc asc-radio-button">
-        <input id="milk-button" type="radio" name="group1" value="Milk">
-        <label for="milk-button">Milk</label>
-    </div>
-    <div class="asc asc-radio-button">
-        <input id="butter-button" type="radio" name="group1" checked value="Butter">
-        <label for="butter-button">Butter</label>
-    </div>
-    <div class="asc asc-radio-button">
-        <input id="cheese-button" type="radio" name="group1" value="Cheese">
-        <label for="cheese-button">Cheese</label>
-    </div>
+    <asc-radio-group class="asc">
+        <asc-radio-button class="asc" value="Milk">Milk</asc-radio-button>
+        <asc-radio-button class="asc" value="Butter" checked>Butter</asc-radio-button>
+        <asc-radio-button class="asc" value="Cheese">Cheese</asc-radio-button>
+    </asc-radio-group>
 </div>
 <h3>Edit menu</h3>
 <div id="asc-edit-menu" class="asc asc-edit-menu">

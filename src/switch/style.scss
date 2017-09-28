@@ -1,14 +1,14 @@
 @import "../common/colors";
 
-div.asc.asc-switch input{
+asc-switch.asc input{
     display: none;
 }
-div.asc.asc-switch input:checked+label{
+asc-switch.asc input:checked:not([checked="false"])+label{
     background-color: $green;
     border-color: $green;
 }
 
-div.asc.asc-switch input+label:after{
+asc-switch.asc input+label:after{
     width: 24px;
     height: 24px;
     border-radius: 24px;
@@ -21,10 +21,10 @@ div.asc.asc-switch input+label:after{
     transition: margin-left 0.5s;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.46);
 }
-div.asc.asc-switch input:checked+label:after{
+asc-switch.asc input:checked:not([checked="false"])+label:after{
     margin-left: 24px;
 }
-div.asc.asc-switch label{
+asc-switch.asc label{
     margin: 5px;
     border-radius: 20px;
     width: 50px;

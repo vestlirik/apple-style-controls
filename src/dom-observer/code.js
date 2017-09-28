@@ -1,21 +1,35 @@
 (function () {
     function runDomListener() {
-        function createEvent(addedNode) {
-            return new CustomEvent('addedNode', {'detail': addedNode});
+        function createEvent(name, node) {
+            return new CustomEvent(name, {'detail': node});
+        }
+
+        function addedNodeEv(addedNode) {
+            return createEvent('addedNode', addedNode);
+        }
+
+        function nodeAttrEv(addedNode, attrName) {
+            return createEvent('nodeAttributed', {node: addedNode, attr: attrName});
         }
 
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 mutation.addedNodes.forEach(function (addedNode) {
                     if (addedNode.classList && addedNode.classList.contains('asc')) {
-                        document.dispatchEvent(createEvent(addedNode));
+                        document.dispatchEvent(addedNodeEv(addedNode));
                     }
                 });
+                if (mutation.type === 'attributes' && mutation.attributeName !== 'class' && mutation.attributeName !== 'style') {
+                    if (mutation.target.classList && mutation.target.classList.contains('asc')) {
+                        document.dispatchEvent(nodeAttrEv(mutation.target, mutation.attributeName));
+                    }
+                }
             });
         });
         observer.observe(document.body, {
             subtree: true,
-            childList: true
+            childList: true,
+            attributes: true
         });
     }
 
@@ -37,5 +51,9 @@
     //IE polyfill
     window.runDomListener = function () {
         runDomListener();
+    };
+    var uniqueId = 0;
+    window.getUniqueId = function () {
+        return uniqueId++;
     };
 })();
