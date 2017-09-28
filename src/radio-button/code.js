@@ -17,6 +17,7 @@
                 radioGroupItem.innerHTML = "";
                 radioGroupItem.appendChild(radioButton);
                 radioGroupItem.appendChild(label);
+                radioGroupItem.classList.add('asc');
             }
         }
     }
