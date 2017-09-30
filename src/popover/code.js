@@ -1,6 +1,5 @@
-(function () {
-
-    function applyPopover(popover) {
+asc.component('asc-popover', {
+    init: function (popover) {
         var button = document.querySelector('button[data-id=' + popover.id + ']');
         if (button) {
             (function (popover) {
@@ -33,7 +32,7 @@
                         }
                     }
                     var css = 'left: ' + (offetForTriangle) + 'px;';
-                    addStyleToHead('asc-popover:before{' + css + '}');
+                    asc.addStyle('asc-popover:before{' + css + '}');
                     setTimeout(function () {
                         var closeBackClick = function () {
                             backdrop.remove();
@@ -47,11 +46,4 @@
             })(popover);
         }
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.tagName === "ASC-POPOVER") {
-            applyPopover(e.detail);
-        }
-    });
-
-})();
+});

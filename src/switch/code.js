@@ -1,7 +1,11 @@
-(function () {
+asc.component('asc-switch', function () {
+    function onCheckedChanged(node, value) {
+        var inputCheckbox = node.childNodes[0];
+        inputCheckbox.checked = value === "true";
+    }
 
-    function applySwitch(switchDiv) {
-        var uniqueId = window.getUniqueId();
+    function init(switchDiv) {
+        var uniqueId = asc.getUniqueId();
         var input = eDOM.el("input[type='checkbox']");
         input.id = uniqueId.toString();
         var checkedAttr = switchDiv.getAttribute('checked');
@@ -13,17 +17,13 @@
         switchDiv.appendChild(label);
     }
 
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.tagName === "ASC-SWITCH") {
-            applySwitch(e.detail);
-        }
-    });
-    document.addEventListener('nodeAttributed', function (e) {
-        if (e.detail.attr === 'checked') {
-            var inputCheckbox = e.detail.node.childNodes[0];
-            inputCheckbox.checked = e.detail.node.getAttribute(e.detail.attr) === "true";
-        }
-    });
-
-})();
+    return {
+        init: init,
+        params: [
+            {
+                name: 'checked',
+                func: onCheckedChanged
+            }
+        ]
+    }
+});

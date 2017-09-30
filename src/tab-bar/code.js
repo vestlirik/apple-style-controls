@@ -1,8 +1,6 @@
-(function () {
-
-    var tabBar;
-
-    function initializeTabBar(tabBarContainer) {
+asc.component('.asc-tab-bar-container', {
+    init: function (tabBarContainer) {
+        var tabBar;
         var tabs = [];
         var activeIndex;
 
@@ -58,11 +56,4 @@
             tabBarContainer.appendChild(tabBar);
         }
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.classList.contains('asc-tab-bar-container')) {
-            initializeTabBar(e.detail);
-        }
-    });
-
-})();
+});

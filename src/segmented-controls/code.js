@@ -1,6 +1,5 @@
-(function () {
-
-    function initializeSegmentsBar(segmentedControlBlock) {
+asc.component('.asc-segmented-controls', {
+    init: function (segmentedControlBlock) {
         var segments = [];
         var segmentsBar;
         var activeIndex;
@@ -55,11 +54,4 @@
             segmentedControlBlock.insertBefore(segmentsBar, segmentedControls[0]);
         }
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.classList.contains('asc-segmented-controls')) {
-            initializeSegmentsBar(e.detail);
-        }
-    });
-
-})();
+});

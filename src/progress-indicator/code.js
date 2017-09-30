@@ -1,10 +1,5 @@
-(function () {
-
-    function applyActivityIndicator(activityIndicator) {
-        addBars(activityIndicator);
-    }
-
-    function addBars(activityIndicator) {
+asc.component('.asc-activity-indicator', {
+    init: function (activityIndicator) {
         var barsNode = document.createDocumentFragment();
         for (var i = 0; i < 12; i++) {
             var bar = eDOM.el('div');
@@ -13,11 +8,4 @@
         }
         activityIndicator.appendChild(barsNode);
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.classList.contains('asc-activity-indicator')) {
-            applyActivityIndicator(e.detail);
-        }
-    });
-
-})();
+});

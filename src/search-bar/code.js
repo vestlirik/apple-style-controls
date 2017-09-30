@@ -1,6 +1,5 @@
-(function () {
-
-    function applySearchInput(searchInput) {
+asc.component('.asc-search-input', {
+    init: function (searchInput) {
         searchInput.addEventListener('focus', function (e) {
             e.currentTarget.parentNode.classList.add('asc-clicked');
         });
@@ -8,8 +7,9 @@
             e.currentTarget.parentNode.classList.remove('asc-clicked');
         });
     }
-
-    function createSearchControl(parent) {
+});
+asc.component('.asc-search-bar', {
+    init: function (parent) {
         var searchIcon = eDOM.el('.search');
         searchIcon.appendChild(eDOM.el('.search__circle'));
         searchIcon.appendChild(eDOM.el('.search__rectangle'));
@@ -21,15 +21,4 @@
         parent.appendChild(searchInputEl);
         parent.appendChild(cancel);
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.classList.contains('asc-search-bar')) {
-            createSearchControl(e.detail);
-        } else {
-            if (e.detail.classList.contains('asc-search-input')) {
-                applySearchInput(e.detail);
-            }
-        }
-    });
-
-})();
+});

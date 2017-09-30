@@ -1,25 +1,5 @@
-(function () {
-
-    /**
-     * Find buttons for calling edit menu
-     * And add click event to them
-     */
-    function assignEraser(eraser) {
-        eraser.addEventListener('mousedown', eraseContent);
-    }
-
-    /**
-     * Erase content from input sibling to label
-     * @param e - event
-     */
-    function eraseContent(e) {
-        e.target.previousElementSibling.value = "";
-        setTimeout(function () {
-            e.target.previousElementSibling.focus();
-        }, 0);
-    }
-
-    function applyInput(input) {
+asc.component('input', {
+    init: function (input) {
         var label = eDOM.el('label');
         label.classList.add('asc');
         label.classList.add('asc-eraser');
@@ -36,16 +16,20 @@
             input.parentNode.insertBefore(iconDiv, input);
         }
     }
+});
+asc.component('.asc-eraser', {
+    init: function (eraser) {
 
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.classList.contains('asc-eraser')) {
-            assignEraser(e.detail);
-        } else {
-            if (e.detail.tagName === "INPUT") {
-                applyInput(e.detail);
-            }
+        /**
+         * Erase content from input sibling to label
+         * @param e - event
+         */
+        function eraseContent(e) {
+            e.target.previousElementSibling.value = "";
+            setTimeout(function () {
+                e.target.previousElementSibling.focus();
+            }, 0);
         }
-    });
-
-})();
+        eraser.addEventListener('mousedown', eraseContent);
+    }
+});

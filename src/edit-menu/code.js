@@ -1,6 +1,33 @@
 (function () {
-
     var menu;
+    asc.component('#asc-edit-menu', {
+        init: function (m) {
+            menu = m;
+        }
+    });
+    /**
+     * Apply text selecting to the document
+     */
+    asc.component('.asc-selectable-text', {
+        init: function () {
+            document.addEventListener('mouseup', function (e) {
+                if (!e.target.classList.contains('asc-edit-menu-button')) {
+                    setTimeout(function () {
+                        checkSelectedText(e);
+                    }, 0);
+                }
+            });
+        }
+    });
+    /**
+     * Find buttons for calling edit menu
+     * And add click event to them
+     */
+    asc.component('.asc-edit-menu-button', {
+        init: function (button) {
+            button.addEventListener('click', editMenuClick);
+        }
+    });
 
     /**
      * Hide opened edit menu
@@ -18,7 +45,6 @@
     function removePageClickEvent() {
         document.getElementsByTagName('html')[0].removeEventListener('click', hideEditMenu);
     }
-
 
     /**
      * Open edit menu
@@ -53,7 +79,7 @@
             }
         }
         var css = 'left: ' + (offetForTriangle) + 'px;';
-        addStyleToHead('div.asc-edit-menu:after{' + css + '}');
+        asc.addStyle('div.asc-edit-menu:after{' + css + '}');
 
         setTimeout(function () {
             document.getElementsByTagName('html')[0].addEventListener('click', hideEditMenu);
@@ -80,60 +106,4 @@
         }
     }
 
-    /**
-     * Find buttons for calling edit menu
-     * And add click event to them
-     */
-    function assignMenuToButton(button) {
-        button.addEventListener('click', editMenuClick);
-    }
-
-    function assignEditMenu(m) {
-        menu = m;
-    }
-
-    /**
-     * Apply text selecting to the document
-     */
-    function applyDetectingSelectedText() {
-        document.onmouseup = function (e) {
-            if (!e.target.classList.contains('asc-edit-menu-button')) {
-                setTimeout(function () {
-                    checkSelectedText(e);
-                }, 0);
-            }
-        };
-    }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.classList.contains('asc-edit-menu-button')) {
-            assignMenuToButton(e.detail);
-        } else {
-            if (e.detail.classList.contains('asc-selectable-text')) {
-                applyDetectingSelectedText();
-            } else {
-                if (e.detail.id === "asc-edit-menu") {
-                    assignEditMenu(e.detail);
-                }
-            }
-        }
-    });
 })();
-
-/**
- * Add style to head section
- * @param {string} css - css which you need to add
- */
-function addStyleToHead(css) {
-    var head = document.head || document.getElementsByTagName('head')[0],
-        style = eDOM.el('style');
-
-    style.type = 'text/css';
-    if (style.styleSheet) {
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(css));
-    }
-
-    head.appendChild(style);
-}

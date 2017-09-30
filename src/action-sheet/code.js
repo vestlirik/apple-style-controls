@@ -1,6 +1,5 @@
-(function () {
-
-    function applyActionSheet(actionSheet) {
+asc.component('asc-action-sheet', {
+    init: function (actionSheet) {
         var button = document.querySelector('button[data-id=' + actionSheet.id + ']');
         if (button) {
             (function (actionSheet) {
@@ -38,11 +37,4 @@
             })(actionSheet);
         }
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.tagName === "ASC-ACTION-SHEET") {
-            applyActionSheet(e.detail);
-        }
-    });
-
-})();
+});

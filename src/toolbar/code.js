@@ -1,6 +1,5 @@
-(function () {
-
-    function applyToolbar(toolbar) {
+asc.component('asc-toolbar', {
+    init: function (toolbar) {
         var button = document.querySelector('button[data-id=' + toolbar.id + ']');
         if (button) {
             (function (toolbar) {
@@ -25,11 +24,4 @@
             })(toolbar);
         }
     }
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.tagName === 'ASC-TOOLBAR') {
-            applyToolbar(e.detail);
-        }
-    });
-
-})();
+});

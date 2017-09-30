@@ -1,13 +1,12 @@
-(function () {
-
-    function applyRadioButton(radioGroup) {
-        var groupId = window.getUniqueId();
+asc.component('asc-radio-group', function () {
+    function init(radioGroup) {
+        var groupId = asc.getUniqueId();
         for (var i = 0; i < radioGroup.childNodes.length; i++) {
             var radioGroupItem = radioGroup.childNodes[i];
             if (radioGroupItem.tagName === "ASC-RADIO-BUTTON") {
                 var radioGroupItemValue = radioGroupItem.getAttribute('value');
                 var radioButton = eDOM.el("input[type='radio'][value='" + radioGroupItemValue + "'][name='" + groupId + "']");
-                radioButton.id = window.getUniqueId();
+                radioButton.id = asc.getUniqueId();
                 var isChecked = radioGroupItem.getAttribute('checked');
                 if (isChecked !== null) {
                     radioButton.checked = true;
@@ -22,24 +21,28 @@
         }
     }
 
-
-    document.addEventListener('addedNode', function (e) {
-        if (e.detail.tagName === "ASC-RADIO-GROUP") {
-            applyRadioButton(e.detail);
-        }
-    });
-
-    document.addEventListener('nodeAttributed', function (e) {
-        if (e.detail.attr === 'checked') {
-            for (var i = 0; i < e.detail.node.parentElement.childNodes.length; i++) {
-                var radioGroupItem = e.detail.node.parentElement.childNodes[i];
-                if (radioGroupItem.tagName === "ASC-RADIO-BUTTON" && radioGroupItem !== e.detail.node) {
-                    radioGroupItem.removeAttribute('checked');
-                }
+    return {
+        init: init
+    }
+});
+asc.component('asc-radio-button', function () {
+    function onCheckedChanged(node, value) {
+        for (var i = 0; i < node.parentElement.childNodes.length; i++) {
+            var radioGroupItem = node.parentElement.childNodes[i];
+            if (radioGroupItem.tagName === "ASC-RADIO-BUTTON" && radioGroupItem !== node) {
+                radioGroupItem.removeAttribute('checked');
             }
-            var inputRadioButton = e.detail.node.childNodes[0];
-            inputRadioButton.checked = true;
         }
-    });
+        var inputRadioButton = node.childNodes[0];
+        inputRadioButton.checked = true;
+    }
 
-})();
+    return {
+        params: [
+            {
+                name: 'checked',
+                func: onCheckedChanged
+            }
+        ]
+    }
+});
