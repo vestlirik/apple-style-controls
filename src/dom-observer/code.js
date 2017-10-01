@@ -5,6 +5,9 @@
             if (attrList) {
                 for (var j = 0; j < attrList.length; j++) {
                     var attrValue = attrList[j].value;
+                    if (attrList[j].name.indexOf('asc-') === 0) {
+                        attrList[j].isAttributeBinding = true;
+                    }
                     if (attrList[j].name.indexOf('(') === 0) {
                         var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
                         var eventName = attrList[3].name.substring(1, attrList[3].name.length - 1);
@@ -13,6 +16,14 @@
                         if (attrValue.indexOf("{{") === 0) {
                             var property = attrValue.substring(2, attrValue.length - 2);
                             if (creatingObj.hasOwnProperty(property)) {
+                                if (attrList[j].isAttributeBinding) {
+                                    registrationList.attr.forEach(function (c) {
+                                        if (attrList[j].name === c.name) {
+                                            attrList[j].updateObj = new c.obj();
+                                            attrList[j].updateObj.init(children[i]);
+                                        }
+                                    });
+                                }
                                 attrList[j].value = creatingObj[property];
                                 if (!watchingProperties[property]) {
                                     watchingProperties[property] = [attrList[j]];
@@ -101,10 +112,14 @@
                                                 },
                                                 set: function (val) {
                                                     watchingProperties[prop].forEach(function (attr) {
-                                                        if (attr.nodeValueTemplate) {
-                                                            attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                                        if (attr.isAttributeBinding) {
+                                                            attr.updateObj.update(val);
                                                         } else {
-                                                            attr.value = val;
+                                                            if (attr.nodeValueTemplate) {
+                                                                attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                                            } else {
+                                                                attr.value = val;
+                                                            }
                                                         }
                                                     });
                                                     creatingObj["_" + prop] = val;
@@ -138,7 +153,7 @@
                     if (mutation.target.classList && mutation.target.classList.contains('asc')) {
                         document.dispatchEvent(nodeAttrEv(mutation.target, mutation.attributeName));
                         var changedElement = mutation.target.bindedToObj;
-                        if (changedElement) {
+                        if (changedElement && changedElement.params) {
                             var handler = changedElement.params.find(function (p) {
                                 return p.name === mutation.attributeName
                             });
@@ -262,7 +277,8 @@
     var registrationList = {
         id: [],
         tag: [],
-        classes: []
+        classes: [],
+        attr: []
     };
 
     /**
@@ -284,6 +300,10 @@
                 case '.':
                     array = registrationList.classes;
                     addName = selector.substring(1);
+                    break;
+                case '[':
+                    array = registrationList.attr;
+                    addName = selector.substring(1, selector.length - 1);
                     break;
             }
             addComponentToList(array, addName, componentObject);
