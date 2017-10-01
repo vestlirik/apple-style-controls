@@ -3,7 +3,7 @@
 asc-switch.asc input{
     display: none;
 }
-asc-switch.asc input:checked:not([checked="false"])+label{
+asc-switch.asc input[checked="true"]+label{
     background-color: $green;
     border-color: $green;
 }
@@ -21,7 +21,7 @@ asc-switch.asc input+label:after{
     transition: margin-left 0.5s;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.46);
 }
-asc-switch.asc input:checked:not([checked="false"])+label:after{
+asc-switch.asc input[checked="true"]+label:after{
     margin-left: 24px;
 }
 asc-switch.asc label{

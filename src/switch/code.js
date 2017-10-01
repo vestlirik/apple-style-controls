@@ -12,6 +12,10 @@ asc.component('asc-switch', function () {
         }
     };
 
+    this.onChecked = function (ev) {
+        self.checked = !self.checked;
+    };
+
     this.templateSrc = 'switch/template.html';
 
     this.params = [

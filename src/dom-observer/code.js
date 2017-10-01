@@ -47,14 +47,20 @@
                                             if (attrList) {
                                                 for (var j = 0; j < attrList.length; j++) {
                                                     var attrValue = attrList[j].value;
-                                                    if (attrValue.indexOf("{{") === 0) {
-                                                        var property = attrValue.substring(2, attrValue.length - 2);
-                                                        if (creatingObj.hasOwnProperty(property)) {
-                                                            attrList[j].value = creatingObj[property];
-                                                            if (!watchingProperties[property]) {
-                                                                watchingProperties[property] = [attrList[j]];
-                                                            } else {
-                                                                watchingProperties[property].push(attrList[j]);
+                                                    if(attrList[j].name.indexOf('(')===0){
+                                                        var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
+                                                        var eventName = attrList[3].name.substring(1, attrList[3].name.length-1);
+                                                        children[i].addEventListener(eventName, creatingObj[actionName]);
+                                                    } else {
+                                                        if (attrValue.indexOf("{{") === 0) {
+                                                            var property = attrValue.substring(2, attrValue.length - 2);
+                                                            if (creatingObj.hasOwnProperty(property)) {
+                                                                attrList[j].value = creatingObj[property];
+                                                                if (!watchingProperties[property]) {
+                                                                    watchingProperties[property] = [attrList[j]];
+                                                                } else {
+                                                                    watchingProperties[property].push(attrList[j]);
+                                                                }
                                                             }
                                                         }
                                                     }
