@@ -1,5 +1,5 @@
-asc.component('asc-toolbar', {
-    init: function (toolbar) {
+asc.component('asc-toolbar', function(){
+    this.init = function (toolbar) {
         var button = document.querySelector('button[data-id=' + toolbar.id + ']');
         if (button) {
             (function (toolbar) {

@@ -1,5 +1,5 @@
-asc.component('asc-action-sheet', {
-    init: function (actionSheet) {
+asc.component('asc-action-sheet', function(){
+    this.init = function (actionSheet) {
         var button = document.querySelector('button[data-id=' + actionSheet.id + ']');
         if (button) {
             (function (actionSheet) {

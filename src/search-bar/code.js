@@ -1,5 +1,5 @@
-asc.component('.asc-search-input', {
-    init: function (searchInput) {
+asc.component('.asc-search-input', function(){
+    this.init = function (searchInput) {
         searchInput.addEventListener('focus', function (e) {
             e.currentTarget.parentNode.classList.add('asc-clicked');
         });
@@ -8,8 +8,8 @@ asc.component('.asc-search-input', {
         });
     }
 });
-asc.component('.asc-search-bar', {
-    init: function (parent) {
+asc.component('.asc-search-bar', function(){
+    this.init = function (parent) {
         var searchIcon = eDOM.el('.search');
         searchIcon.appendChild(eDOM.el('.search__circle'));
         searchIcon.appendChild(eDOM.el('.search__rectangle'));

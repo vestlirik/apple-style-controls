@@ -1,5 +1,5 @@
-asc.component('input', {
-    init: function (input) {
+asc.component('input', function(){
+    this.init = function (input) {
         var label = eDOM.el('label');
         label.classList.add('asc');
         label.classList.add('asc-eraser');
@@ -17,8 +17,8 @@ asc.component('input', {
         }
     }
 });
-asc.component('.asc-eraser', {
-    init: function (eraser) {
+asc.component('.asc-eraser', function(){
+    this.init = function (eraser) {
 
         /**
          * Erase content from input sibling to label

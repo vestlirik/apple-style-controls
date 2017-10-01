@@ -1,48 +1,106 @@
 asc.component('asc-radio-group', function () {
-    function init(radioGroup) {
+    var self = this;
+    this.init = function (radioGroup) {
+        self.element = radioGroup;
         var groupId = asc.getUniqueId();
-        for (var i = 0; i < radioGroup.childNodes.length; i++) {
-            var radioGroupItem = radioGroup.childNodes[i];
+        var checkedValue = radioGroup.getAttribute('checked');
+        for (var i = 0; i < self.element.childNodes.length; i++) {
+            var radioGroupItem = self.element.childNodes[i];
             if (radioGroupItem.tagName === "ASC-RADIO-BUTTON") {
-                var radioGroupItemValue = radioGroupItem.getAttribute('value');
-                var radioButton = eDOM.el("input[type='radio'][value='" + radioGroupItemValue + "'][name='" + groupId + "']");
-                radioButton.id = asc.getUniqueId();
-                var isChecked = radioGroupItem.getAttribute('checked');
-                if (isChecked !== null) {
-                    radioButton.checked = true;
-                }
-                var label = eDOM.el("label[for='" + radioButton.id + "']");
-                label.innerHTML = radioGroupItem.childNodes[0] ? radioGroupItem.childNodes[0].textContent : "";
-                radioGroupItem.innerHTML = "";
-                radioGroupItem.appendChild(radioButton);
-                radioGroupItem.appendChild(label);
+                radioGroupItem.setAttribute('name', groupId);
                 radioGroupItem.classList.add('asc');
             }
         }
-    }
+        selectItem(checkedValue);
+    };
 
-    return {
-        init: init
-    }
-});
-asc.component('asc-radio-button', function () {
-    function onCheckedChanged(node, value) {
-        for (var i = 0; i < node.parentElement.childNodes.length; i++) {
-            var radioGroupItem = node.parentElement.childNodes[i];
-            if (radioGroupItem.tagName === "ASC-RADIO-BUTTON" && radioGroupItem !== node) {
-                radioGroupItem.removeAttribute('checked');
+    function selectItem(value) {
+        for (var i = 0; i < self.element.childNodes.length; i++) {
+            var radioGroupItem = self.element.childNodes[i];
+            if (radioGroupItem.tagName === "ASC-RADIO-BUTTON") {
+                if (radioGroupItem.getAttribute('value') === value) {
+                    radioGroupItem.setAttribute('checked', 'true');
+                }
             }
         }
-        var inputRadioButton = node.childNodes[0];
-        inputRadioButton.checked = true;
     }
 
-    return {
-        params: [
-            {
-                name: 'checked',
-                func: onCheckedChanged
+    this.params = [
+        {
+            name: 'checked',
+            func: function (node, value) {
+                selectItem(value);
             }
-        ]
-    }
+        }
+    ];
+});
+asc.component('asc-radio-button', function () {
+    var self = this;
+    this.init = function () {
+        self.id = asc.getUniqueId();
+    };
+
+    this.value = "";
+    this.displayText = "";
+    this.name = "";
+
+    this.afterInit = function (el) {
+        var value = el.getAttribute('value');
+        if (value) {
+            self.value = value;
+        }
+        var displayText = el.getAttribute('text');
+        if (displayText) {
+            self.displayText = displayText;
+        }
+        var name = el.getAttribute('name');
+        if (name) {
+            self.name = name;
+        }
+        var checked = el.getAttribute('checked');
+        if (checked) {
+            var inputRadioButton = el.childNodes[0];
+            if (inputRadioButton) {
+                inputRadioButton.checked = checked === "true";
+            }
+        }
+    };
+
+    this.templateSrc = 'radio-button/radio-button-template.html';
+
+    this.params = [
+        {
+            name: 'checked',
+            func: function (node, value) {
+                var inputRadioButton = node.childNodes[0];
+                if (inputRadioButton) {
+                    inputRadioButton.checked = value === "true";
+                }
+            }
+        },
+        {
+            name: 'text',
+            func: function (node, value) {
+                if (value) {
+                    self.displayText = value;
+                }
+            }
+        },
+        {
+            name: 'value',
+            func: function (node, value) {
+                if (value) {
+                    self.value = value;
+                }
+            }
+        },
+        {
+            name: 'name',
+            func: function (node, value) {
+                if (value) {
+                    self.name = value;
+                }
+            }
+        }
+    ];
 });

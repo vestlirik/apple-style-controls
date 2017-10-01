@@ -1,5 +1,5 @@
-asc.component('.asc-tab-bar-container', {
-    init: function (tabBarContainer) {
+asc.component('.asc-tab-bar-container', function () {
+    this.init = function (tabBarContainer) {
         var tabBar;
         var tabs = [];
         var activeIndex;

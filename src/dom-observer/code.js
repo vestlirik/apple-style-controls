@@ -1,4 +1,49 @@
 (function () {
+    function checkChildrenForBinding(children, creatingObj, watchingProperties) {
+        for (var i = 0; i < children.length; i++) {
+            var attrList = children[i].attributes;
+            if (attrList) {
+                for (var j = 0; j < attrList.length; j++) {
+                    var attrValue = attrList[j].value;
+                    if (attrList[j].name.indexOf('(') === 0) {
+                        var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
+                        var eventName = attrList[3].name.substring(1, attrList[3].name.length - 1);
+                        children[i].addEventListener(eventName, creatingObj[actionName]);
+                    } else {
+                        if (attrValue.indexOf("{{") === 0) {
+                            var property = attrValue.substring(2, attrValue.length - 2);
+                            if (creatingObj.hasOwnProperty(property)) {
+                                attrList[j].value = creatingObj[property];
+                                if (!watchingProperties[property]) {
+                                    watchingProperties[property] = [attrList[j]];
+                                } else {
+                                    watchingProperties[property].push(attrList[j]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (children[i].childNodes.length > 0) {
+                checkChildrenForBinding(children[i].childNodes, creatingObj, watchingProperties)
+            } else {
+                if (children[i].nodeValue && children[i].nodeValue.indexOf("{{") > -1) {
+                    var innerText = children[i].nodeValue;
+                    children[i].nodeValueTemplate = innerText;
+                    var property = innerText.substring(2, innerText.length - 2);
+                    if (creatingObj.hasOwnProperty(property)) {
+                        children[i].nodeValue = innerText.replace('{{' + property + '}}', creatingObj[property]);
+                        if (!watchingProperties[property]) {
+                            watchingProperties[property] = [children[i]];
+                        } else {
+                            watchingProperties[property].push(children[i]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     function runDomListener() {
         function createEvent(name, node) {
             return new CustomEvent(name, {'detail': node});
@@ -18,55 +63,35 @@
                 mutation.addedNodes.forEach(function (addedNode) {
                     if (addedNode.classList && addedNode.classList.contains('asc')) {
                         document.dispatchEvent(addedNodeEv(addedNode));
-                        var creatingObj;
+                        var creatingObjFunc;
                         registrationList.classes.forEach(function (c) {
                             if (addedNode.classList.contains(c.name)) {
-                                creatingObj = c.obj;
+                                creatingObjFunc = c.obj;
                             }
                         });
                         registrationList.tag.forEach(function (c) {
                             if (addedNode.tagName === c.name.toUpperCase()) {
-                                creatingObj = c.obj;
+                                creatingObjFunc = c.obj;
                             }
                         });
                         registrationList.id.forEach(function (c) {
                             if (addedNode.id === c.name) {
-                                creatingObj = c.obj;
+                                creatingObjFunc = c.obj;
                             }
                         });
-                        if (creatingObj) {
+                        if (creatingObjFunc) {
+                            var creatingObj = new creatingObjFunc();
+                            addedNode.bindedToObj = creatingObj;
                             if (creatingObj.templateSrc) {
                                 getLocalFile(creatingObj.templateSrc).then(function (template) {
-                                    creatingObj.init(addedNode);
+                                    if (creatingObj.init) {
+                                        creatingObj.init(addedNode);
+                                    }
                                     if (template) {
                                         addedNode.innerHTML = template;
                                         var children = addedNode.childNodes;
                                         var watchingProperties = {};
-                                        for (var i = 0; i < children.length; i++) {
-                                            var attrList = children[i].attributes;
-                                            if (attrList) {
-                                                for (var j = 0; j < attrList.length; j++) {
-                                                    var attrValue = attrList[j].value;
-                                                    if(attrList[j].name.indexOf('(')===0){
-                                                        var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
-                                                        var eventName = attrList[3].name.substring(1, attrList[3].name.length-1);
-                                                        children[i].addEventListener(eventName, creatingObj[actionName]);
-                                                    } else {
-                                                        if (attrValue.indexOf("{{") === 0) {
-                                                            var property = attrValue.substring(2, attrValue.length - 2);
-                                                            if (creatingObj.hasOwnProperty(property)) {
-                                                                attrList[j].value = creatingObj[property];
-                                                                if (!watchingProperties[property]) {
-                                                                    watchingProperties[property] = [attrList[j]];
-                                                                } else {
-                                                                    watchingProperties[property].push(attrList[j]);
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        checkChildrenForBinding(children, creatingObj, watchingProperties);
                                         var keys = Object.keys(watchingProperties);
                                         keys.forEach(function (prop) {
                                             creatingObj["_" + prop] = creatingObj[prop];
@@ -76,7 +101,11 @@
                                                 },
                                                 set: function (val) {
                                                     watchingProperties[prop].forEach(function (attr) {
-                                                        attr.value = val;
+                                                        if (attr.nodeValueTemplate) {
+                                                            attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                                        } else {
+                                                            attr.value = val;
+                                                        }
                                                     });
                                                     creatingObj["_" + prop] = val;
                                                 },
@@ -84,11 +113,17 @@
                                             });
                                         });
                                     }
-                                    creatingObj.afterInit(addedNode);
+                                    if (creatingObj.afterInit) {
+                                        creatingObj.afterInit(addedNode);
+                                    }
                                 });
                             } else {
-                                creatingObj.init(addedNode);
-                                creatingObj.afterInit(addedNode);
+                                if (creatingObj.init) {
+                                    creatingObj.init(addedNode);
+                                }
+                                if (creatingObj.afterInit) {
+                                    creatingObj.afterInit(addedNode);
+                                }
                             }
                         }
                         var end = window.performance.now();
@@ -102,22 +137,7 @@
                 if (mutation.type === 'attributes' && mutation.attributeName !== 'class' && mutation.attributeName !== 'style') {
                     if (mutation.target.classList && mutation.target.classList.contains('asc')) {
                         document.dispatchEvent(nodeAttrEv(mutation.target, mutation.attributeName));
-                        var changedElement;
-                        registrationList.classes.forEach(function (c) {
-                            if (mutation.target.classList.contains(c.name)) {
-                                changedElement = c.obj;
-                            }
-                        });
-                        registrationList.tag.forEach(function (c) {
-                            if (mutation.target.tagName === c.name.toUpperCase()) {
-                                changedElement = c.obj;
-                            }
-                        });
-                        registrationList.id.forEach(function (c) {
-                            if (mutation.target.id === c.name) {
-                                changedElement = c.obj;
-                            }
-                        });
+                        var changedElement = mutation.target.bindedToObj;
                         if (changedElement) {
                             var handler = changedElement.params.find(function (p) {
                                 return p.name === mutation.attributeName
@@ -266,19 +286,11 @@
                     addName = selector.substring(1);
                     break;
             }
-            addComponentToList(array, addName, typeof componentObject === "function" ? new componentObject() : componentObject);
+            addComponentToList(array, addName, componentObject);
         }
     }
 
     function addComponentToList(arr, name, object) {
-        if (!object.init) {
-            object.init = function () {
-            };
-        }
-        if (!object.afterInit) {
-            object.afterInit = function () {
-            };
-        }
         arr.push({
             name: name,
             obj: object

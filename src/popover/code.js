@@ -1,5 +1,5 @@
-asc.component('asc-popover', {
-    init: function (popover) {
+asc.component('asc-popover', function(){
+    this.init = function (popover) {
         var button = document.querySelector('button[data-id=' + popover.id + ']');
         if (button) {
             (function (popover) {

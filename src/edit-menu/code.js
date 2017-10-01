@@ -1,15 +1,15 @@
 (function () {
     var menu;
-    asc.component('#asc-edit-menu', {
-        init: function (m) {
+    asc.component('#asc-edit-menu', function(){
+        this.init = function (m) {
             menu = m;
         }
     });
     /**
      * Apply text selecting to the document
      */
-    asc.component('.asc-selectable-text', {
-        init: function () {
+    asc.component('.asc-selectable-text', function(){
+        this.init = function () {
             document.addEventListener('mouseup', function (e) {
                 if (!e.target.classList.contains('asc-edit-menu-button')) {
                     setTimeout(function () {
@@ -23,8 +23,8 @@
      * Find buttons for calling edit menu
      * And add click event to them
      */
-    asc.component('.asc-edit-menu-button', {
-        init: function (button) {
+    asc.component('.asc-edit-menu-button', function(){
+        this.init = function (button) {
             button.addEventListener('click', editMenuClick);
         }
     });

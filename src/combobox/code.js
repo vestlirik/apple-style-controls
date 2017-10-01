@@ -1,5 +1,5 @@
-asc.component('asc-combobox', {
-    init: function (combobox) {
+asc.component('asc-combobox', function(){
+    this.init = function (combobox) {
         var div = eDOM.el('div.dropdown-list');
         while (combobox.children.length) {
             var item = combobox.children[0];
