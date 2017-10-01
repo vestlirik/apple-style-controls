@@ -14,24 +14,83 @@
 
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
+                var start = window.performance.now();
                 mutation.addedNodes.forEach(function (addedNode) {
                     if (addedNode.classList && addedNode.classList.contains('asc')) {
                         document.dispatchEvent(addedNodeEv(addedNode));
+                        var creatingObj;
                         registrationList.classes.forEach(function (c) {
                             if (addedNode.classList.contains(c.name)) {
-                                c.obj.init(addedNode);
+                                creatingObj = c.obj;
                             }
                         });
                         registrationList.tag.forEach(function (c) {
                             if (addedNode.tagName === c.name.toUpperCase()) {
-                                c.obj.init(addedNode);
+                                creatingObj = c.obj;
                             }
                         });
                         registrationList.id.forEach(function (c) {
                             if (addedNode.id === c.name) {
-                                c.obj.init(addedNode);
+                                creatingObj = c.obj;
                             }
                         });
+                        if (creatingObj) {
+                            if (creatingObj.templateSrc) {
+                                getLocalFile(creatingObj.templateSrc).then(function (template) {
+                                    creatingObj.init(addedNode);
+                                    if (template) {
+                                        addedNode.innerHTML = template;
+                                        var children = addedNode.childNodes;
+                                        var watchingProperties = {};
+                                        for (var i = 0; i < children.length; i++) {
+                                            var attrList = children[i].attributes;
+                                            if (attrList) {
+                                                for (var j = 0; j < attrList.length; j++) {
+                                                    var attrValue = attrList[j].value;
+                                                    if (attrValue.indexOf("{{") === 0) {
+                                                        var property = attrValue.substring(2, attrValue.length - 2);
+                                                        if (creatingObj.hasOwnProperty(property)) {
+                                                            attrList[j].value = creatingObj[property];
+                                                            if (!watchingProperties[property]) {
+                                                                watchingProperties[property] = [attrList[j]];
+                                                            } else {
+                                                                watchingProperties[property].push(attrList[j]);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        var keys = Object.keys(watchingProperties);
+                                        keys.forEach(function (prop) {
+                                            creatingObj["_" + prop] = creatingObj[prop];
+                                            Object.defineProperty(creatingObj, prop, {
+                                                get: function () {
+                                                    return creatingObj["_" + prop];
+                                                },
+                                                set: function (val) {
+                                                    watchingProperties[prop].forEach(function (attr) {
+                                                        attr.value = val;
+                                                    });
+                                                    creatingObj["_" + prop] = val;
+                                                },
+                                                configurable: true
+                                            });
+                                        });
+                                    }
+                                    creatingObj.afterInit(addedNode);
+                                });
+                            } else {
+                                creatingObj.init(addedNode);
+                                creatingObj.afterInit(addedNode);
+                            }
+                        }
+                        var end = window.performance.now();
+                        var time = end - start;
+                        if (time > 1) {
+                            console.log(addedNode.tagName, addedNode.classList);
+                            console.log('long mutation processing ', time, 'ms');
+                        }
                     }
                 });
                 if (mutation.type === 'attributes' && mutation.attributeName !== 'class' && mutation.attributeName !== 'style') {
@@ -40,21 +99,21 @@
                         var changedElement;
                         registrationList.classes.forEach(function (c) {
                             if (mutation.target.classList.contains(c.name)) {
-                                changedElement = c;
+                                changedElement = c.obj;
                             }
                         });
                         registrationList.tag.forEach(function (c) {
                             if (mutation.target.tagName === c.name.toUpperCase()) {
-                                changedElement = c;
+                                changedElement = c.obj;
                             }
                         });
                         registrationList.id.forEach(function (c) {
                             if (mutation.target.id === c.name) {
-                                changedElement = c;
+                                changedElement = c.obj;
                             }
                         });
                         if (changedElement) {
-                            var handler = changedElement.obj.params.find(function (p) {
+                            var handler = changedElement.params.find(function (p) {
                                 return p.name === mutation.attributeName
                             });
                             if (handler) {
@@ -70,6 +129,23 @@
             childList: true,
             attributes: true
         });
+    }
+
+    function getIndicesOf(str, searchStr, caseSensitive) {
+        var searchStrLen = searchStr.length;
+        if (searchStrLen == 0) {
+            return [];
+        }
+        var startIndex = 0, index, indices = [];
+        if (!caseSensitive) {
+            str = str.toLowerCase();
+            searchStr = searchStr.toLowerCase();
+        }
+        while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+            indices.push(index);
+            startIndex = index + searchStrLen;
+        }
+        return indices;
     }
 
     /**
@@ -88,6 +164,47 @@
         }
 
         head.appendChild(style);
+    }
+
+    function getLocalFile(url) {
+        return new Promise(function (resolve, reject) {
+            function makeHttpObject() {
+                try {
+                    return new XMLHttpRequest();
+                }
+                catch (error) {
+                }
+                try {
+                    return new ActiveXObject("Msxml2.XMLHTTP");
+                }
+                catch (error) {
+                }
+                try {
+                    return new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch (error) {
+                }
+
+                throw new Error("Could not create HTTP request object.");
+            }
+
+            try {
+                var request = makeHttpObject();
+                request.open("GET", url, true);
+                request.send(null);
+                request.onreadystatechange = function () {
+                    if (request.readyState === 4) {
+                        if (request.status === 200) {
+                            resolve(request.responseText)
+                        } else {
+                            reject("Error", request.statusText);
+                        }
+                    }
+                };
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     //IE polyfill
@@ -143,13 +260,17 @@
                     addName = selector.substring(1);
                     break;
             }
-            addComponentToList(array, addName, typeof componentObject === "function" ? componentObject() : componentObject);
+            addComponentToList(array, addName, typeof componentObject === "function" ? new componentObject() : componentObject);
         }
     }
 
     function addComponentToList(arr, name, object) {
         if (!object.init) {
             object.init = function () {
+            };
+        }
+        if (!object.afterInit) {
+            object.afterInit = function () {
             };
         }
         arr.push({

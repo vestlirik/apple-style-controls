@@ -1,29 +1,25 @@
 asc.component('asc-switch', function () {
-    function onCheckedChanged(node, value) {
-        var inputCheckbox = node.childNodes[0];
-        inputCheckbox.checked = value === "true";
-    }
+    var self = this;
+    this.init = function () {
+        self.id = asc.getUniqueId();
+    };
+    this.checked = false;
 
-    function init(switchDiv) {
-        var uniqueId = asc.getUniqueId();
-        var input = eDOM.el("input[type='checkbox']");
-        input.id = uniqueId.toString();
+    this.afterInit = function (switchDiv) {
         var checkedAttr = switchDiv.getAttribute('checked');
         if (checkedAttr) {
-            input.checked = checkedAttr === "true";
+            self.checked = checkedAttr === "true";
         }
-        switchDiv.appendChild(input);
-        var label = eDOM.el("label[for='" + uniqueId.toString() + "']");
-        switchDiv.appendChild(label);
-    }
+    };
 
-    return {
-        init: init,
-        params: [
-            {
-                name: 'checked',
-                func: onCheckedChanged
+    this.templateSrc = 'switch/template.html';
+
+    this.params = [
+        {
+            name: 'checked',
+            func: function (node, value) {
+                self.checked = value === "true";
             }
-        ]
-    }
+        }
+    ];
 });
