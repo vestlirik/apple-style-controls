@@ -4,6 +4,7 @@ asc.component('asc-switch', function () {
         self.id = asc.getUniqueId();
     };
     this.checked = false;
+    this.testItems = ['a', 'b', 'c'];
 
     this.afterInit = function (switchDiv) {
         var checkedAttr = switchDiv.getAttribute('checked');
