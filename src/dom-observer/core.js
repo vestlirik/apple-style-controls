@@ -1,6 +1,4 @@
-var events = [];
 (function () {
-
     function checkChildrenForBinding(children, creatingObj, watchingProperties) {
         for (var i = 0; i < children.length; i++) {
             if (children[i]) {
@@ -18,7 +16,7 @@ var events = [];
                                 children[i].addEventListener(eventName, creatingObj[actionName]);
                             } else {
                                 if (!!creatingObj[attrValue]) {
-                                    events.push({
+                                    window.asc._events.push({
                                         callback: creatingObj[attrValue],
                                         el: children[i],
                                         elEvent: attrList[j].name.substring(1, attrList[j].name.length - 1)
@@ -30,7 +28,7 @@ var events = [];
                                 var property = attrValue.substring(2, attrValue.length - 2);
                                 if (creatingObj.hasOwnProperty(property)) {
                                     if (attrList[j].isAttributeBinding) {
-                                        registrationList.attr.forEach(function (c) {
+                                        window.asc._registrationList.attr.forEach(function (c) {
                                             if (attrList[j].name === c.name) {
                                                 attrList[j].updateObj = new c.obj();
                                                 attrList[j].updateObj.init(children[i]);
@@ -70,6 +68,7 @@ var events = [];
                     }
                 } catch (err) {
                     debugger;
+                    console.error(err);
                 }
             }
         }
@@ -91,26 +90,28 @@ var events = [];
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 var start = window.performance.now();
+                console.log(new Date().toLocaleString());
                 mutation.addedNodes.forEach(function (addedNode) {
                     if (addedNode.classList && addedNode.classList.contains('asc')) {
                         document.dispatchEvent(addedNodeEv(addedNode));
                         var creatingObjFunc;
-                        registrationList.classes.forEach(function (c) {
+                        window.asc._registrationList.classes.forEach(function (c) {
                             if (addedNode.classList.contains(c.name)) {
                                 creatingObjFunc = c.obj;
                             }
                         });
-                        registrationList.tag.forEach(function (c) {
+                        window.asc._registrationList.tag.forEach(function (c) {
                             if (addedNode.tagName === c.name.toUpperCase()) {
                                 creatingObjFunc = c.obj;
                             }
                         });
-                        registrationList.id.forEach(function (c) {
+                        window.asc._registrationList.id.forEach(function (c) {
                             if (addedNode.id === c.name) {
                                 creatingObjFunc = c.obj;
                             }
                         });
                         if (creatingObjFunc) {
+                            console.log('creatingObjFunc ', addedNode.tagName);
                             var creatingObj = new creatingObjFunc();
                             addedNode.bindedToObj = creatingObj;
                             if (creatingObj.templateSrc) {
@@ -120,7 +121,7 @@ var events = [];
                                     }
                                     if (template) {
                                         addedNode.innerHTML = template;
-                                        events.forEach(function (event) {
+                                        window.asc._events.forEach(function (event) {
                                             if (event.el === addedNode && creatingObj.events.indexOf(event.elEvent) > -1) {
                                                 creatingObj.events[event.elEvent] = event.callback;
                                             }
@@ -166,6 +167,8 @@ var events = [];
                                     creatingObj.afterInit(addedNode);
                                 }
                             }
+                        } else {
+                            console.error('creatingObjFunc ', addedNode.tagName);
                         }
                         var end = window.performance.now();
                         var time = end - start;
@@ -191,46 +194,12 @@ var events = [];
                 }
             });
         });
+
         observer.observe(document.body, {
             subtree: true,
             childList: true,
             attributes: true
         });
-    }
-
-    function getIndicesOf(str, searchStr, caseSensitive) {
-        var searchStrLen = searchStr.length;
-        if (searchStrLen == 0) {
-            return [];
-        }
-        var startIndex = 0, index, indices = [];
-        if (!caseSensitive) {
-            str = str.toLowerCase();
-            searchStr = searchStr.toLowerCase();
-        }
-        while ((index = str.indexOf(searchStr, startIndex)) > -1) {
-            indices.push(index);
-            startIndex = index + searchStrLen;
-        }
-        return indices;
-    }
-
-    /**
-     * Add style to head section
-     * @param {string} css - css which you need to add
-     */
-    function addStyleToHead(css) {
-        var head = document.head || document.getElementsByTagName('head')[0],
-            style = eDOM.el('style');
-
-        style.type = 'text/css';
-        if (style.styleSheet) {
-            style.styleSheet.cssText = css;
-        } else {
-            style.appendChild(document.createTextNode(css));
-        }
-
-        head.appendChild(style);
     }
 
     function getLocalFile(url) {
@@ -240,16 +209,19 @@ var events = [];
                     return new XMLHttpRequest();
                 }
                 catch (error) {
+                    console.error(err);
                 }
                 try {
                     return new ActiveXObject("Msxml2.XMLHTTP");
                 }
                 catch (error) {
+                    console.error(err);
                 }
                 try {
                     return new ActiveXObject("Microsoft.XMLHTTP");
                 }
                 catch (error) {
+                    console.error(err);
                 }
 
                 throw new Error("Could not create HTTP request object.");
@@ -269,84 +241,11 @@ var events = [];
                     }
                 };
             } catch (error) {
+                console.error(err);
                 reject(error);
             }
         });
     }
 
-    //IE polyfill
-    (function () {
-        if (typeof window.CustomEvent === "function") return false; //If not IE
-
-        function CustomEvent(event, params) {
-            params = params || {bubbles: false, cancelable: false, detail: undefined};
-            var evt = document.createEvent('CustomEvent');
-            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-            return evt;
-        }
-
-        CustomEvent.prototype = window.Event.prototype;
-
-        window.CustomEvent = CustomEvent;
-    })();
-    //IE polyfill
-    var uniqueId = 0;
-
-    function generateUniqueId() {
-        return uniqueId++;
-    }
-
-    /**
-     * Object with components
-     * @type {{id: Array.<{name: string, obj: Object}>, tag: Array.<{name: string, obj: Object}>, classes: Array.<{name: string, obj: Object}>}}
-     */
-    var registrationList = {
-        id: [],
-        tag: [],
-        classes: [],
-        attr: []
-    };
-
-    /**
-     * Adding component to app
-     * @param {string} selector - selector of component (#*, .*, *)
-     * @param {Object | function} componentObject - object for component registration
-     * @param {function} componentObject.init - initialization function
-     */
-    function createComponent(selector, componentObject) {
-        if (selector.length > 0) {
-            var firstLetter = selector[0];
-            var array = registrationList.tag;
-            var addName = selector;
-            switch (firstLetter) {
-                case '#':
-                    array = registrationList.id;
-                    addName = selector.substring(1);
-                    break;
-                case '.':
-                    array = registrationList.classes;
-                    addName = selector.substring(1);
-                    break;
-                case '[':
-                    array = registrationList.attr;
-                    addName = selector.substring(1, selector.length - 1);
-                    break;
-            }
-            addComponentToList(array, addName, componentObject);
-        }
-    }
-
-    function addComponentToList(arr, name, object) {
-        arr.push({
-            name: name,
-            obj: object
-        });
-    }
-
-    window.asc = {
-        component: createComponent,
-        getUniqueId: generateUniqueId,
-        run: runDomListener,
-        addStyle: addStyleToHead
-    };
+    window.asc.run = runDomListener;
 })();

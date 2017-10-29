@@ -76,7 +76,11 @@ module.exports = function (grunt) {
                 files: {
                     'dest/code.js': [
                         'node_modules/edom/edom.js',
-                        'src/dom-observer/code.js',
+                        'src/dom-observer/index.js',
+                        'src/dom-observer/core.js',
+                        'src/dom-observer/create-component.js',
+                        'src/dom-observer/addStyle.js',
+                        'src/dom-observer/uniqueId.js',
                         'src/edit-menu/code.js',
                         'src/progress-indicator/code.js',
                         'src/segmented-controls/code.js',
