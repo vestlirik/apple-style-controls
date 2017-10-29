@@ -48,25 +48,25 @@ module.exports = function (grunt) {
                     {
                         cwd: 'src/directives-test',
                         src: 'template.html',
-                        dest: 'dest/src/directives-test',
+                        dest: 'dest/directives-test',
                         expand: true
                     },
                     {
                         cwd: 'src/progress-indicator',
                         src: 'template.html',
-                        dest: 'dest/src/progress-indicator',
+                        dest: 'dest/progress-indicator',
                         expand: true
                     },
                     {
                         cwd: 'src/radio-button',
-                        src: 'template.html',
-                        dest: 'dest/src/radio-button',
+                        src: 'radio-button-template.html',
+                        dest: 'dest/radio-button',
                         expand: true
                     },
                     {
                         cwd: 'src/switch',
                         src: 'template.html',
-                        dest: 'dest/src/switch',
+                        dest: 'dest/switch',
                         expand: true
                     }]
             }
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
                         'src/radio-button/code.js',
                         'src/if/code.js',
                         'src/for/code.js',
-                        'directives-test/for/code.js'
+                        'src/directives-test/code.js'
                     ]
                 }
             }
