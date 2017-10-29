@@ -87,96 +87,100 @@
             return createEvent('nodeAttributed', {node: addedNode, attr: attrName});
         }
 
-        var observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
+        function checkAddedNode(addedNode) {
+            if (addedNode.classList && addedNode.classList.contains('asc')) {
                 var start = window.performance.now();
-                console.log(new Date().toLocaleString());
-                mutation.addedNodes.forEach(function (addedNode) {
-                    if (addedNode.classList && addedNode.classList.contains('asc')) {
-                        document.dispatchEvent(addedNodeEv(addedNode));
-                        var creatingObjFunc;
-                        window.asc._registrationList.classes.forEach(function (c) {
-                            if (addedNode.classList.contains(c.name)) {
-                                creatingObjFunc = c.obj;
+                document.dispatchEvent(addedNodeEv(addedNode));
+                var creatingObjFunc;
+                window.asc._registrationList.classes.forEach(function (c) {
+                    if (addedNode.classList.contains(c.name)) {
+                        creatingObjFunc = c.obj;
+                    }
+                });
+                window.asc._registrationList.tag.forEach(function (c) {
+                    if (addedNode.tagName === c.name.toUpperCase()) {
+                        creatingObjFunc = c.obj;
+                    }
+                });
+                window.asc._registrationList.id.forEach(function (c) {
+                    if (addedNode.id === c.name) {
+                        creatingObjFunc = c.obj;
+                    }
+                });
+                if (creatingObjFunc) {
+                    var creatingObj = new creatingObjFunc();
+                    addedNode.bindedToObj = creatingObj;
+                    if (creatingObj.templateSrc) {
+                        getLocalFile(creatingObj.templateSrc).then(function (template) {
+                            if (creatingObj.init) {
+                                creatingObj.init(addedNode);
                             }
-                        });
-                        window.asc._registrationList.tag.forEach(function (c) {
-                            if (addedNode.tagName === c.name.toUpperCase()) {
-                                creatingObjFunc = c.obj;
-                            }
-                        });
-                        window.asc._registrationList.id.forEach(function (c) {
-                            if (addedNode.id === c.name) {
-                                creatingObjFunc = c.obj;
-                            }
-                        });
-                        if (creatingObjFunc) {
-                            console.log('creatingObjFunc ', addedNode.tagName);
-                            var creatingObj = new creatingObjFunc();
-                            addedNode.bindedToObj = creatingObj;
-                            if (creatingObj.templateSrc) {
-                                getLocalFile(creatingObj.templateSrc).then(function (template) {
-                                    if (creatingObj.init) {
-                                        creatingObj.init(addedNode);
-                                    }
-                                    if (template) {
-                                        addedNode.innerHTML = template;
-                                        window.asc._events.forEach(function (event) {
-                                            if (event.el === addedNode && creatingObj.events.indexOf(event.elEvent) > -1) {
-                                                creatingObj.events[event.elEvent] = event.callback;
-                                            }
-                                        });
-                                        var children = addedNode.childNodes;
-                                        var watchingProperties = {};
-                                        checkChildrenForBinding(children, creatingObj, watchingProperties);
-                                        var keys = Object.keys(watchingProperties);
-                                        keys.forEach(function (prop) {
-                                            var value = creatingObj[prop];
-                                            Object.defineProperty(creatingObj, prop, {
-                                                get: function () {
-                                                    return creatingObj["_" + prop];
-                                                },
-                                                set: function (val) {
-                                                    watchingProperties[prop].forEach(function (attr) {
-                                                        if (attr.isAttributeBinding) {
-                                                            attr.updateObj.update(val);
-                                                        } else {
-                                                            if (attr.nodeValueTemplate) {
-                                                                attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
-                                                            } else {
-                                                                attr.value = val;
-                                                            }
-                                                        }
-                                                    });
-                                                    creatingObj["_" + prop] = val;
-                                                },
-                                                configurable: true
-                                            });
-                                            creatingObj[prop] = value;
-                                        });
-                                    }
-                                    if (creatingObj.afterInit) {
-                                        creatingObj.afterInit(addedNode);
+                            if (template) {
+                                addedNode.innerHTML = template;
+                                window.asc._events.forEach(function (event) {
+                                    if (event.el === addedNode && creatingObj.events.indexOf(event.elEvent) > -1) {
+                                        creatingObj.events[event.elEvent] = event.callback;
                                     }
                                 });
-                            } else {
-                                if (creatingObj.init) {
-                                    creatingObj.init(addedNode);
-                                }
-                                if (creatingObj.afterInit) {
-                                    creatingObj.afterInit(addedNode);
-                                }
+                                var children = addedNode.childNodes;
+                                var watchingProperties = {};
+                                checkChildrenForBinding(children, creatingObj, watchingProperties);
+                                var keys = Object.keys(watchingProperties);
+                                keys.forEach(function (prop) {
+                                    var value = creatingObj[prop];
+                                    Object.defineProperty(creatingObj, prop, {
+                                        get: function () {
+                                            return creatingObj["_" + prop];
+                                        },
+                                        set: function (val) {
+                                            watchingProperties[prop].forEach(function (attr) {
+                                                if (attr.isAttributeBinding) {
+                                                    attr.updateObj.update(val);
+                                                } else {
+                                                    if (attr.nodeValueTemplate) {
+                                                        attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                                    } else {
+                                                        attr.value = val;
+                                                    }
+                                                }
+                                            });
+                                            creatingObj["_" + prop] = val;
+                                        },
+                                        configurable: true
+                                    });
+                                    creatingObj[prop] = value;
+                                });
                             }
-                        } else {
-                            console.error('creatingObjFunc ', addedNode.tagName);
+                            if (creatingObj.afterInit) {
+                                creatingObj.afterInit(addedNode);
+                            }
+                        });
+                    } else {
+                        if (creatingObj.init) {
+                            creatingObj.init(addedNode);
                         }
-                        var end = window.performance.now();
-                        var time = end - start;
-                        if (time > 1) {
-                            console.log(addedNode.tagName, addedNode.classList);
-                            console.log('long mutation processing ', time, 'ms');
+                        if (creatingObj.afterInit) {
+                            creatingObj.afterInit(addedNode);
                         }
                     }
+                } else {
+                    for (var i = 0; i < addedNode.childNodes.length; i++) {
+                        checkAddedNode(addedNode.childNodes[i]);
+                    }
+                }
+                var end = window.performance.now();
+                var time = end - start;
+                if (time > 1) {
+                    console.log(addedNode.tagName, addedNode.classList);
+                    console.log('long mutation processing ', time, 'ms');
+                }
+            }
+        }
+
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                mutation.addedNodes.forEach(function (addedNode) {
+                    checkAddedNode(addedNode);
                 });
                 if (mutation.type === 'attributes' && mutation.attributeName !== 'class' && mutation.attributeName !== 'style') {
                     if (mutation.target.classList && mutation.target.classList.contains('asc')) {

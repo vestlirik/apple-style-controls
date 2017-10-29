@@ -25,7 +25,6 @@
                     break;
             }
             addComponentToList(array, addName, componentObject);
-            debugger;
         }
     }
 

@@ -3,7 +3,7 @@ asc.component('[asc-if]', function () {
 
     this.init = function (el) {
         self.element = el;
-        self.commentBlock = document.createComment('');
+        self.commentBlock = document.createComment('asc-if');
         insertAfter(self.commentBlock, el);
     };
 

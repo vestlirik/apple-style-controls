@@ -1,7 +1,20 @@
 asc.component('directives-test', function () {
     var self = this;
     this.checked = true;
-    this.testItems = ['a', 'b', 'c'];
+    this.testItems = [
+        {
+            name: 'one',
+            value: '1'
+        },
+        {
+            name: 'two',
+            value: '2'
+        },
+        {
+            name: 'three',
+            value: '3'
+        }
+    ];
 
     this.templateSrc = 'directives-test/template.html';
 
