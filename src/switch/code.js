@@ -4,7 +4,6 @@ asc.component('asc-switch', function () {
         self.id = asc.getUniqueId();
     };
     this.checked = false;
-    this.testItems = ['a', 'b', 'c'];
 
     this.afterInit = function (switchDiv) {
         var checkedAttr = switchDiv.getAttribute('checked');
@@ -15,6 +14,9 @@ asc.component('asc-switch', function () {
 
     this.onChecked = function (ev) {
         self.checked = !self.checked;
+        if (self.events.change) {
+            self.events.change(self.checked);
+        }
     };
 
     this.templateSrc = 'switch/template.html';
@@ -27,4 +29,5 @@ asc.component('asc-switch', function () {
             }
         }
     ];
+    this.events = ['change'];
 });

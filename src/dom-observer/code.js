@@ -1,7 +1,9 @@
+var events = [];
 (function () {
+
     function checkChildrenForBinding(children, creatingObj, watchingProperties) {
         for (var i = 0; i < children.length; i++) {
-            if(children[i]) {
+            if (children[i]) {
                 var attrList = children[i].attributes;
                 if (attrList) {
                     for (var j = 0; j < attrList.length; j++) {
@@ -10,9 +12,19 @@
                             attrList[j].isAttributeBinding = true;
                         }
                         if (attrList[j].name.indexOf('(') === 0) {
-                            var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
-                            var eventName = attrList[3].name.substring(1, attrList[3].name.length - 1);
-                            children[i].addEventListener(eventName, creatingObj[actionName]);
+                            if (attrValue.indexOf("(") > -1) {
+                                var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
+                                var eventName = attrList[3].name.substring(1, attrList[3].name.length - 1);
+                                children[i].addEventListener(eventName, creatingObj[actionName]);
+                            } else {
+                                if (!!creatingObj[attrValue]) {
+                                    events.push({
+                                        callback: creatingObj[attrValue],
+                                        el: children[i],
+                                        elEvent: attrList[j].name.substring(1, attrList[j].name.length - 1)
+                                    });
+                                }
+                            }
                         } else {
                             if (attrValue.indexOf("{{") === 0) {
                                 var property = attrValue.substring(2, attrValue.length - 2);
@@ -37,7 +49,7 @@
                     }
                 }
                 try {
-                    if(children[i]) {
+                    if (children[i]) {
                         if (children[i].childNodes && children[i].childNodes.length > 0) {
                             checkChildrenForBinding(children[i].childNodes, creatingObj, watchingProperties)
                         } else {
@@ -108,6 +120,11 @@
                                     }
                                     if (template) {
                                         addedNode.innerHTML = template;
+                                        events.forEach(function (event) {
+                                            if (event.el === addedNode && creatingObj.events.indexOf(event.elEvent) > -1) {
+                                                creatingObj.events[event.elEvent] = event.callback;
+                                            }
+                                        });
                                         var children = addedNode.childNodes;
                                         var watchingProperties = {};
                                         checkChildrenForBinding(children, creatingObj, watchingProperties);
