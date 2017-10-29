@@ -44,6 +44,30 @@ module.exports = function (grunt) {
                         src: '*.woff',
                         dest: 'dest/',
                         expand: true
+                    },
+                    {
+                        cwd: 'src/directives-test',
+                        src: 'template.html',
+                        dest: 'dest/src/directives-test',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/progress-indicator',
+                        src: 'template.html',
+                        dest: 'dest/src/progress-indicator',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/radio-button',
+                        src: 'template.html',
+                        dest: 'dest/src/radio-button',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/switch',
+                        src: 'template.html',
+                        dest: 'dest/src/switch',
+                        expand: true
                     }]
             }
         },
@@ -65,7 +89,12 @@ module.exports = function (grunt) {
                         'src/dialog/code.js',
                         'src/color-picker/code.js',
                         'src/popover/code.js',
-                        'src/combobox/code.js'
+                        'src/combobox/code.js',
+                        'src/switch/code.js',
+                        'src/radio-button/code.js',
+                        'src/if/code.js',
+                        'src/for/code.js',
+                        'directives-test/for/code.js'
                     ]
                 }
             }
