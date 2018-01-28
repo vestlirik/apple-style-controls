@@ -1,0 +1,225 @@
+<h3>Buttons</h3>
+<button class="asc">Sample</button>
+<button class="asc asc-icon-button asc-info-button"></button>
+<button class="asc asc-icon-button asc-warning-button"></button>
+<button class="asc asc-icon-button asc-plus-button"></button>
+<button class="asc asc-icon-button asc-minus-button"></button>
+<h3>Toggle</h3>
+<asc-switch class="asc" checked="true"></asc-switch>
+<h3>Radio buttons</h3>
+<asc-radio-group class="asc" checked="Milk">
+    <asc-radio-button asc-for="{{testItems}}" value="{{dataItem.value}}" text="{{dataItem.name}}"></asc-radio-button>
+</asc-radio-group>
+<h3>Edit menu</h3>
+<div id="asc-edit-menu" class="asc asc-edit-menu">
+    <li>Cut</li>
+    <li>Copy</li>
+    <li>Replace...</li>
+    <li>Look Up</li>
+    <li>Share...</li>
+</div>
+<button class="asc asc-edit-menu-button">Show menu</button>
+<p>Select some text for showing menu</p>
+<p class="asc asc-selectable-text">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem
+    ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem
+    ipsum </p>
+
+<h3>Indicators</h3>
+<h4>Activity Indicator</h4>
+<div class="asc asc-activity-indicator"></div>
+<h4>Progress bar</h4>
+<button class="asc" onclick="document.getElementById('pbar').setAttribute('asc-width', 95)">Change to 95%</button>
+<button class="asc" onclick="document.getElementById('pbar').setAttribute('asc-width', 20)">Change to 20%</button>
+<div id="pbar" class="asc asc-progress-bar" asc-width="20"></div>
+
+<h3>Segmented Controls</h3>
+<div class="asc asc-segmented-controls" style="height: 400px;width: 500px;border: 1px solid #4cd964;padding: 5px;">
+    <div class="asc-segmented-control" data-label="Library">
+        <p>Library content</p>
+    </div>
+    <div class="asc-segmented-control active" data-label="Playlists">
+        <p>Playlists content</p>
+    </div>
+    <div class="asc-segmented-control" data-label="Streaming">
+        <p>Streaming content</p>
+    </div>
+</div>
+
+<h3>Slider</h3>
+<input class="asc" type="range">
+
+<h3>Input</h3>
+<input class="asc" type="text" placeholder="Test text" style="width: 300px;">
+<h4>Search Input</h4>
+<input class="asc" type="text" placeholder="Search text" style="width: 300px;" icon="fa-search">
+<h4>Name Input</h4>
+<input class="asc" type="text" placeholder="User text" style="width: 300px;" icon="fa-user">
+
+<h3>Search bar</h3>
+<div style="padding: 10px; background-color: #c9c9ce;display: flex;" class="asc">
+    <div class="asc asc-search-bar"></div>
+</div>
+
+<h3>Tab Bar</h3>
+<div class="asc asc-tab-bar-container" style="height: 400px;width: 500px;border: 1px solid #4cd964;">
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-globe"></span>
+            <span>World Clock</span>
+        </asc-label>
+        <p>World Clock</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-clock-o"></span>
+            <span>Alarm</span>
+        </asc-label>
+        <p>Alarm</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-bed"></span>
+            <span>Bedtime</span>
+        </asc-label>
+        <p>Bedtime</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-clock-o"></span>
+            <span>Stopwatch</span>
+        </asc-label>
+        <p>Stopwatch</p>
+    </div>
+    <div class="asc-tab">
+        <asc-label>
+            <span class="fa fa-clock-o"></span>
+            <span>Timer</span>
+        </asc-label>
+        <p>Timer</p>
+    </div>
+</div>
+
+<h3>Toolbar, Action Sheet, Popover, Combobox</h3>
+<button class="asc" data-id="sample-toolbar">Show toolbar</button>
+<asc-toolbar id="sample-toolbar" class="asc">
+    <button class="asc fa fa-flag-o"></button>
+    <button class="asc fa fa-folder-o"></button>
+    <button class="asc fa fa-trash-o"></button>
+    <button class="asc fa fa-undo"></button>
+    <button class="asc fa fa-pencil-square-o"></button>
+</asc-toolbar>
+
+<button class="asc" data-id="sample-action-sheet">Show action sheet</button>
+<asc-action-sheet id="sample-action-sheet" class="asc">
+    <action>Flag</action>
+    <action onclick="alert('marked as unread');">Mark as Unread</action>
+    <action>Move to Junk</action>
+    <action>Notify me...</action>
+</asc-action-sheet>
+
+<button class="asc" data-id="sample-popover">Show popover</button>
+<asc-popover id="sample-popover" class="asc">
+    <h3>Input</h3>
+    <input class="asc" type="text" placeholder="Test text" style="width: 300px;">
+    <h4>Search Input</h4>
+    <input class="asc" type="text" placeholder="Search text" style="width: 300px;" icon="fa-search">
+    <h4>Name Input</h4>
+    <input class="asc" type="text" placeholder="User text" style="width: 300px;" icon="fa-user">
+</asc-popover>
+
+<asc-combobox class="asc" data-placeholder="Select item..." data-selected-value="9">
+    <item text="Item 1" value="1"></item>
+    <item text="Item 2" value="2"></item>
+    <item text="Item 3" value="3"></item>
+    <item text="Item 4" value="4"></item>
+    <item text="Item 5" value="5"></item>
+    <item text="Item 6" value="6"></item>
+    <item text="Item 7" value="7"></item>
+    <item text="Item 8" value="8"></item>
+    <item text="Item 9" value="9"></item>
+    <item text="Item 1" value="1"></item>
+    <item text="Item 2" value="2"></item>
+    <item text="Item 3" value="3"></item>
+    <item text="Item 4" value="4"></item>
+    <item text="Item 5" value="5"></item>
+    <item text="Item 6" value="6"></item>
+    <item text="Item 7" value="7"></item>
+    <item text="Item 8" value="8"></item>
+    <item text="Item 9" value="9"></item>
+    <item text="Item 1" value="1"></item>
+    <item text="Item 2" value="2"></item>
+    <item text="Item 3" value="3"></item>
+    <item text="Item 4" value="4"></item>
+    <item text="Item 5" value="5"></item>
+    <item text="Item 6" value="6"></item>
+    <item text="Item 7" value="7"></item>
+    <item text="Item 8" value="8"></item>
+    <item text="Item 9" value="9"></item>
+</asc-combobox>
+
+
+<h3>List</h3>
+<asc-list class="asc">
+    <asc-subheader>Favorites</asc-subheader>
+    <asc-list-item>
+        <span class="fa fa-hdd-o"></span>
+        Macintosh HD
+    </asc-list-item>
+    <asc-list-item>
+        <span class="fa fa-cloud"></span>
+        iCloud Drive
+    </asc-list-item>
+    <asc-list-item>
+        <span class="fa fa-apple"></span>
+        Applications
+    </asc-list-item>
+    <asc-list-item>
+        <span class="fa fa-desktop"></span>
+        Desktop
+    </asc-list-item>
+    <asc-list-item>
+        <span class="fa fa-file"></span>
+        Documents
+    </asc-list-item>
+    <asc-subheader>Devices</asc-subheader>
+    <asc-list-item>
+        <span class="fa fa-compass"></span>
+        Remote Disc
+    </asc-list-item>
+</asc-list>
+
+<h3>Alert</h3>
+<input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">
+<input class="asc" type="text" id="alert-text" placeholder="Text"
+       value="Alerts disrupt the user experience and should only be used in important situations like confirming purchases and destructive actions (such as deletions), or notifying people about problems. The infrequency of alerts helps ensure that people take them seriously. Ensure that each alert offers critical information and useful choices."
+       style="width: 300px;">
+<input class="asc" type="text" id="alert-submit" placeholder="Submit text" value="Submit" style="width: 300px;">
+<input class="asc" type="text" id="alert-cancel" placeholder="Cancel text" value="Cancel" style="width: 300px;">
+<button class="asc" (click)='openAlert(ev)'>Show alert</button>
+<p>Selected answer: <span id="alert-response"></span></p>
+
+<h3>Dialog</h3>
+<button class="asc" (click)="openDialog(ev)">Show dialog</button>
+<asc-dialog id="sample-dialog" callback="dialogResponse">
+    <asc-content>
+        <asc-dialog-header>Dialog header</asc-dialog-header>
+        <p>Dialog text</p>
+        <div>
+            <input id="sample-dialog-input" class="asc" placeholder="Dialog text">
+            <label class="asc asc-eraser"></label>
+        </div>
+    </asc-content>
+    <asc-actions>
+        <asc-action-button class="asc" reject>Cancel</asc-action-button>
+        <asc-action-button class="asc" resolve return-value-id="sample-dialog-input">OK</asc-action-button>
+    </asc-actions>
+</asc-dialog>
+
+<br>
+<button class="asc" (click)='openColorPicker(ev)'>Show color picker</button>
+<div style="display: flex; align-items: center">
+    Selected color: <span id="selected-color-index" style="height: 50px; width: 50px;"></span>
+</div>

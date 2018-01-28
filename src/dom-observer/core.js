@@ -12,7 +12,7 @@
                         if (attrList[j].name.indexOf('(') === 0) {
                             if (attrValue.indexOf("(") > -1) {
                                 var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
-                                var eventName = attrList[3].name.substring(1, attrList[3].name.length - 1);
+                                var eventName = attrList[j].name.substring(1, attrList[j].name.length - 1);
                                 children[i].addEventListener(eventName, creatingObj[actionName]);
                             } else {
                                 if (!!creatingObj[attrValue]) {
