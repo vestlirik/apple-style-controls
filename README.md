@@ -4,9 +4,9 @@ Web controls according to apple style guidelines
 Demo
 https://vestlirik.github.io/apple-style-controls.github.io/
 
-##Main components of app
+## Main components of app
 All components should have class "asc"
-###Component
+### Component
 
 ```javascript
 asc.component('<name of component>', function () {
@@ -37,7 +37,7 @@ asc.component('<name of component>', function () {
 });
 ```
 
-###Directives
+### Directives
 ```javascript
 asc.component('[directive-name]', function () {
 });
@@ -67,7 +67,7 @@ asc.component('[asc-if]', function () {
 });
 ```
 
-###How to bind value in template
+### How to bind value in template
 Using {{ property name of component }}
 ```html
 <p>{{<propertyName>}}</p>
@@ -76,18 +76,18 @@ Using {{ property name of component }}
 <div <directive-name>="{{<propertyName>}}" class="asc"></div>
 ```
 
-###How to bind event in template
+### How to bind event in template
 Using (\<name of desired event>)="\<name of handler in component>()"
 ```html
 <button class="asc" (click)='openAlert()'>Show alert</button>
 ```
 
-###Important part for running app
+### Important part for running app
 At start of the body you should following line of code
 ```html
 <script>asc.run();</script>
 ```
-###Setting up router
+### Setting up router
 You should call following function
 ```javascript
 window.router.setRouterConfig([
@@ -102,6 +102,6 @@ window.router.setRouterConfig([
         ]);
 ```
 
-More examples are in repository.
-If you like this project - start it.
-If any questions - contact me.
+###### More examples are in repository.
+###### If you like this project - please star it.
+###### If any questions - contact me.
