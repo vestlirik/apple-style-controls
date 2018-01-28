@@ -68,6 +68,24 @@ module.exports = function (grunt) {
                         src: 'template.html',
                         dest: 'dest/switch',
                         expand: true
+                    },
+                    {
+                        cwd: 'src/app',
+                        src: 'template.html',
+                        dest: 'dest/app',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo',
+                        src: 'template.html',
+                        dest: 'dest/demo',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/router',
+                        src: 'template.html',
+                        dest: 'dest/router',
+                        expand: true
                     }]
             }
         },
@@ -98,7 +116,10 @@ module.exports = function (grunt) {
                         'src/radio-button/code.js',
                         'src/if/code.js',
                         'src/for/code.js',
-                        'src/directives-test/code.js'
+                        'src/directives-test/code.js',
+                        'src/demo/code.js',
+                        'src/app/code.js',
+                        'src/router/code.js'
                     ]
                 }
             }

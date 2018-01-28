@@ -208,6 +208,14 @@
 
     function getLocalFile(url) {
         return new Promise(function (resolve, reject) {
+            var cachedTemplate = templateFiles.find(function (value) {
+                return value.url === url
+            });
+            if (cachedTemplate) {
+                resolve(cachedTemplate.template);
+                return;
+            }
+
             function makeHttpObject() {
                 try {
                     return new XMLHttpRequest();
@@ -238,7 +246,11 @@
                 request.onreadystatechange = function () {
                     if (request.readyState === 4) {
                         if (request.status === 200) {
-                            resolve(request.responseText)
+                            templateFiles.push({
+                                url: url,
+                                template: request.responseText
+                            });
+                            resolve(request.responseText);
                         } else {
                             reject("Error", request.statusText);
                         }
@@ -250,6 +262,8 @@
             }
         });
     }
+
+    var templateFiles = [];
 
     window.asc.run = runDomListener;
 })();
