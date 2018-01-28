@@ -15,8 +15,8 @@ asc.component('<name of component>', function () {
 ```
 Component name should be one of the following:
 * \<tag-name>
-* .<class-name>
-* \#<id-of-element>
+* .\<class-name>
+* \#\<id-of-element>
 
 
 Also components have events:
@@ -39,7 +39,7 @@ asc.component('<name of component>', function () {
 
 ### Directives
 ```javascript
-asc.component('[directive-name]', function () {
+asc.component('[<directive-name>]', function () {
 });
 ```
 Directive name should start from 'asc-'
@@ -47,7 +47,7 @@ Directive name should start from 'asc-'
 Directive has events:
 * Init - fires when component is creating
 ```javascript
-asc.component('<name of component>', function () {
+asc.component('[<directive-name>]', function () {
     this.init = function(element) {
        //TODO: following code there 
     }
@@ -55,12 +55,7 @@ asc.component('<name of component>', function () {
 ```
 * Update - fires when bound value was changed
 ```javascript
-asc.component('[asc-if]', function () {
-    
-    this.init = function (el) {
-        //TODO: to do with element
-    };
-
+asc.component('[<directive-name>]', function () {
     this.update = function (value) {
         //TODO: to do smth with new bound value
     };
