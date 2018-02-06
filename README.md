@@ -91,11 +91,20 @@ window.router.setRouterConfig([
                 component: '<component-name>'
             },
             {
+                path: '<path>/:param',
+                component: '<component-name>'
+            },
+            {
                 path: '**',
                 redirectTo: '<path>'
             }
         ]);
 ```
+If you want to get info about current route and params, you can get this info from
+```javascript
+var activeRoute = window.router.getActiveRoute();
+```
+In future releases getting active route will be reviewed (maybe be replaced by services or similar to them)
 
 ###### More examples are in repository.
 ###### If you like this project - please star it.

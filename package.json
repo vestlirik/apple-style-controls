@@ -1,6 +1,6 @@
 {
   "name": "apple-style-controls",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Apple style controls for web",
   "main": "index.js",
   "dependencies": {

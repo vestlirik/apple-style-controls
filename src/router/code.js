@@ -1,6 +1,7 @@
 (function () {
     var router = {
         currentHash: '',
+        activeRoute: null,
         applyRoute: function () {
             router.currentHash = window.location.hash.replace("#/", '');
             router.update(router.currentHash);
@@ -32,15 +33,41 @@
                 self.updateRoute();
             };
         };
+        this.activeRoute = null;
 
         this.updateRoute = function () {
+            var newActiveRoute;
             var currentRoute = router.config.find(function (value) {
-                return value.path === self.currentPath
+                var pathParts = value.path.split('/');
+                var currentParts = self.currentPath.split('/');
+                var valid = true;
+                newActiveRoute = {
+                    hash: '',
+                    params: []
+                };
+                pathParts.forEach(function (part, index) {
+                    if (part.indexOf(':') !== 0) {
+                        if (part !== currentParts[index]) {
+                            valid = false;
+                        } else {
+                            newActiveRoute.hash += (index !== 0 ? "/" : "") + part;
+                        }
+                    } else {
+                        if (currentParts[index]) {
+                            newActiveRoute.params.push({
+                                param: part.substring(1),
+                                value: currentParts[index]
+                            });
+                        }
+                    }
+                });
+                return valid;
             });
             if (!currentRoute) {
                 currentRoute = router.config.find(function (value) {
                     return value.path === '**'
                 });
+                self.updateActiveRoute(newActiveRoute);
             }
             var node = document.createElement(currentRoute.component);
             node.classList.add('asc');
@@ -48,6 +75,11 @@
                 self.element.removeChild(self.element.firstChild);
             }
             self.element.appendChild(node);
+        };
+
+        this.updateActiveRoute = function (newActiveRoute) {
+            self.activeRoute = newActiveRoute;
+            router.activeRoute = self.activeRoute;
         }
     });
 
@@ -69,6 +101,9 @@
         },
         goTo: function (path) {
             router.goTo(path);
+        },
+        getActiveRoute: function () {
+            return router.activeRoute;
         }
     };
 })();
