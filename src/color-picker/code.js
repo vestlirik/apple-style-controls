@@ -3,7 +3,7 @@
     function ColorPicker(element, line, colorSelector, rgbInput, hexInput) {
         this.element = element;
 
-        this.init = function () {
+        this.afterInit = function () {
             console.time('creating color picker');
             var diameter = this.element.offsetWidth;
 

@@ -1,14 +1,13 @@
 asc.component('asc-radio-group', function () {
     var self = this;
-    this.init = function (radioGroup) {
+    var groupId = asc.getUniqueId();
+    this.afterInit = function (radioGroup) {
         self.element = radioGroup;
-        var groupId = asc.getUniqueId();
         var checkedValue = radioGroup.getAttribute('checked');
         for (var i = 0; i < self.element.childNodes.length; i++) {
             var radioGroupItem = self.element.childNodes[i];
             if (radioGroupItem.tagName === "ASC-RADIO-BUTTON") {
                 radioGroupItem.setAttribute('name', groupId);
-                radioGroupItem.classList.add('asc');
             }
         }
         selectItem(checkedValue);

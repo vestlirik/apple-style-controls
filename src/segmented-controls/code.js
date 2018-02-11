@@ -1,5 +1,5 @@
 asc.component('.asc-segmented-controls', function(){
-    this.init = function (segmentedControlBlock) {
+    this.afterInit = function (segmentedControlBlock) {
         var segments = [];
         var segmentsBar;
         var activeIndex;

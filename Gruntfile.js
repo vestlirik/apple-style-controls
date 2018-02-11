@@ -99,6 +99,7 @@ module.exports = function (grunt) {
                         'src/dom-observer/create-component.js',
                         'src/dom-observer/addStyle.js',
                         'src/dom-observer/uniqueId.js',
+                        'src/dom-observer/templating.js',
                         'src/edit-menu/code.js',
                         'src/progress-indicator/code.js',
                         'src/segmented-controls/code.js',

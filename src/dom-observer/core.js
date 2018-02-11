@@ -9,10 +9,15 @@
                         if (attrList[j].name.indexOf('asc-') === 0) {
                             attrList[j].isAttributeBinding = true;
                         }
+
+                        //if event binding
                         if (attrList[j].name.indexOf('(') === 0) {
                             if (attrValue.indexOf("(") > -1) {
+                                //getting name of event for binding
                                 var actionName = attrList[j].value.substring(0, attrValue.indexOf("("));
+                                //getting event handler name of component
                                 var eventName = attrList[j].name.substring(1, attrList[j].name.length - 1);
+                                //bind them
                                 children[i].addEventListener(eventName, creatingObj[actionName]);
                             } else {
                                 if (!!creatingObj[attrValue]) {
@@ -24,17 +29,30 @@
                                 }
                             }
                         } else {
+
+                            //if it's binding to value of component
                             if (attrValue.indexOf("{{") === 0) {
+                                //binding property of component
                                 var property = attrValue.substring(2, attrValue.length - 2);
+                                //if component has this property
                                 if (creatingObj.hasOwnProperty(property)) {
                                     if (attrList[j].isAttributeBinding) {
-                                        window.asc._registrationList.attr.forEach(function (c) {
-                                            if (attrList[j].name === c.name) {
-                                                attrList[j].updateObj = new c.obj();
-                                                attrList[j].updateObj.init(children[i]);
-                                            }
+                                        //find attribute for creating
+                                        var creatingAttribute = window.asc._registrationList.attr.find(function (a) {
+                                            return a.name === attrList[j].name;
                                         });
+                                        if(creatingAttribute){
+                                            attrList[j].updateObj = new creatingAttribute.obj();
+                                            attrList[j].updateObj.init(children[i]);
+                                        }
+                                        // window.asc._registrationList.attr.forEach(function (c) {
+                                        //     if (attrList[j].name === c.name) {
+                                        //         attrList[j].updateObj = new c.obj();
+                                        //         attrList[j].updateObj.init(children[i]);
+                                        //     }
+                                        // });
                                     }
+                                    //for not custom attributes
                                     attrList[j].value = creatingObj[property];
                                     if (!watchingProperties[property]) {
                                         watchingProperties[property] = [attrList[j]];
@@ -51,6 +69,7 @@
                         if (children[i].childNodes && children[i].childNodes.length > 0) {
                             checkChildrenForBinding(children[i].childNodes, creatingObj, watchingProperties)
                         } else {
+                            //if is binding inside element
                             if (children[i].nodeValue && children[i].nodeValue.indexOf("{{") > -1) {
                                 var innerText = children[i].nodeValue;
                                 children[i].nodeValueTemplate = innerText;
@@ -87,31 +106,42 @@
             return createEvent('nodeAttributed', {node: addedNode, attr: attrName});
         }
 
-        function checkAddedNode(addedNode) {
-            if (addedNode.classList && addedNode.classList.contains('asc')) {
-                var start = window.performance.now();
-                document.dispatchEvent(addedNodeEv(addedNode));
-                var creatingObjFunc;
+        function getCreatingObjFunction(addedNode) {
+            var creatingObjFunc;
+            if (!creatingObjFunc) {
                 window.asc._registrationList.classes.forEach(function (c) {
                     if (addedNode.classList.contains(c.name)) {
                         creatingObjFunc = c.obj;
                     }
                 });
+            }
+            if (!creatingObjFunc) {
                 window.asc._registrationList.tag.forEach(function (c) {
                     if (addedNode.tagName === c.name.toUpperCase()) {
                         creatingObjFunc = c.obj;
                     }
                 });
+            }
+            if (!creatingObjFunc) {
                 window.asc._registrationList.id.forEach(function (c) {
                     if (addedNode.id === c.name) {
                         creatingObjFunc = c.obj;
                     }
                 });
+            }
+            return creatingObjFunc;
+        }
+
+        function checkAddedNode(addedNode) {
+            if (addedNode.classList && addedNode.classList.contains('asc')) {
+                var start = window.performance.now();
+                document.dispatchEvent(addedNodeEv(addedNode));
+                var creatingObjFunc = getCreatingObjFunction(addedNode);
                 if (creatingObjFunc) {
                     var creatingObj = new creatingObjFunc();
                     addedNode.bindedToObj = creatingObj;
                     if (creatingObj.templateSrc) {
-                        getLocalFile(creatingObj.templateSrc).then(function (template) {
+                        window.asc.getLocalFile(creatingObj.templateSrc).then(function (template) {
                             if (creatingObj.init) {
                                 creatingObj.init(addedNode);
                             }
@@ -152,7 +182,9 @@
                                 });
                             }
                             if (creatingObj.afterInit) {
-                                creatingObj.afterInit(addedNode);
+                                setTimeout(function () {
+                                    creatingObj.afterInit(addedNode);
+                                }, 0);
                             }
                         });
                     } else {
@@ -160,7 +192,9 @@
                             creatingObj.init(addedNode);
                         }
                         if (creatingObj.afterInit) {
-                            creatingObj.afterInit(addedNode);
+                            setTimeout(function () {
+                                creatingObj.afterInit(addedNode);
+                            }, 0);
                         }
                     }
                 } else {
@@ -205,65 +239,6 @@
             attributes: true
         });
     }
-
-    function getLocalFile(url) {
-        return new Promise(function (resolve, reject) {
-            var cachedTemplate = templateFiles.find(function (value) {
-                return value.url === url
-            });
-            if (cachedTemplate) {
-                resolve(cachedTemplate.template);
-                return;
-            }
-
-            function makeHttpObject() {
-                try {
-                    return new XMLHttpRequest();
-                }
-                catch (error) {
-                    console.error(err);
-                }
-                try {
-                    return new ActiveXObject("Msxml2.XMLHTTP");
-                }
-                catch (error) {
-                    console.error(err);
-                }
-                try {
-                    return new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                catch (error) {
-                    console.error(err);
-                }
-
-                throw new Error("Could not create HTTP request object.");
-            }
-
-            try {
-                var request = makeHttpObject();
-                request.open("GET", url, true);
-                request.send(null);
-                request.onreadystatechange = function () {
-                    if (request.readyState === 4) {
-                        if (request.status === 200) {
-                            templateFiles.push({
-                                url: url,
-                                template: request.responseText
-                            });
-                            resolve(request.responseText);
-                        } else {
-                            reject("Error", request.statusText);
-                        }
-                    }
-                };
-            } catch (error) {
-                console.error(err);
-                reject(error);
-            }
-        });
-    }
-
-    var templateFiles = [];
 
     window.asc.run = runDomListener;
 })();
