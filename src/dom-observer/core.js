@@ -140,61 +140,68 @@
                 if (creatingObjFunc) {
                     var creatingObj = new creatingObjFunc();
                     addedNode.bindedToObj = creatingObj;
-                    if (creatingObj.templateSrc) {
-                        window.asc.getLocalFile(creatingObj.templateSrc).then(function (template) {
+                    function applyTemplate(template) {
+                        if (creatingObj.init) {
+                            creatingObj.init(addedNode);
+                        }
+                        if (template) {
+                            addedNode.innerHTML = template;
+                            window.asc._events.forEach(function (event) {
+                                if (event.el === addedNode && creatingObj.events.indexOf(event.elEvent) > -1) {
+                                    creatingObj.events[event.elEvent] = event.callback;
+                                }
+                            });
+                            var children = addedNode.childNodes;
+                            var watchingProperties = {};
+                            checkChildrenForBinding(children, creatingObj, watchingProperties);
+                            var keys = Object.keys(watchingProperties);
+                            keys.forEach(function (prop) {
+                                var value = creatingObj[prop];
+                                Object.defineProperty(creatingObj, prop, {
+                                    get: function () {
+                                        return creatingObj["_" + prop];
+                                    },
+                                    set: function (val) {
+                                        watchingProperties[prop].forEach(function (attr) {
+                                            if (attr.isAttributeBinding) {
+                                                attr.updateObj.update(val);
+                                            } else {
+                                                if (attr.nodeValueTemplate) {
+                                                    attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                                } else {
+                                                    attr.value = val;
+                                                }
+                                            }
+                                        });
+                                        creatingObj["_" + prop] = val;
+                                    },
+                                    configurable: true
+                                });
+                                creatingObj[prop] = value;
+                            });
+                        }
+                        if (creatingObj.afterInit) {
+                            setTimeout(function () {
+                                creatingObj.afterInit(addedNode);
+                            }, 0);
+                        }
+                    }
+                    if (creatingObj.template) {
+                        applyTemplate(creatingObj.template);
+                    } else {
+                        if (creatingObj.templateSrc) {
+                            window.asc.getLocalFile(creatingObj.templateSrc).then(function (template) {
+                                applyTemplate(template);
+                            });
+                        } else {
                             if (creatingObj.init) {
                                 creatingObj.init(addedNode);
-                            }
-                            if (template) {
-                                addedNode.innerHTML = template;
-                                window.asc._events.forEach(function (event) {
-                                    if (event.el === addedNode && creatingObj.events.indexOf(event.elEvent) > -1) {
-                                        creatingObj.events[event.elEvent] = event.callback;
-                                    }
-                                });
-                                var children = addedNode.childNodes;
-                                var watchingProperties = {};
-                                checkChildrenForBinding(children, creatingObj, watchingProperties);
-                                var keys = Object.keys(watchingProperties);
-                                keys.forEach(function (prop) {
-                                    var value = creatingObj[prop];
-                                    Object.defineProperty(creatingObj, prop, {
-                                        get: function () {
-                                            return creatingObj["_" + prop];
-                                        },
-                                        set: function (val) {
-                                            watchingProperties[prop].forEach(function (attr) {
-                                                if (attr.isAttributeBinding) {
-                                                    attr.updateObj.update(val);
-                                                } else {
-                                                    if (attr.nodeValueTemplate) {
-                                                        attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
-                                                    } else {
-                                                        attr.value = val;
-                                                    }
-                                                }
-                                            });
-                                            creatingObj["_" + prop] = val;
-                                        },
-                                        configurable: true
-                                    });
-                                    creatingObj[prop] = value;
-                                });
                             }
                             if (creatingObj.afterInit) {
                                 setTimeout(function () {
                                     creatingObj.afterInit(addedNode);
                                 }, 0);
                             }
-                        });
-                    } else {
-                        if (creatingObj.init) {
-                            creatingObj.init(addedNode);
-                        }
-                        if (creatingObj.afterInit) {
-                            setTimeout(function () {
-                                creatingObj.afterInit(addedNode);
-                            }, 0);
                         }
                     }
                 } else {

@@ -139,7 +139,7 @@
             document.getElementById('selected-color-div').value = selectedColor;
         };
 
-        this.init();
+        this.afterInit();
 
         this.finish();
     }

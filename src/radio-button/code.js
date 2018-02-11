@@ -65,7 +65,10 @@ asc.component('asc-radio-button', function () {
         }
     };
 
-    this.templateSrc = 'radio-button/radio-button-template.html';
+    this.template =
+        '<input type="radio" value="{{value}}" name="{{name}}" id="{{id}}">\n' +
+        '<label for="{{id}}">{{displayText}}</label>'
+    ;
 
     this.params = [
         {

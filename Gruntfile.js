@@ -58,33 +58,9 @@ module.exports = function (grunt) {
                         expand: true
                     },
                     {
-                        cwd: 'src/radio-button',
-                        src: 'radio-button-template.html',
-                        dest: 'dest/radio-button',
-                        expand: true
-                    },
-                    {
-                        cwd: 'src/switch',
-                        src: 'template.html',
-                        dest: 'dest/switch',
-                        expand: true
-                    },
-                    {
-                        cwd: 'src/app',
-                        src: 'template.html',
-                        dest: 'dest/app',
-                        expand: true
-                    },
-                    {
                         cwd: 'src/demo',
                         src: 'template.html',
                         dest: 'dest/demo',
-                        expand: true
-                    },
-                    {
-                        cwd: 'src/router',
-                        src: 'template.html',
-                        dest: 'dest/router',
                         expand: true
                     }]
             }

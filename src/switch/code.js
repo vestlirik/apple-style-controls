@@ -19,7 +19,8 @@ asc.component('asc-switch', function () {
         }
     };
 
-    this.templateSrc = 'switch/template.html';
+    this.template = '<input type="checkbox" id="{{id}}" checked="{{checked}}" (click)="onChecked(ev)">\n' +
+        '<label for="{{id}}"></label>';
 
     this.params = [
         {

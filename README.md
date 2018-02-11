@@ -10,7 +10,10 @@ All components should have class "asc"
 
 ```javascript
 asc.component('<name of component>', function () {
+    //template from html file
     this.templateSrc = "...path..to..template...";
+    //or template from string (string template has priority)
+    this.template = "...template...";
 });
 ```
 Component name should be one of the following:
@@ -107,5 +110,4 @@ var activeRoute = window.router.getActiveRoute();
 In future releases getting active route will be reviewed (maybe be replaced by services or similar to them)
 
 ###### More examples are in repository.
-###### If you like this project - please star it.
 ###### If any questions - contact me.

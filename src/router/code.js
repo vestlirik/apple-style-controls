@@ -22,7 +22,7 @@
     };
     asc.component('asc-router', function () {
         var self = this;
-        this.templateSrc = 'router/template.html';
+        this.template = '<p>loading...</p>';
         this.currentPath = "";
         this.afterInit = function (el) {
             self.element = el;
