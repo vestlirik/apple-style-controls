@@ -41,7 +41,7 @@ div.asc {
     background-color: $blue;
     transition: width 0.5s;
     @for $i from 1 through 100 {
-      &[asc-width="#{$i}"] {
+      &[p-width="#{$i}"] {
         width: ($i * 1%);
       }
     }

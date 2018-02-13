@@ -1,14 +1,10 @@
 asc.component('input', function(){
     this.init = function (input) {
-        var label = eDOM.el('label');
-        label.classList.add('asc');
-        label.classList.add('asc-eraser');
+        var label = eDOM.el('label.asc.asc-eraser');
         input.parentNode.insertBefore(label, input.nextSibling);
         var icon = input.attributes["icon"];
         if (icon) {
-            var iconDiv = eDOM.el('span');
-            iconDiv.classList.add('fa');
-            iconDiv.classList.add(icon.value);
+            var iconDiv = eDOM.el('span.fa.'+icon.value);
             iconDiv.style.position = "absolute";
             iconDiv.style.marginTop = "10px";
             iconDiv.style.color = "#B3B3B3";

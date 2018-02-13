@@ -8,15 +8,11 @@
 <asc-switch class="asc" checked="true"></asc-switch>
 <h3>Radio buttons</h3>
 <asc-radio-group class="asc" checked="Milk">
-    <asc-radio-button class="asc" asc-for="{{testItems}}" value="{{dataItem.value}}" text="{{dataItem.name}}"></asc-radio-button>
+    <asc-radio-button class="asc" asc-for="{{testItems}}" value="{{value}}" text="{{name}}"></asc-radio-button>
 </asc-radio-group>
 <h3>Edit menu</h3>
 <div id="asc-edit-menu" class="asc asc-edit-menu">
-    <li>Cut</li>
-    <li>Copy</li>
-    <li>Replace...</li>
-    <li>Look Up</li>
-    <li>Share...</li>
+    <li asc-for="{{editMenuItems}}" (click)="handler()">{{label}}</li>
 </div>
 <button class="asc asc-edit-menu-button">Show menu</button>
 <p>Select some text for showing menu</p>
@@ -31,10 +27,9 @@
 <h4>Activity Indicator</h4>
 <div class="asc asc-activity-indicator"></div>
 <h4>Progress bar</h4>
-<button class="asc" onclick="document.getElementById('pbar').setAttribute('asc-width', 95)">Change to 95%</button>
-<button class="asc" onclick="document.getElementById('pbar').setAttribute('asc-width', 20)">Change to 20%</button>
-<div id="pbar" class="asc asc-progress-bar" asc-width="20"></div>
-
+<button class="asc" (click)="setProgress(95)">Change to 95%</button>
+<button class="asc" (click)="setProgress(20)">Change to 20%</button>
+<div class="asc asc-progress-bar" p-width="{{progress}}"></div>
 <h3>Segmented Controls</h3>
 <div class="asc asc-segmented-controls" style="height: 400px;width: 500px;border: 1px solid #4cd964;padding: 5px;">
     <div class="asc-segmented-control" data-label="Library">
@@ -131,64 +126,19 @@
 </asc-popover>
 
 <asc-combobox class="asc" data-placeholder="Select item..." data-selected-value="9">
-    <item text="Item 1" value="1"></item>
-    <item text="Item 2" value="2"></item>
-    <item text="Item 3" value="3"></item>
-    <item text="Item 4" value="4"></item>
-    <item text="Item 5" value="5"></item>
-    <item text="Item 6" value="6"></item>
-    <item text="Item 7" value="7"></item>
-    <item text="Item 8" value="8"></item>
-    <item text="Item 9" value="9"></item>
-    <item text="Item 1" value="1"></item>
-    <item text="Item 2" value="2"></item>
-    <item text="Item 3" value="3"></item>
-    <item text="Item 4" value="4"></item>
-    <item text="Item 5" value="5"></item>
-    <item text="Item 6" value="6"></item>
-    <item text="Item 7" value="7"></item>
-    <item text="Item 8" value="8"></item>
-    <item text="Item 9" value="9"></item>
-    <item text="Item 1" value="1"></item>
-    <item text="Item 2" value="2"></item>
-    <item text="Item 3" value="3"></item>
-    <item text="Item 4" value="4"></item>
-    <item text="Item 5" value="5"></item>
-    <item text="Item 6" value="6"></item>
-    <item text="Item 7" value="7"></item>
-    <item text="Item 8" value="8"></item>
-    <item text="Item 9" value="9"></item>
+    <item text="{{name}}" value="{{value}}" asc-for="{{comboboxItems}}"></item>
 </asc-combobox>
 
 
 <h3>List</h3>
 <asc-list class="asc">
-    <asc-subheader>Favorites</asc-subheader>
-    <asc-list-item>
-        <span class="fa fa-hdd-o"></span>
-        Macintosh HD
-    </asc-list-item>
-    <asc-list-item>
-        <span class="fa fa-cloud"></span>
-        iCloud Drive
-    </asc-list-item>
-    <asc-list-item>
-        <span class="fa fa-apple"></span>
-        Applications
-    </asc-list-item>
-    <asc-list-item>
-        <span class="fa fa-desktop"></span>
-        Desktop
-    </asc-list-item>
-    <asc-list-item>
-        <span class="fa fa-file"></span>
-        Documents
-    </asc-list-item>
-    <asc-subheader>Devices</asc-subheader>
-    <asc-list-item>
-        <span class="fa fa-compass"></span>
-        Remote Disc
-    </asc-list-item>
+    <div class="asc" asc-for="{{list}}">
+        <asc-subheader asc-if="{{isSubheader}}">{{name}}</asc-subheader>
+        <asc-list-item asc-if="{{isItem}}">
+            <span class="fa {{icon}}"></span>
+            {{name}}
+        </asc-list-item>
+    </div>
 </asc-list>
 
 <h3>Alert</h3>
