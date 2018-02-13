@@ -39,12 +39,13 @@
                             }
                         } else {
 
+                            var bindingIndex = attrValue.indexOf("{{");
                             //if it's binding to value of component
-                            if (attrValue.indexOf("{{") === 0) {
+                            if (bindingIndex !== -1) {
                                 //binding property of component
-                                var property = attrValue.substring(2, attrValue.length - 2);
+                                var bindProperty = attrValue.substring(bindingIndex + 2, attrValue.indexOf("}}"));
                                 //if component has this property
-                                if (creatingObj.hasOwnProperty(property)) {
+                                if (creatingObj.hasOwnProperty(bindProperty)) {
                                     if (attrList[j].isAttributeBinding) {
                                         //find attribute for creating
                                         var creatingAttribute = window.asc._registrationList.attr.find(function (a) {
@@ -56,11 +57,14 @@
                                         }
                                     }
                                     //for not custom attributes
-                                    attrList[j].value = creatingObj[property];
-                                    if (!watchingProperties[property]) {
-                                        watchingProperties[property] = [attrList[j]];
+                                    if (attrValue.length - 4 > bindProperty.length) {
+                                        attrList[j].nodeValueTemplate = attrValue;
+                                    }
+                                    attrList[j].value = attrValue.replace('{{' + bindProperty + '}}', creatingObj[bindProperty]);
+                                    if (!watchingProperties[bindProperty]) {
+                                        watchingProperties[bindProperty] = [attrList[j]];
                                     } else {
-                                        watchingProperties[property].push(attrList[j]);
+                                        watchingProperties[bindProperty].push(attrList[j]);
                                     }
                                 }
                             }
