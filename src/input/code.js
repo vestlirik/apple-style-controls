@@ -2,13 +2,16 @@ asc.component('input', function(){
     this.init = function (input) {
         var label = eDOM.el('label.asc.asc-eraser');
         input.parentNode.insertBefore(label, input.nextSibling);
+    };
+    this.afterInit = function (input) {
         var icon = input.attributes["icon"];
         if (icon) {
             var iconDiv = eDOM.el('span.fa.'+icon.value);
             iconDiv.style.position = "absolute";
             iconDiv.style.marginTop = "10px";
+            iconDiv.style.marginLeft = "5px";
             iconDiv.style.color = "#B3B3B3";
-            input.style.paddingLeft = "20px";
+            input.style.textIndent = "15px";
             input.parentNode.insertBefore(iconDiv, input);
         }
     }

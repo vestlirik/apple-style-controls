@@ -3,7 +3,7 @@ asc.component('asc-popover', function(){
         var button = document.querySelector('button[data-id=' + popover.id + ']');
         if (button) {
             (function (popover) {
-                var div = eDOM.el('div');
+                var div = eDOM.el('div.asc');
                 while (popover.children.length) {
                     div.appendChild(popover.children[0]);
                 }
