@@ -1,5 +1,5 @@
 (function () {
-    function checkChildrenForBinding(children, creatingObj, watchingProperties) {
+    function checkChildrenForBinding(children, creatingObj, watchingProperties, context) {
         for (var i = 0; i < children.length; i++) {
             if (children[i]) {
                 var attrList = children[i].attributes;
@@ -23,11 +23,17 @@
 
                                 }
                                 //bind them
-                                (function (i, actionName, eventValue) {
+                                (function (i, actionName, eventValue, context) {
                                     children[i].addEventListener(eventName, function (e) {
-                                        creatingObj[actionName](e, creatingObj[eventValue] || eventValue);
+                                        if (creatingObj[actionName]) {
+                                            creatingObj[actionName](e, creatingObj[eventValue] || eventValue);
+                                        } else {
+                                            if (context && context[actionName]) {
+                                                context[actionName](e, creatingObj[eventValue] || eventValue);
+                                            }
+                                        }
                                     });
-                                })(i, actionName, eventValue);
+                                })(i, actionName, eventValue, context);
                             } else {
                                 if (!!creatingObj[attrValue]) {
                                     window.asc._events.push({
@@ -142,9 +148,9 @@
             return creatingObjFunc;
         }
 
-        window.asc.bindElement = function (node, model) {
+        window.asc.bindElement = function (node, model, context) {
             var watchingProperties = {};
-            checkChildrenForBinding([node], model, watchingProperties);
+            checkChildrenForBinding([node], model, watchingProperties, context);
             var keys = Object.keys(watchingProperties);
             keys.forEach(function (prop) {
                 var value = model[prop];
@@ -155,7 +161,7 @@
                     set: function (val) {
                         watchingProperties[prop].forEach(function (attr) {
                             if (attr.isAttributeBinding && attr.updateObj) {
-                                attr.updateObj.update(val);
+                                attr.updateObj.update(val, context);
                             } else {
                                 if (attr.nodeValueTemplate) {
                                     attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
@@ -171,7 +177,7 @@
                 model[prop] = value;
             });
             for (var i = 0; i < node.children.length; i++) {
-                window.asc.bindElement(node.children[i], model);
+                window.asc.bindElement(node.children[i], model, context);
             }
         };
 
@@ -208,7 +214,7 @@
                                     set: function (val) {
                                         watchingProperties[prop].forEach(function (attr) {
                                             if (attr.isAttributeBinding && attr.updateObj) {
-                                                attr.updateObj.update(val);
+                                                attr.updateObj.update(val, creatingObj);
                                             } else {
                                                 if (attr.nodeValueTemplate) {
                                                     attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);

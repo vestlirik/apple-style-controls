@@ -1,0 +1,10 @@
+<h3>List</h3>
+<asc-list class="asc">
+    <div class="asc" asc-for="{{list}}">
+        <asc-subheader asc-if="{{isSubheader}}">{{name}}</asc-subheader>
+        <asc-list-item asc-if="{{isItem}}">
+            <span class="fa {{icon}}"></span>
+            {{name}}
+        </asc-list-item>
+    </div>
+</asc-list>

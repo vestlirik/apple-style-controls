@@ -16,7 +16,7 @@ asc.component('[asc-for]', function () {
 
     this.values = [];
 
-    this.update = function (value) {
+    this.update = function (value, context) {
         if (value && value.length && value.length > 0) {
             var innerItems = document.createDocumentFragment();
             value.forEach(function (t, i) {
@@ -50,7 +50,7 @@ asc.component('[asc-for]', function () {
                 var virtualEl = document.createElement('div');
                 virtualEl.innerHTML = item;
                 var itemVDOMElement = virtualEl.firstElementChild;
-                window.asc.bindElement(itemVDOMElement, t);
+                window.asc.bindElement(itemVDOMElement, t, context);
                 for (var j = 0; j < itemVDOMElement.attributes.length; j++) {
                     if (itemVDOMElement.attributes[j].name.indexOf('(') === 0) {
                         var eventName = itemVDOMElement.attributes[j].name;

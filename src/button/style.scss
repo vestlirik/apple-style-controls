@@ -10,6 +10,10 @@ button.asc {
   transition: background-color 0.5s;
   padding: 1px 4px;
 
+  &.no-border {
+    border: none;
+  }
+
   &:active {
     background-color: rgba($blue, 0.71);
     color: #fff;
@@ -48,7 +52,7 @@ button.asc {
     content: "-";
   }
 
-  &.asc-search-cancel{
+  &.asc-search-cancel {
     border: none;
     background: transparent;
     color: $blue;

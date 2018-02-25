@@ -3,6 +3,11 @@
   src: url("./sanfranciscodisplay-regular-webfont.woff");
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .asc {
   font-family: "San Francisco";
   font-weight: 400;

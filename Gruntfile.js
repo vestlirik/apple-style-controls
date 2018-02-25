@@ -46,12 +46,6 @@ module.exports = function (grunt) {
                         expand: true
                     },
                     {
-                        cwd: 'src/directives-test',
-                        src: 'template.html',
-                        dest: 'dest/directives-test',
-                        expand: true
-                    },
-                    {
                         cwd: 'src/progress-indicator',
                         src: 'template.html',
                         dest: 'dest/progress-indicator',
@@ -61,6 +55,96 @@ module.exports = function (grunt) {
                         cwd: 'src/demo',
                         src: 'template.html',
                         dest: 'dest/demo',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/app',
+                        src: 'template.html',
+                        dest: 'dest/app',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-action-sheet',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-action-sheet',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-activity-indicator',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-activity-indicator',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-button',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-button',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-combobox',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-combobox',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-dialog',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-dialog',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-edit-menu',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-edit-menu',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-input',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-input',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-list',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-list',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-popover',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-popover',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-radio',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-radio',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-segmented-controls',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-segmented-controls',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-switch',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-switch',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-tab-bar',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-tab-bar',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-toolbar',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-toolbar',
                         expand: true
                     }]
             }
@@ -93,10 +177,23 @@ module.exports = function (grunt) {
                         'src/radio-button/code.js',
                         'src/if/code.js',
                         'src/for/code.js',
-                        'src/directives-test/code.js',
                         'src/demo/code.js',
                         'src/app/code.js',
-                        'src/router/code.js'
+                        'src/router/code.js',
+                        'src/demo/demo-button/code.js',
+                        'src/demo/demo-radio/code.js',
+                        'src/demo/demo-switch/code.js',
+                        'src/demo/demo-edit-menu/code.js',
+                        'src/demo/demo-activity-indicator/code.js',
+                        'src/demo/demo-segmented-controls/code.js',
+                        'src/demo/demo-input/code.js',
+                        'src/demo/demo-tab-bar/code.js',
+                        'src/demo/demo-toolbar/code.js',
+                        'src/demo/demo-action-sheet/code.js',
+                        'src/demo/demo-popover/code.js',
+                        'src/demo/demo-combobox/code.js',
+                        'src/demo/demo-list/code.js',
+                        'src/demo/demo-dialog/code.js'
                     ]
                 }
             }

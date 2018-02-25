@@ -1,0 +1,32 @@
+<h3>Alert</h3>
+<input class="asc" type="text" id="alert-header" placeholder="Header" value="Allow access to location?" style="width: 300px;">
+<input class="asc" type="text" id="alert-text" placeholder="Text"
+       value="Alerts disrupt the user experience and should only be used in important situations like confirming purchases and destructive actions (such as deletions), or notifying people about problems. The infrequency of alerts helps ensure that people take them seriously. Ensure that each alert offers critical information and useful choices."
+       style="width: 300px;">
+<input class="asc" type="text" id="alert-submit" placeholder="Submit text" value="Submit" style="width: 300px;">
+<input class="asc" type="text" id="alert-cancel" placeholder="Cancel text" value="Cancel" style="width: 300px;">
+<button class="asc" (click)='openAlert(ev)'>Show alert</button>
+<p>Selected answer: <span id="alert-response"></span></p>
+
+<h3>Dialog</h3>
+<button class="asc" (click)="openDialog(ev)">Show dialog</button>
+<asc-dialog id="sample-dialog" callback="dialogResponse">
+    <asc-content>
+        <asc-dialog-header>Dialog header</asc-dialog-header>
+        <p>Dialog text</p>
+        <div>
+            <input id="sample-dialog-input" class="asc" placeholder="Dialog text">
+            <label class="asc asc-eraser"></label>
+        </div>
+    </asc-content>
+    <asc-actions>
+        <asc-action-button class="asc" reject>Cancel</asc-action-button>
+        <asc-action-button class="asc" resolve return-value-id="sample-dialog-input">OK</asc-action-button>
+    </asc-actions>
+</asc-dialog>
+
+<br>
+<button class="asc" (click)='openColorPicker(ev)'>Show color picker</button>
+<div style="display: flex; align-items: center">
+    Selected color: <span id="selected-color-index" style="height: 50px; width: 50px;"></span>
+</div>

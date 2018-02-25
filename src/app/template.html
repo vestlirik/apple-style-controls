@@ -1,0 +1,20 @@
+<h3 class="main-label">
+    <span class="label">
+        <span (click)="goTo()" class="label-text">Apple style controls</span>
+    </span>
+
+    <button class="asc no-border" (click)="gitHubPage()">
+        <span class="fa fa-github"></span>
+        <span style="padding-left: 5px;">GitHub</span>
+    </button>
+</h3>
+
+<div class="asc content">
+    <asc-list class="asc left-part">
+        <asc-subheader>Components</asc-subheader>
+        <asc-list-item (click)="goTo(path)" asc-for="{{menuList}}">
+            {{name}}
+        </asc-list-item>
+    </asc-list>
+    <asc-router class="asc main-part"></asc-router>
+</div>
