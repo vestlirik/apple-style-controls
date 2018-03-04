@@ -1,0 +1,62 @@
+asc-add-to-cart-button {
+  font-size: 17px;
+  line-height: 1.52947;
+  font-weight: 400;
+  letter-spacing: -.021em;
+  font-family: SF Pro Text, SF Pro Icons, AOS Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.add-to-cart-button {
+  background-color: #0070c9;
+  background: -webkit-linear-gradient(#42a1ec, #0070c9);
+  background: linear-gradient(#42a1ec, #0070c9);
+  border-color: #07c;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  min-width: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 3px;
+  padding-bottom: 4px;
+  text-align: center;
+  white-space: nowrap;
+  &:focus {
+    outline: none;
+  }
+  height: 30px;
+  overflow: hidden;
+  transition-property: height;
+  transition-duration: .5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  &.hidden {
+    padding: 0;
+    border: none;
+  }
+}
+
+.added-to-card {
+  color: white;
+  background: #42a1ec;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  overflow: hidden;
+  transition-property: height;
+  transition-duration: .5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  padding: 0 10px;
+  box-sizing: border-box;
+  p {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.hidden {
+  height: 0;
+}

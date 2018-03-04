@@ -11,10 +11,13 @@ asc.component('asc-combobox', function(){
         combobox.appendChild(div);
         var innerText = eDOM.el('span');
         var selectedValue = combobox.getAttribute("data-selected-value");
+        var previouslySelected;
         if (selectedValue) {
             for (var i = 0; i < div.children.length; i++) {
                 var child = div.children[i];
                 if (child.getAttribute("value") === selectedValue) {
+                    child.classList.add('selected');
+                    previouslySelected = child;
                     innerText.innerHTML = child.getAttribute("text");
                     break;
                 }
@@ -33,6 +36,9 @@ asc.component('asc-combobox', function(){
         combobox.addEventListener('click', function (e) {
             if (combobox.classList.contains('active')) {
                 if (e.target.tagName === "ITEM") {
+                    previouslySelected.classList.remove('selected');
+                    previouslySelected = e.target;
+                    e.target.classList.add('selected');
                     innerText.innerHTML = e.target.getAttribute("text");
                     combobox.setAttribute("data-selected-value", e.target.getAttribute("value"));
                 }

@@ -34,32 +34,32 @@ asc-combobox {
     left: 0;
     max-height: 250px;
     overflow: auto;
-    box-shadow: 0px 6px 12px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 6px 12px -1px rgba(0, 0, 0, 0.75);
     item {
       cursor: pointer;
       white-space: nowrap;
       background: #fff;
       padding: 5px;
       &:hover {
-        background: $blue;
+        background-color: $blue !important;
         color: #c5ddfb;
       }
+      &.selected {
+        background-color: #c5ddfb;
+      }
     }
-    &::-webkit-scrollbar-track
-    {
+    &::-webkit-scrollbar-track {
       background-color: #fff;
       border-left: 1px solid #e8e8e8;
     }
 
-    &::-webkit-scrollbar
-    {
+    &::-webkit-scrollbar {
       width: 8px;
       background-color: #fff;
       border-left: 1px solid #e8e8e8;
     }
 
-    &::-webkit-scrollbar-thumb
-    {
+    &::-webkit-scrollbar-thumb {
       border-radius: 10px;
       background-color: #c1c1c1;
     }
