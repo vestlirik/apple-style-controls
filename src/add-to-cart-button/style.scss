@@ -4,6 +4,10 @@ asc-add-to-cart-button {
   font-weight: 400;
   letter-spacing: -.021em;
   font-family: SF Pro Text, SF Pro Icons, AOS Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+  display: block;
+  margin: 5px 0;
+  overflow: hidden;
+  height: 30px;
 }
 
 .add-to-cart-button {

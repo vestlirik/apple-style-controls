@@ -1,7 +1,7 @@
-<div class="added-to-card hidden" style="width: 300px">
+<div class="added-to-card {{!added: 'hidden'}}" style="width: 300px">
     <p>Item added!</p>
     <button class="asc asc-icon-button trash-button" (click)="toggleButton()">
         <span class="fa fa-trash"></span>
     </button>
 </div>
-<button class="add-to-cart-button" (click)="toggleButton()" style="width: 300px">Add to cart</button>
+<button class="add-to-cart-button {{added: 'hidden'}}" (click)="toggleButton()" style="width: 300px">Add to cart</button>

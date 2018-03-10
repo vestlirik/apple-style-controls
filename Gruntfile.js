@@ -52,6 +52,12 @@ module.exports = function (grunt) {
                         expand: true
                     },
                     {
+                        cwd: 'src/add-to-cart-button',
+                        src: 'template.html',
+                        dest: 'dest/add-to-cart-button',
+                        expand: true
+                    },
+                    {
                         cwd: 'src/demo',
                         src: 'template.html',
                         dest: 'dest/demo',
@@ -180,6 +186,7 @@ module.exports = function (grunt) {
                         'src/demo/code.js',
                         'src/app/code.js',
                         'src/router/code.js',
+                        'src/add-to-cart-button/code.js',
                         'src/demo/demo-button/code.js',
                         'src/demo/demo-radio/code.js',
                         'src/demo/demo-switch/code.js',

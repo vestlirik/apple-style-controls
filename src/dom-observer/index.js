@@ -3,6 +3,10 @@
 
     //IE polyfill
     (function () {
+        String.prototype.replaceAll = function(search, replacement) {
+            var target = this;
+            return target.replace(new RegExp(search, 'g'), replacement);
+        };
         if (typeof window.CustomEvent === "function") return false; //If not IE
 
         function CustomEvent(event, params) {

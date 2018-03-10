@@ -74,6 +74,16 @@ Using {{ property name of component }}
 <div <directive-name>="{{<propertyName>}}" class="asc"></div>
 ```
 
+####Binding classes in template
+Using {{\<component property>: '\<value>'}}
+```html
+<button class="{{added: 'hidden'}}">Add button</button>
+```
+or with **!**
+```html
+<button class="{{!added: 'hidden'}}">Add button</button>
+```
+
 ### How to bind event in template
 Using (\<name of desired event>)="\<name of handler in component>()"
 ```html

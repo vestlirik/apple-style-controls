@@ -1,14 +1,39 @@
 asc.component('asc-add-to-cart-button', function () {
     this.templateSrc = "add-to-cart-button/template.html";
-    var added;
-    var addButton;
+    var self = this;
+    this.added = false;
     this.afterInit = function (el) {
-        added = el.getElementsByClassName('added-to-card')[0];
-        addButton = el.getElementsByClassName('add-to-cart-button')[0];
+        var addedAttr = el.getAttribute('added');
+        if (addedAttr) {
+            self.added = addedAttr === "true";
+        }
     };
 
+    this.params = [
+        {
+            name: 'added',
+            func: function (node, value) {
+                self.added = value === "true";
+            }
+        }
+    ];
+
     this.toggleButton = function () {
-        added.classList.toggle('hidden');
-        addButton.classList.toggle('hidden');
-    }
+        self.added = !self.added;
+        self.updateEvents();
+    };
+
+    this.updateEvents = function () {
+        if (self.added) {
+            if (self.events.add) {
+                self.events.add();
+            }
+        } else {
+            if (self.events.remove) {
+                self.events.remove();
+            }
+        }
+    };
+
+    this.events = ['add', 'remove'];
 });

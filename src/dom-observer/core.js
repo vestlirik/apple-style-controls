@@ -50,6 +50,19 @@
                             if (bindingIndex !== -1) {
                                 //binding property of component
                                 var bindProperty = attrValue.substring(bindingIndex + 2, attrValue.indexOf("}}"));
+                                if (bindProperty.indexOf(':') > -1) {
+                                    var bindPropertyParts = bindProperty.split(':').map(function (value) {
+                                        return value.trim();
+                                    });
+                                    var prop = bindPropertyParts[0];
+                                    attrList[j].bindingValue = bindPropertyParts[1].replaceAll('\'', '').replaceAll('"', '');
+                                    if (prop[0] === '!') {
+                                        attrList[j].reverseBinding = true;
+                                        prop = prop.substring(1);
+                                    }
+                                    attrValue = attrValue.replace(bindProperty, prop);
+                                    bindProperty = prop;
+                                }
                                 //if component has this property
                                 if (creatingObj.hasOwnProperty(bindProperty)) {
                                     if (attrList[j].isAttributeBinding) {
@@ -164,7 +177,19 @@
                                 attr.updateObj.update(val, context);
                             } else {
                                 if (attr.nodeValueTemplate) {
-                                    attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                    var templateVal = val;
+                                    if (attr.bindingValue) {
+                                        if (attr.reverseBinding) {
+                                            templateVal = val ? '' : attr.bindingValue;
+                                        } else {
+                                            templateVal = val ? attr.bindingValue : '';
+                                        }
+                                    } else {
+                                        if (attr.reverseBinding) {
+                                            val = !val;
+                                        }
+                                    }
+                                    attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', templateVal || val);
                                 } else {
                                     attr.value = val;
                                 }
@@ -216,8 +241,20 @@
                                             if (attr.isAttributeBinding && attr.updateObj) {
                                                 attr.updateObj.update(val, creatingObj);
                                             } else {
+                                                var templateVal = val;
                                                 if (attr.nodeValueTemplate) {
-                                                    attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', val);
+                                                    if (attr.bindingValue) {
+                                                        if (attr.reverseBinding) {
+                                                            templateVal = val ? '' : attr.bindingValue;
+                                                        } else {
+                                                            templateVal = val ? attr.bindingValue : '';
+                                                        }
+                                                    } else {
+                                                        if (attr.reverseBinding) {
+                                                            val = !val;
+                                                        }
+                                                    }
+                                                    attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', templateVal);
                                                 } else {
                                                     attr.value = val;
                                                 }
