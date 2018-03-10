@@ -74,7 +74,7 @@ Using {{ property name of component }}
 <div <directive-name>="{{<propertyName>}}" class="asc"></div>
 ```
 
-####Binding classes in template
+#### Binding classes in template
 Using {{\<component property>: '\<value>'}}
 ```html
 <button class="{{added: 'hidden'}}">Add button</button>
