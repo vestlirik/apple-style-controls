@@ -11,10 +11,12 @@ asc-subheader {
   font-size: 12px;
   font-weight: bold;
   padding: 5px;
+  cursor: default;
 }
 
 asc-list-item {
   padding: 5px 5px 5px 15px;
+  display: block;
   .fa {
     color: #695e5c;
     width: 25px;
