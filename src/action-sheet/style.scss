@@ -8,7 +8,9 @@ asc-action-sheet {
   flex-direction: column;
   align-items: stretch;
   position: fixed;
-  width: calc(100% - 15px);
+  width: calc(100% - 30px);
+  left: 15px;
+  right: 15px;
 
   action-block {
     background-color: #F5F5F5;
