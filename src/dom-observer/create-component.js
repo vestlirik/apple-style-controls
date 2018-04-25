@@ -31,6 +31,12 @@
 
 
     function addComponentToList(arr, name, object) {
+        var obj = new object();
+        if(obj.templateSrc && !obj.lazyTemplate){
+            window.asc.getLocalFile(obj.templateSrc).then(function (template) {
+                object._loadedTemplate = template;
+            });
+        }
         arr.push({
             name: name,
             obj: object

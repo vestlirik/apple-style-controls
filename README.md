@@ -14,6 +14,8 @@ asc.component('<name of component>', function () {
     this.templateSrc = "...path..to..template...";
     //or template from string (string template has priority)
     this.template = "...template...";
+    //enables lazy loading for template
+    this.lazyTemplate = true;
 });
 ```
 Component name should be one of the following:

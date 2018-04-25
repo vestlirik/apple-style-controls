@@ -278,9 +278,14 @@
                         applyTemplate(creatingObj.template);
                     } else {
                         if (creatingObj.templateSrc) {
-                            window.asc.getLocalFile(creatingObj.templateSrc).then(function (template) {
-                                applyTemplate(template);
-                            });
+                            if(creatingObjFunc._loadedTemplate){
+                                applyTemplate(creatingObjFunc._loadedTemplate);
+                            } else {
+                                window.asc.getLocalFile(creatingObj.templateSrc).then(function (template) {
+                                    creatingObjFunc._loadedTemplate = template;
+                                    applyTemplate(template);
+                                });
+                            }
                         } else {
                             if (creatingObj.init) {
                                 creatingObj.init(addedNode);
