@@ -1,0 +1,29 @@
+@import "../common/colors";
+
+asc-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  cursor: pointer;
+  &.checked {
+    &:before {
+      color: $blue;
+      content: "✓";
+      left: 0;
+      top: -2px;
+      position: absolute;
+      padding-right: 10px;
+    }
+  }
+  &:not(.checked):not(.touch):hover {
+    &:before {
+      color: $blue;
+      content: "✓";
+      left: 0;
+      top: -2px;
+      position: absolute;
+      padding-right: 10px;
+      opacity: 0.5;
+    }
+  }
+}

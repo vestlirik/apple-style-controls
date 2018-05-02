@@ -18,6 +18,11 @@ asc.component('app', function () {
             component: 'demo-radio'
         },
         {
+            path: 'checkbox',
+            name: 'Checkbox',
+            component: 'demo-checkbox'
+        },
+        {
             path: 'edit-menu',
             name: 'Edit menu',
             component: 'demo-edit-menu'
