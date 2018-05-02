@@ -14,4 +14,8 @@ asc.component('demo-checkbox', function () {
             checked: false
         }
     ];
+
+    this.checkedChange = function () {
+        debugger;
+    }
 });

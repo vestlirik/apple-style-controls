@@ -215,6 +215,44 @@
                     var creatingObj = new creatingObjFunc();
                     addedNode.bindedToObj = creatingObj;
 
+                    var customEvents = {};
+
+                    if (creatingObj.events && creatingObj.events.length > 0) {
+                        creatingObj.events.forEach(function (event) {
+                            creatingObj.events[event.name] = function (data) {
+                                addedNode.dispatchEvent(new CustomEvent(event.name, {'detail': data}));
+                            };
+                            if (event.bindToProperty) {
+                                if (!customEvents[event.bindToProperty]) {
+                                    customEvents[event.bindToProperty] = [];
+                                }
+                                customEvents[event.bindToProperty].push(creatingObj.events[event.name]);
+                            }
+                        });
+                    }
+
+                    function applyCustomEventsOnly() {
+                        var keys = Object.keys(customEvents);
+                        keys.forEach(function (prop) {
+                            var value = creatingObj[prop];
+                            Object.defineProperty(creatingObj, prop, {
+                                get: function () {
+                                    return creatingObj["_" + prop];
+                                },
+                                set: function (val) {
+                                    if (customEvents[prop]) {
+                                        customEvents[prop].forEach(function (event) {
+                                            event(val);
+                                        });
+                                    }
+                                    creatingObj["_" + prop] = val;
+                                },
+                                configurable: true
+                            });
+                            creatingObj[prop] = value;
+                        });
+                    }
+
                     function applyTemplate(template) {
                         if (creatingObj.init) {
                             creatingObj.init(addedNode);
@@ -229,7 +267,14 @@
                             var children = addedNode.childNodes;
                             var watchingProperties = {};
                             checkChildrenForBinding(children, creatingObj, watchingProperties);
-                            var keys = Object.keys(watchingProperties);
+                            var watchKeys = Object.keys(watchingProperties);
+                            var eventKeys = Object.keys(customEvents);
+                            var keys = watchKeys;
+                            eventKeys.forEach(function (key) {
+                                if (keys.indexOf(key) === -1) {
+                                    keys.push(key);
+                                }
+                            });
                             keys.forEach(function (prop) {
                                 var value = creatingObj[prop];
                                 Object.defineProperty(creatingObj, prop, {
@@ -237,29 +282,36 @@
                                         return creatingObj["_" + prop];
                                     },
                                     set: function (val) {
-                                        watchingProperties[prop].forEach(function (attr) {
-                                            if (attr.isAttributeBinding && attr.updateObj) {
-                                                attr.updateObj.update(val, creatingObj);
-                                            } else {
-                                                var templateVal = val;
-                                                if (attr.nodeValueTemplate) {
-                                                    if (attr.bindingValue) {
-                                                        if (attr.reverseBinding) {
-                                                            templateVal = val ? '' : attr.bindingValue;
-                                                        } else {
-                                                            templateVal = val ? attr.bindingValue : '';
-                                                        }
-                                                    } else {
-                                                        if (attr.reverseBinding) {
-                                                            val = !val;
-                                                        }
-                                                    }
-                                                    attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', templateVal);
+                                        if (watchingProperties[prop]) {
+                                            watchingProperties[prop].forEach(function (attr) {
+                                                if (attr.isAttributeBinding && attr.updateObj) {
+                                                    attr.updateObj.update(val, creatingObj);
                                                 } else {
-                                                    attr.value = val;
+                                                    var templateVal = val;
+                                                    if (attr.nodeValueTemplate) {
+                                                        if (attr.bindingValue) {
+                                                            if (attr.reverseBinding) {
+                                                                templateVal = val ? '' : attr.bindingValue;
+                                                            } else {
+                                                                templateVal = val ? attr.bindingValue : '';
+                                                            }
+                                                        } else {
+                                                            if (attr.reverseBinding) {
+                                                                val = !val;
+                                                            }
+                                                        }
+                                                        attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', templateVal);
+                                                    } else {
+                                                        attr.value = val;
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
+                                        if (customEvents[prop]) {
+                                            customEvents[prop].forEach(function (event) {
+                                                event(val);
+                                            });
+                                        }
                                         creatingObj["_" + prop] = val;
                                     },
                                     configurable: true
@@ -278,7 +330,7 @@
                         applyTemplate(creatingObj.template);
                     } else {
                         if (creatingObj.templateSrc) {
-                            if(creatingObjFunc._loadedTemplate){
+                            if (creatingObjFunc._loadedTemplate) {
                                 applyTemplate(creatingObjFunc._loadedTemplate);
                             } else {
                                 window.asc.getLocalFile(creatingObj.templateSrc).then(function (template) {
@@ -295,6 +347,7 @@
                                     creatingObj.afterInit(addedNode);
                                 }, 0);
                             }
+                            applyCustomEventsOnly();
                         }
                     }
                 } else {

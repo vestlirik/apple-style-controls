@@ -12,9 +12,8 @@ asc.component('asc-checkbox', function () {
         self.element.addEventListener('click', function () {
             self.checked = !self.checked;
             self.checkItem();
-            self.element.dispatchEvent(new CustomEvent('checkedchange', {'detail': self.checked}));
         });
-        if('ontouchstart' in window){
+        if ('ontouchstart' in window) {
             self.element.classList.add('touch');
         }
     };
@@ -37,5 +36,10 @@ asc.component('asc-checkbox', function () {
         }
     };
 
-    this.events = ['checkedchange'];
+    this.events = [
+        {
+            name: 'checked-change',
+            bindToProperty: 'checked'
+        }
+    ];
 });
