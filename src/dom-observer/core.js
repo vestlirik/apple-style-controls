@@ -25,11 +25,17 @@
                                 //bind them
                                 (function (i, actionName, eventValue, context) {
                                     children[i].addEventListener(eventName, function (e) {
+                                        var eventVal;
+                                        if (e instanceof CustomEvent) {
+                                            eventVal = e.detail;
+                                        } else {
+                                            eventVal = creatingObj[eventValue] || eventValue;
+                                        }
                                         if (creatingObj[actionName]) {
-                                            creatingObj[actionName](e, creatingObj[eventValue] || eventValue);
+                                            creatingObj[actionName](e, eventVal);
                                         } else {
                                             if (context && context[actionName]) {
-                                                context[actionName](e, creatingObj[eventValue] || eventValue);
+                                                context[actionName](e, eventVal);
                                             }
                                         }
                                     });
@@ -220,7 +226,9 @@
                     if (creatingObj.events && creatingObj.events.length > 0) {
                         creatingObj.events.forEach(function (event) {
                             creatingObj.events[event.name] = function (data) {
-                                addedNode.dispatchEvent(new CustomEvent(event.name, {'detail': data}));
+                                if (creatingObj._isInited) {
+                                    addedNode.dispatchEvent(new CustomEvent(event.name, {'detail': data}));
+                                }
                             };
                             if (event.bindToProperty) {
                                 if (!customEvents[event.bindToProperty]) {
@@ -322,7 +330,10 @@
                         if (creatingObj.afterInit) {
                             setTimeout(function () {
                                 creatingObj.afterInit(addedNode);
+                                creatingObj._isInited = true;
                             }, 0);
+                        } else {
+                            creatingObj._isInited = true;
                         }
                     }
 
@@ -345,7 +356,10 @@
                             if (creatingObj.afterInit) {
                                 setTimeout(function () {
                                     creatingObj.afterInit(addedNode);
+                                    creatingObj._isInited = true;
                                 }, 0);
+                            } else {
+                                creatingObj._isInited = true;
                             }
                             applyCustomEventsOnly();
                         }
