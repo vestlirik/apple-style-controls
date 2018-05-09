@@ -152,6 +152,12 @@ module.exports = function (grunt) {
                         src: 'template.html',
                         dest: 'dest/demo/demo-toolbar',
                         expand: true
+                    },
+                    {
+                        cwd: 'src/demo/demo-checkbox',
+                        src: 'template.html',
+                        dest: 'dest/demo/demo-checkbox',
+                        expand: true
                     }]
             }
         },
@@ -187,6 +193,7 @@ module.exports = function (grunt) {
                         'src/app/code.js',
                         'src/router/code.js',
                         'src/add-to-cart-button/code.js',
+                        'src/checkbox/code.js',
                         'src/demo/demo-button/code.js',
                         'src/demo/demo-radio/code.js',
                         'src/demo/demo-switch/code.js',
@@ -200,7 +207,8 @@ module.exports = function (grunt) {
                         'src/demo/demo-popover/code.js',
                         'src/demo/demo-combobox/code.js',
                         'src/demo/demo-list/code.js',
-                        'src/demo/demo-dialog/code.js'
+                        'src/demo/demo-dialog/code.js',
+                        'src/demo/demo-checkbox/code.js'
                     ]
                 }
             }

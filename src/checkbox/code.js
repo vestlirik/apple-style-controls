@@ -22,8 +22,11 @@ asc.component('asc-checkbox', function () {
         {
             name: 'checked',
             func: function (node, value) {
-                self.checked = value;
-                self.checkItem();
+                var newValue = value === "true";
+                if (self.checked !== newValue) {
+                    self.checked = value;
+                    self.checkItem();
+                }
             }
         }
     ];

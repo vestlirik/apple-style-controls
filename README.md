@@ -91,6 +91,28 @@ Using (\<name of desired event>)="\<name of handler in component>()"
 ```html
 <button class="asc" (click)='openAlert()'>Show alert</button>
 ```
+Event binding can have next parameters:
+- $event - event object
+- $value - value in event
+- $target - context object
+- `<any other name>` - property name
+
+### How to add custom events to component
+Using events array with name of event, also you can optionally bind event firing to property value
+```js
+asc.component('<component-name>', function () {
+    this.events = [
+        {
+            name: '<event-name>',
+            bindToProperty?: '<property-name>'
+        }
+    ];
+});
+```
+Also event can be fired programmatically by calling
+```js
+this(self).events.<event-name>(<data>);
+```
 
 ### Important part for running app
 At start of the body you should following line of code

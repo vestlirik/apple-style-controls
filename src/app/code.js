@@ -96,7 +96,7 @@ asc.component('app', function () {
         window.router.setRouterConfig(routes);
     };
 
-    this.goTo = function (e, link) {
+    this.goTo = function (link) {
         window.router.goTo(link);
     };
 

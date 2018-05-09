@@ -15,7 +15,7 @@ asc.component('demo-checkbox', function () {
         }
     ];
 
-    this.checkedChange = function (e, data) {
-        debugger;
+    this.checkedChange = function (data, target) {
+        target.checked = data;
     }
 });

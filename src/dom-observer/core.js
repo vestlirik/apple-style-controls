@@ -18,28 +18,56 @@
                                 //getting event handler name of component
                                 var eventName = attrList[j].name.substring(1, attrList[j].name.length - 1);
                                 //event value
-                                var eventValue = attrValue.substring(attrValue.indexOf("(") + 1, attrValue.indexOf(")"));
+                                var eventValue = attrValue.substring(attrValue.indexOf("(") + 1, attrValue.indexOf(")")).trim();
+                                var eventParams = [];
                                 if (eventValue.length > 0) {
-
+                                    eventParams = eventValue.split(',').map(function (ev) {
+                                        return ev.trim();
+                                    });
                                 }
                                 //bind them
-                                (function (i, actionName, eventValue, context) {
+                                (function (i, actionName, eventValue, context, eventParams) {
                                     children[i].addEventListener(eventName, function (e) {
-                                        var eventVal;
-                                        if (e instanceof CustomEvent) {
-                                            eventVal = e.detail;
-                                        } else {
-                                            eventVal = creatingObj[eventValue] || eventValue;
-                                        }
-                                        if (creatingObj[actionName]) {
-                                            creatingObj[actionName](e, eventVal);
-                                        } else {
-                                            if (context && context[actionName]) {
-                                                context[actionName](e, eventVal);
+                                        var paramsArr = [];
+                                        eventParams.forEach(function (param) {
+                                            switch (param) {
+                                                case "$event":
+                                                    paramsArr.push(e);
+                                                    break;
+                                                case "$value":
+                                                    if (e instanceof CustomEvent) {
+                                                        paramsArr.push(e.detail);
+                                                    } else {
+                                                        paramsArr.push(null);
+                                                    }
+                                                    break;
+                                                case "$target":
+                                                    paramsArr.push(creatingObj || context);
+                                                    break;
+                                                default:
+                                                    paramsArr.push(creatingObj[eventValue]);
                                             }
+                                        });
+                                        // if (e instanceof CustomEvent) {
+                                        //     eventVal = e.detail;
+                                        // } else {
+                                        //     eventVal = creatingObj[eventValue] || eventValue;
+                                        // }
+
+                                        var callingAction = creatingObj[actionName] || (context ? context[actionName] : null);
+
+                                        if (callingAction) {
+                                            callingAction.apply(null, paramsArr);
                                         }
+                                        // if (creatingObj[actionName]) {
+                                        //     creatingObj[actionName](e, eventVal);
+                                        // } else {
+                                        //     if (context && context[actionName]) {
+                                        //         context[actionName](e, eventVal);
+                                        //     }
+                                        // }
                                     });
-                                })(i, actionName, eventValue, context);
+                                })(i, actionName, eventValue, context, eventParams);
                             } else {
                                 if (!!creatingObj[attrValue]) {
                                     window.asc._events.push({
