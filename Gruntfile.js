@@ -10,6 +10,10 @@ module.exports = function (grunt) {
                     {
                         src: 'dest/styles.css',
                         dest: 'dest/styles.css'
+                    },
+                    {
+                        src: 'dist/styles.css',
+                        dest: 'dist/styles.css'
                     }
                 ]
             }
@@ -25,14 +29,16 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'dest/styles.css': 'src/styles.scss',
-                    'src/styles.css': 'src/styles.scss'
+                    'src/styles.css': 'src/styles.scss',
+                    'dist/styles.css': 'src/styles.scss'
                 }
             }
         },
         autoprefixer:{
             dist:{
                 files:{
-                    'dest/styles.css':'dest/styles.css'
+                    'dest/styles.css':'dest/styles.css',
+                    'dist/styles.css':'dist/styles.css'
                 }
             }
         },
@@ -55,6 +61,24 @@ module.exports = function (grunt) {
                         cwd: 'src/add-to-cart-button',
                         src: 'template.html',
                         dest: 'dest/add-to-cart-button',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src',
+                        src: '*.woff',
+                        dest: 'dist/',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/progress-indicator',
+                        src: 'template.html',
+                        dest: 'dist/progress-indicator',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/add-to-cart-button',
+                        src: 'template.html',
+                        dest: 'dist/add-to-cart-button',
                         expand: true
                     },
                     {
@@ -209,6 +233,37 @@ module.exports = function (grunt) {
                         'src/demo/demo-list/code.js',
                         'src/demo/demo-dialog/code.js',
                         'src/demo/demo-checkbox/code.js'
+                    ],
+                    'dist/core.js': [
+                        'node_modules/edom/edom.js',
+                        'src/dom-observer/index.js',
+                        'src/dom-observer/core.js',
+                        'src/dom-observer/create-component.js',
+                        'src/dom-observer/addStyle.js',
+                        'src/dom-observer/uniqueId.js',
+                        'src/dom-observer/templating.js',
+                        'src/if/code.js',
+                        'src/for/code.js',
+                        'src/router/code.js'
+                    ],
+                    'dist/components.js': [
+                        'src/edit-menu/code.js',
+                        'src/progress-indicator/code.js',
+                        'src/segmented-controls/code.js',
+                        'src/input/code.js',
+                        'src/search-bar/code.js',
+                        'src/tab-bar/code.js',
+                        'src/toolbar/code.js',
+                        'src/action-sheet/code.js',
+                        'src/alert/code.js',
+                        'src/dialog/code.js',
+                        'src/color-picker/code.js',
+                        'src/popover/code.js',
+                        'src/combobox/code.js',
+                        'src/switch/code.js',
+                        'src/radio-button/code.js',
+                        'src/add-to-cart-button/code.js',
+                        'src/checkbox/code.js'
                     ]
                 }
             }
