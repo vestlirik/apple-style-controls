@@ -30,7 +30,7 @@ module.exports = function (grunt) {
                 files: {
                     'dest/styles.css': 'src/styles.scss',
                     'src/styles.css': 'src/styles.scss',
-                    'dist/styles.css': 'src/styles.scss'
+                    'dist/styles.css': 'src/styles-components.scss'
                 }
             }
         },
