@@ -212,6 +212,7 @@ module.exports = function (grunt) {
                         'src/switch/code.js',
                         'src/radio-button/code.js',
                         'src/if/code.js',
+                        'src/disabled/code.js',
                         'src/for/code.js',
                         'src/demo/code.js',
                         'src/app/code.js',
@@ -243,6 +244,7 @@ module.exports = function (grunt) {
                         'src/dom-observer/uniqueId.js',
                         'src/dom-observer/templating.js',
                         'src/if/code.js',
+                        'src/disabled/code.js',
                         'src/for/code.js',
                         'src/router/code.js'
                     ],
