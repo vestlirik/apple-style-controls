@@ -1,12 +1,17 @@
-asc.component('input', function(){
+asc.component('input', function () {
     this.init = function (input) {
-        var label = eDOM.el('label.asc.asc-eraser');
-        input.parentNode.insertBefore(label, input.nextSibling);
+        if (!input.parentNode.classList.contains('input-container')) {
+            var inputDiv = eDOM.el('.input-container.asc');
+            input.parentNode.insertBefore(inputDiv, input.nextSibling);
+            inputDiv.appendChild(input);
+            var label = eDOM.el('label.asc.asc-eraser');
+            inputDiv.appendChild(label);
+        }
     };
     this.afterInit = function (input) {
         var icon = input.attributes["icon"];
         if (icon) {
-            var iconDiv = eDOM.el('span.fa.'+icon.value);
+            var iconDiv = eDOM.el('span.fa.' + icon.value);
             iconDiv.style.position = "absolute";
             iconDiv.style.marginTop = "10px";
             iconDiv.style.marginLeft = "5px";
@@ -16,7 +21,7 @@ asc.component('input', function(){
         }
     }
 });
-asc.component('.asc-eraser', function(){
+asc.component('.asc-eraser', function () {
     this.init = function (eraser) {
 
         /**
@@ -29,6 +34,7 @@ asc.component('.asc-eraser', function(){
                 e.target.previousElementSibling.focus();
             }, 0);
         }
+
         eraser.addEventListener('mousedown', eraseContent);
     }
 });
