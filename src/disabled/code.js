@@ -7,7 +7,7 @@ asc.component('[asc-disabled]', function () {
 
     function checkAttribute(value) {
         if (value) {
-            self.element.setAttribute('disabled');
+            self.element.setAttribute('disabled', '');
         } else {
             self.element.removeAttribute('disabled');
         }
