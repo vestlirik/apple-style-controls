@@ -9,7 +9,7 @@ asc.component('input', function () {
             var icon = input.attributes["icon"];
             if (icon) {
                 var iconDiv = eDOM.el('span.fa.' + icon.value);
-                input.parentNode.insertBefore(iconDiv, input);
+                inputDiv.appendChild(iconDiv);
             }
         }
     }
