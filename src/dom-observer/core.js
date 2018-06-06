@@ -98,7 +98,8 @@
                                     bindProperty = prop;
                                 }
                                 //if component has this property
-                                if (creatingObj.hasOwnProperty(bindProperty)) {
+                                var propertyNested = bindProperty.indexOf('.') !== -1;
+                                if (propertyNested ? creatingObj.hasOwnNestedProperty(bindProperty) : creatingObj.hasOwnProperty(bindProperty)) {
                                     if (attrList[j].isAttributeBinding) {
                                         //find attribute for creating
                                         var creatingAttribute = window.asc._registrationList.attr.find(function (a) {
@@ -113,7 +114,8 @@
                                     if (attrValue.length - 4 > bindProperty.length) {
                                         attrList[j].nodeValueTemplate = attrValue;
                                     }
-                                    attrList[j].value = attrValue.replace('{{' + bindProperty + '}}', creatingObj[bindProperty]);
+                                    var bindObj = propertyNested ? creatingObj.getOwnNestedProperty(bindProperty) : creatingObj[bindProperty];
+                                    attrList[j].value = attrValue.replace('{{' + bindProperty + '}}', bindObj);
                                     if (!watchingProperties[bindProperty]) {
                                         watchingProperties[bindProperty] = [attrList[j]];
                                     } else {
@@ -137,6 +139,7 @@
                                 var innerText = children[i].nodeValue;
                                 children[i].nodeValueTemplate = innerText;
                                 var property = innerText.substring(2, innerText.length - 2);
+                                // debugger;
                                 if (creatingObj.hasOwnProperty(property)) {
                                     children[i].nodeValue = innerText.replace('{{' + property + '}}', creatingObj[property]);
                                     if (!watchingProperties[property]) {
@@ -312,14 +315,18 @@
                                 }
                             });
                             keys.forEach(function (prop) {
-                                var value = creatingObj[prop];
-                                Object.defineProperty(creatingObj, prop, {
+                                var value = creatingObj.getOwnNestedProperty(prop);
+                                var creatingObjOwn = creatingObj.getOwnNestedProperty(prop, true);
+                                var originalProp = prop;
+                                var propArr = prop.split('.');
+                                prop = propArr[propArr.length - 1];
+                                Object.defineProperty(creatingObjOwn, prop, {
                                     get: function () {
-                                        return creatingObj["_" + prop];
+                                        return creatingObjOwn["_" + prop];
                                     },
                                     set: function (val) {
-                                        if (watchingProperties[prop]) {
-                                            watchingProperties[prop].forEach(function (attr) {
+                                        if (watchingProperties[originalProp]) {
+                                            watchingProperties[originalProp].forEach(function (attr) {
                                                 if (attr.isAttributeBinding && attr.updateObj) {
                                                     attr.updateObj.update(val, creatingObj);
                                                 } else {
@@ -336,23 +343,23 @@
                                                                 val = !val;
                                                             }
                                                         }
-                                                        attr.nodeValue = attr.nodeValueTemplate.replace('{{' + prop + '}}', templateVal);
+                                                        attr.nodeValue = attr.nodeValueTemplate.replace('{{' + originalProp + '}}', templateVal);
                                                     } else {
                                                         attr.value = val;
                                                     }
                                                 }
                                             });
                                         }
-                                        if (customEvents[prop]) {
-                                            customEvents[prop].forEach(function (event) {
+                                        if (customEvents[originalProp]) {
+                                            customEvents[originalProp].forEach(function (event) {
                                                 event(val);
                                             });
                                         }
-                                        creatingObj["_" + prop] = val;
+                                        creatingObjOwn["_" + prop] = val;
                                     },
                                     configurable: true
                                 });
-                                creatingObj[prop] = value;
+                                creatingObjOwn[prop] = value;
                             });
                         }
                         if (creatingObj.afterInit) {
