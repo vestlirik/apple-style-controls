@@ -355,6 +355,10 @@
                                                 event(val);
                                             });
                                         }
+                                        Object.defineProperty(creatingObjOwn, "_" + prop, {
+                                            enumerable: false,
+                                            writable: true
+                                        });
                                         creatingObjOwn["_" + prop] = val;
                                     },
                                     configurable: true
